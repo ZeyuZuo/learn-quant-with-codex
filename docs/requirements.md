@@ -143,13 +143,21 @@
 
 课程设计以 [course-design.md](./course-design.md) 为主文档，外部教程参考和课程优化依据见 [tutorial-reference-analysis.md](./tutorial-reference-analysis.md)。
 
-需求文档中的课程目标和主题覆盖范围仍然有效，但详细课程编排、模块产物、Mini Project、Capstone、Codex Task 模板和课程与代码同步契约，以 `docs/course-design.md` 的 v3 设计为准。
+需求文档中的课程目标和主题覆盖范围仍然有效，但详细课程编排、模块产物、Mini Project、Capstone、Codex Task 模板和课程与代码同步契约，以 `docs/course-design.md` 的 v4 设计为准。
 
-v3 课程分为 10 个模块、47 节课、9 个 Mini Project 和 1 个 Capstone，从数据读取、收益风险、仓位成本、回测系统、策略实验、多股票组合、参数验证一路推进到最终研究报告。
+v4 课程分为 10 个模块、47 节课、9 个 Mini Project 和 1 个 Capstone，从数据读取、收益风险、仓位成本、回测系统、策略实验、多股票组合、参数验证一路推进到最终研究报告。
 
-v3 的核心优化是：参考 QuantConnect、Georgia Tech ML4T、Backtrader、Zipline、QuantStart 和投资管理 Python 课程的结构后，采用项目驱动、评价能力前置、回测偏差前置、向量化先行但强调边界、每节课可验收、最终报告不做收益宣传的课程设计。
+v4 的核心优化是：参考 QuantConnect、Georgia Tech ML4T、Backtrader、Zipline、QuantStart 和投资管理 Python 课程的结构后，采用项目驱动、评价能力前置、回测偏差前置、向量化先行但强调边界、每节课可验收、最终报告不做收益宣传的课程设计。
 
-以下旧版课程体系仅保留为主题覆盖参考，不作为实现顺序。实现时必须优先遵守 v3 课程设计。
+课程设计决策摘要：
+
+- 像 QuantConnect 一样，把 lesson 拆成可完成的小任务，但不进入云端实盘部署。
+- 像 Georgia Tech ML4T 一样，用项目和报告驱动学习，而不是只组织概念清单。
+- 像 Backtrader / Zipline 入门材料一样逐步建立回测流程，但首版先用 pandas 向量化降低门槛。
+- 像 QuantStart 一样，把 look-ahead、过拟合、多重测试和 survivorship bias 放进主线课程。
+- 像 EDHEC / Coursera 投资管理 Python 课程一样，先让用户理解收益、风险和组合，再进入策略。
+
+以下旧版课程体系仅保留为主题覆盖参考，不作为实现顺序。实现时必须优先遵守 v4 课程设计。
 
 课程分为 8 个模块，从市场基础逐步推进到回测、策略实验和量化学习路线。
 

@@ -11,7 +11,7 @@ export default function MetricsLabPage() {
       <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <header>
           <h1 className="text-3xl font-black text-ink">指标实验室</h1>
-          <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-650">
+          <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
             用同一段样例数据观察价格、收益率、净值和回撤之间的关系。这里的数字只用于学习。
           </p>
         </header>

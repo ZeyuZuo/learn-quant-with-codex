@@ -44,7 +44,7 @@ export default function CapstonePage() {
               最终学习产物
             </div>
             <h1 className="text-3xl font-black leading-tight text-ink sm:text-4xl">Capstone：完整量化策略研究报告</h1>
-            <p className="mt-4 text-lg leading-8 text-slate-650">
+            <p className="mt-4 text-lg leading-8 text-slate-600">
               选择一个学习策略，用本地样例数据完成从数据检查、策略实现、回测、参数验证到风险声明的完整报告。目标是可复查，不是证明策略未来赚钱。
             </p>
             <div className="mt-6 flex flex-wrap gap-3">

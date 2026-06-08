@@ -8,7 +8,7 @@ export default function PythonProjectPage() {
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
         <h1 className="text-3xl font-black text-ink">Python 配套项目</h1>
-        <p className="mt-4 text-lg leading-8 text-slate-650">
+        <p className="mt-4 text-lg leading-8 text-slate-600">
           Python 项目和课程一一对应。课程讲到的收益率、最大回撤、signal、position、双均线和回测，都有对应模块和测试。
         </p>
         <section className="mt-8 rounded-lg border border-line bg-white p-5 shadow-soft">

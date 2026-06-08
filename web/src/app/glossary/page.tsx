@@ -11,7 +11,7 @@ export default function GlossaryPage() {
         <header className="grid gap-6 lg:grid-cols-[1fr_320px]">
           <div>
             <h1 className="text-3xl font-black text-ink sm:text-4xl">量化术语表</h1>
-            <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-650">
+            <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
               这里用初学者能读懂的方式解释课程高频术语。每个术语都链接到相关课程，方便从概念跳回实践。
             </p>
           </div>

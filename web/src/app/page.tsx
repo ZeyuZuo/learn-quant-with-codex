@@ -22,7 +22,7 @@ export default function HomePage() {
               <h1 className="max-w-3xl text-4xl font-black leading-tight text-ink sm:text-5xl">
                 用 Codex 学习美股量化交易基础
               </h1>
-              <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-650">
+              <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-600">
                 这不是一个交易信号网站，而是一套边学边建的课程。你会从 OHLCV 数据开始，逐步实现收益指标、回测器、策略实验、参数验证和最终研究报告。
               </p>
               <div className="mt-7 flex flex-wrap gap-3">

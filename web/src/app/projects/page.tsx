@@ -10,7 +10,7 @@ export default function ProjectsPage() {
       <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         <header className="max-w-3xl">
           <h1 className="text-3xl font-black text-ink sm:text-4xl">项目实践</h1>
-          <p className="mt-4 text-lg leading-8 text-slate-650">
+          <p className="mt-4 text-lg leading-8 text-slate-600">
             每个模块都有一个 Mini Project。它们把课程里的概念、Python 函数、测试和报告串起来，最后收束到 Capstone 研究报告。
           </p>
         </header>

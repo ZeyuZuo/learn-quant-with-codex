@@ -14,7 +14,7 @@ export default function CoursesPage() {
         <header className="grid gap-6 lg:grid-cols-[1fr_360px]">
           <div className="max-w-3xl">
             <h1 className="text-3xl font-black text-ink sm:text-4xl">课程目录</h1>
-            <p className="mt-4 text-lg leading-8 text-slate-650">
+            <p className="mt-4 text-lg leading-8 text-slate-600">
               课程按项目产物推进。每个模块都包含概念、代码、图表、Quiz、Codex 任务、Checkpoint 和 Mini Project。
             </p>
             <Link href="/projects" className="mt-4 inline-flex rounded-md border border-line bg-white px-3 py-2 text-sm font-bold text-ink transition hover:border-accent hover:text-accent">
