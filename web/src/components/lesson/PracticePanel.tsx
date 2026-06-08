@@ -1,12 +1,14 @@
 import { ClipboardCheck, FileCode2, PlayCircle } from "lucide-react";
 import type { Lesson } from "@/lib/types";
 import { CopyButton } from "@/components/prompt/CopyButton";
+import { getLessonCommandInfo } from "@/lib/lesson-commands";
 
 type PracticePanelProps = {
   lesson: Lesson;
 };
 
 export function PracticePanel({ lesson }: PracticePanelProps) {
+  const commandInfo = getLessonCommandInfo(lesson);
   const steps = [
     {
       icon: FileCode2,
@@ -25,9 +27,7 @@ export function PracticePanel({ lesson }: PracticePanelProps) {
     },
   ];
 
-  const command = lesson.pythonModule.endsWith(".md")
-    ? "打开 README.md，确认风险声明和课程边界是否清楚。"
-    : `cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run pytest`;
+  const copyValue = commandInfo.secondary ? `${commandInfo.primary}\n${commandInfo.secondary}` : commandInfo.primary;
 
   return (
     <section className="rounded-lg border border-blue-200 bg-blue-50/70 p-5">
@@ -55,12 +55,20 @@ export function PracticePanel({ lesson }: PracticePanelProps) {
       </div>
       <div className="mt-4 rounded-md border border-blue-100 bg-white p-3">
         <div className="flex items-center justify-between gap-3">
-          <div className="text-sm font-bold text-ink">建议验证命令</div>
-          <CopyButton value={command} label="复制命令" className="px-2.5 py-1.5 text-xs" />
+          <div className="text-sm font-bold text-ink">{commandInfo.label}</div>
+          <CopyButton value={copyValue} label="复制命令" className="px-2.5 py-1.5 text-xs" />
         </div>
         <pre className="mt-3 overflow-x-auto rounded-md bg-slate-950 p-3 text-sm leading-6 text-slate-100">
-          <code>{command}</code>
+          <code>{commandInfo.primary}</code>
         </pre>
+        {commandInfo.secondary ? (
+          <>
+            <div className="mt-3 text-sm font-bold text-ink">可选示例脚本</div>
+            <pre className="mt-2 overflow-x-auto rounded-md bg-slate-950 p-3 text-sm leading-6 text-slate-100">
+              <code>{commandInfo.secondary}</code>
+            </pre>
+          </>
+        ) : null}
       </div>
     </section>
   );

@@ -7,6 +7,7 @@ const root = process.cwd();
 const repoRoot = path.resolve(root, "..");
 const courseFile = path.join(root, "src", "lib", "courses.ts");
 const courseCodeMapFile = path.join(root, "src", "lib", "course-code-map.ts");
+const lessonCommandsFile = path.join(root, "src", "lib", "lesson-commands.ts");
 
 function loadTypeScriptModule(filePath) {
   const source = fs.readFileSync(filePath, "utf-8");
@@ -197,6 +198,23 @@ function validateCourseCodeMap(courseCodeMap, courseModules, failures) {
   }
 }
 
+function validateLessonCommandsSource(failures) {
+  const source = fs.readFileSync(lessonCommandsFile, "utf-8");
+  const testCommandMatches = [...source.matchAll(/tests\/test_[A-Za-z0-9_]+\.py/g)].map((match) => match[0]);
+  const exampleCommandMatches = [...source.matchAll(/examples\/[A-Za-z0-9_]+\.py/g)].map((match) => match[0]);
+
+  assert(testCommandMatches.length >= 9, "lesson command map should include focused pytest commands", failures);
+  assert(exampleCommandMatches.length >= 5, "lesson command map should include example scripts for project lessons", failures);
+
+  for (const file of testCommandMatches) {
+    assert(fs.existsSync(path.join(repoRoot, "python", file)), `lesson command test file does not exist: ${file}`, failures);
+  }
+
+  for (const file of exampleCommandMatches) {
+    assert(fs.existsSync(path.join(repoRoot, "python", file)), `lesson command example does not exist: ${file}`, failures);
+  }
+}
+
 const { allLessons, courseModules } = loadTypeScriptModule(courseFile);
 const { courseCodeMap } = loadTypeScriptModule(courseCodeMapFile);
 const failures = [];
@@ -218,6 +236,7 @@ if (Array.isArray(allLessons)) {
 if (Array.isArray(courseModules) && Array.isArray(allLessons)) {
   validateModules(courseModules, allLessons, failures);
   validateCourseCodeMap(courseCodeMap, courseModules, failures);
+  validateLessonCommandsSource(failures);
 }
 
 if (failures.length > 0) {
