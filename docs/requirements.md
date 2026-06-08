@@ -96,6 +96,11 @@
   - 展示交付物、验收项、建议命令和相关课程
   - 帮助用户把课程内容逐步转化为 Capstone 材料
 
+- Capstone `/capstone`
+  - 展示最终研究报告要求、模板结构和生成命令
+  - 提供交互式自查清单，实时显示完成度、缺失项和风险声明状态
+  - 和 Python 的 `generate_capstone_template.py`、`run_capstone_check.py` 形成网页与代码的双重验收闭环
+
 - 指标实验页 `/labs/metrics`
   - 收益率、波动率、最大回撤、夏普比率的交互式展示
 

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { CheckCircle2, FileText, ShieldCheck, Terminal } from "lucide-react";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { LessonChart } from "@/components/charts/LessonChart";
+import { CapstoneChecklist } from "@/components/capstone/CapstoneChecklist";
 
 const sections = [
   "项目边界和非投资建议声明",
@@ -65,6 +66,10 @@ export default function CapstonePage() {
             </p>
           </div>
         </header>
+
+        <section className="mt-10">
+          <CapstoneChecklist />
+        </section>
 
         <section className="mt-10 grid gap-8 lg:grid-cols-[1fr_1fr]">
           <div className="rounded-lg border border-line bg-white p-5 shadow-soft">
