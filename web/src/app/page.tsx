@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { ArrowRight, BookOpen, FlaskConical, ShieldCheck, SquareKanban, Terminal } from "lucide-react";
 import { SiteHeader } from "@/components/layout/SiteHeader";
-import { courseModules, allLessons } from "@/lib/courses";
+import { allLessons } from "@/lib/courses";
 import { LessonChart } from "@/components/charts/LessonChart";
 import { ProgressSummary } from "@/components/progress/ProgressSummary";
+import { HomeModulePath } from "@/components/progress/HomeModulePath";
 
 export default function HomePage() {
   const firstLesson = allLessons[0];
@@ -95,22 +96,13 @@ export default function HomePage() {
           <div className="mb-5 flex items-end justify-between gap-4">
             <div>
               <h2 className="text-2xl font-black text-ink">学习路径</h2>
-              <p className="mt-2 text-sm text-muted">MVP 课程已覆盖主线闭环，后续模块按课程设计继续扩展。</p>
+              <p className="mt-2 text-sm text-muted">10 个模块会逐步生成 Python 代码、测试、实验结果和最终研究报告材料。</p>
             </div>
             <Link href="/python-project" className="text-sm font-bold text-accent hover:underline">
               Python 项目说明
             </Link>
           </div>
-          <div className="grid gap-4 md:grid-cols-2">
-            {courseModules.map((module) => (
-              <Link key={module.id} href="/courses" className="rounded-lg border border-line bg-white p-5 transition hover:border-accent hover:shadow-soft">
-                <div className="text-xs font-bold uppercase tracking-wide text-accent">{module.id}</div>
-                <h3 className="mt-2 text-lg font-bold text-ink">{module.title}</h3>
-                <p className="mt-2 text-sm leading-7 text-muted">{module.summary}</p>
-                <p className="mt-3 text-sm font-semibold text-slate-700">模块产物：{module.product}</p>
-              </Link>
-            ))}
-          </div>
+          <HomeModulePath />
           <div className="mt-6 rounded-lg border border-teal-200 bg-teal-50 p-5">
             <h3 className="text-lg font-bold text-teal-950">按项目推进学习</h3>
             <p className="mt-2 text-sm leading-7 text-teal-950">

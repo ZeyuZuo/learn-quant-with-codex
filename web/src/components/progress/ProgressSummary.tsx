@@ -34,15 +34,28 @@ export function ProgressSummary({ compact = false }: ProgressSummaryProps) {
       <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-100">
         <div className="h-full rounded-full bg-accent transition-all duration-700 ease-out" style={{ width: `${progress.percent}%` }} />
       </div>
+      {progress.ready ? (
+        <div className="mt-4 rounded-md border border-line bg-slate-50 px-3 py-2">
+          <div className="text-xs font-black uppercase tracking-wide text-muted">下一步</div>
+          <div className="mt-1 text-sm font-bold text-ink">
+            {progress.nextLesson.id} {progress.nextLesson.title}
+          </div>
+          <p className="mt-1 text-xs leading-5 text-muted">{progress.nextLesson.subtitle}</p>
+        </div>
+      ) : null}
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <span className="text-sm font-semibold text-slate-700">{progress.percent}%</span>
-        <Link
-          href={`/courses/${progress.nextLesson.slug}`}
-          className="inline-flex items-center gap-2 rounded-md bg-ink px-3 py-2 text-sm font-bold text-white transition hover:bg-slate-700"
-        >
-          {progress.completedCount === 0 ? "开始学习" : "继续学习"}
-          <ArrowRight className="h-4 w-4" />
-        </Link>
+        {progress.ready ? (
+          <Link
+            href={`/courses/${progress.nextLesson.slug}`}
+            className="inline-flex items-center gap-2 rounded-md bg-ink px-3 py-2 text-sm font-bold text-white transition hover:bg-slate-700"
+          >
+            {progress.completedCount === 0 ? "开始学习" : "继续学习"}
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        ) : (
+          <span className="inline-flex items-center rounded-md border border-line bg-slate-50 px-3 py-2 text-sm font-bold text-muted">读取中</span>
+        )}
       </div>
     </section>
   );
