@@ -18,8 +18,9 @@ export default function ProjectsPage() {
         <div className="mt-8 grid gap-5">
           {miniProjects.map((project, index) => (
             <article
+              id={project.moduleId}
               key={project.id}
-              className="chart-enter rounded-lg border border-line bg-white p-5 shadow-soft"
+              className="chart-enter scroll-mt-24 rounded-lg border border-line bg-white p-5 shadow-soft transition duration-200 target:border-accent target:ring-4 target:ring-teal-100 hover:border-slate-300"
               style={{ animationDelay: `${index * 45}ms` }}
             >
               <div className="flex flex-wrap items-start justify-between gap-4">

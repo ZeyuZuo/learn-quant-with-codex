@@ -11,6 +11,8 @@ import { LessonCompleteButton } from "@/components/progress/LessonCompleteButton
 import { PracticePanel } from "./PracticePanel";
 import { ConceptPills } from "./ConceptPills";
 import { NotesPanel } from "./NotesPanel";
+import { LessonLearningScaffold } from "./LessonLearningScaffold";
+import { MistakeClinic } from "./MistakeClinic";
 
 type LessonViewProps = {
   lesson: Lesson;
@@ -58,6 +60,8 @@ export function LessonView({ lesson }: LessonViewProps) {
         </div>
       </header>
 
+      <LessonLearningScaffold lesson={lesson} />
+
       <section className="mt-8 rounded-lg border border-line bg-white p-5 shadow-soft">
         <h2 className="flex items-center gap-2 text-base font-bold text-ink">
           <ListChecks className="h-4 w-4 text-accent" />
@@ -83,29 +87,26 @@ export function LessonView({ lesson }: LessonViewProps) {
         {lesson.formula ? (
           <>
             <h2>简单公式</h2>
-            <div className="rounded-lg border border-line bg-slate-50 p-4 font-mono text-sm text-ink">{lesson.formula}</div>
+            <div className="formula-card rounded-lg border border-line bg-slate-50 p-4 font-mono text-sm text-ink">{lesson.formula}</div>
           </>
         ) : null}
 
         <h2>小型手算例子</h2>
-        <p>{lesson.handExample}</p>
+        <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-950">{lesson.handExample}</div>
 
         <h2>Python 示例</h2>
+        <p>
+          这段代码对应 <code>{lesson.pythonModule}</code>。先理解输入和输出，再复制到 Codex 任务里要求补测试。
+        </p>
         <CodeBlock code={lesson.pythonCode} />
 
         <h2>可视化观察</h2>
         <LessonChart kind={lesson.chart} />
         <p>{lesson.chartNote}</p>
-
-        <h2>常见误区</h2>
-        <ul>
-          {lesson.mistakes.map((mistake) => (
-            <li key={mistake}>{mistake}</li>
-          ))}
-        </ul>
       </div>
 
       <div className="mt-8 grid gap-6">
+        <MistakeClinic mistakes={lesson.mistakes} />
         <QuizCard quiz={lesson.quiz} />
         <PracticePanel lesson={lesson} />
         <NotesPanel slug={lesson.slug} />
@@ -135,6 +136,9 @@ export function LessonView({ lesson }: LessonViewProps) {
                 </li>
               ))}
             </ul>
+            <Link href={`/projects#${courseModule.id}`} className="mt-4 inline-flex rounded-md bg-teal-950 px-3 py-2 text-sm font-bold text-white transition hover:bg-teal-800">
+              查看项目验收清单
+            </Link>
           </section>
         ) : null}
       </div>
