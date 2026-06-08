@@ -55,6 +55,12 @@ uv run python examples/run_capstone_check.py
 - 进度只保存在浏览器 `localStorage`，不需要账户，不上传到服务器。
 - 进度只代表课程学习状态，不涉及交易账户、投资记录或任何实盘数据。
 
+## 交互学习
+
+- 每节课包含 Quiz、动手练习、可复制 Python 示例、可复制 Codex Prompt 和 Checkpoint。
+- 指标、策略和参数实验页提供滑块、分段控件或勾选项，帮助观察概念变化。
+- 所有交互都服务学习目标，不提供交易信号，也不连接任何实盘环境。
+
 ## 验证
 
 ```bash

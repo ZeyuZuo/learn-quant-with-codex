@@ -1,5 +1,6 @@
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { LessonChart } from "@/components/charts/LessonChart";
+import { ParameterPlayground } from "@/components/labs/ParameterPlayground";
 
 export default function ParameterScanLabPage() {
   return (
@@ -12,6 +13,9 @@ export default function ParameterScanLabPage() {
             参数扫描可以帮你观察策略是否稳定，也会暴露过拟合风险。历史最优参数不是未来收益承诺。
           </p>
         </header>
+        <div className="mt-8">
+          <ParameterPlayground />
+        </div>
         <section className="mt-8">
           <h2 className="mb-3 text-xl font-bold text-ink">双均线参数扫描</h2>
           <LessonChart kind="parameter-scan" />

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { LessonChart } from "@/components/charts/LessonChart";
 import { MetricCard } from "@/components/lesson/MetricCard";
+import { MetricsPlayground } from "@/components/labs/MetricsPlayground";
 
 export default function MetricsLabPage() {
   return (
@@ -20,6 +21,9 @@ export default function MetricsLabPage() {
           <MetricCard label="夏普比率" value="0.84" note="示例风险调整指标" />
           <MetricCard label="交易日近似" value="252" note="常见美股年化近似" />
         </section>
+        <div className="mt-8">
+          <MetricsPlayground />
+        </div>
         <section className="mt-8 grid gap-8">
           <div>
             <h2 className="mb-3 text-xl font-bold text-ink">价格和收益率</h2>

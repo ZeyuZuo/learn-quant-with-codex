@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { LessonChart } from "@/components/charts/LessonChart";
+import { StrategyPlayground } from "@/components/labs/StrategyPlayground";
 
 export default function StrategiesLabPage() {
   return (
@@ -14,6 +15,7 @@ export default function StrategiesLabPage() {
           </p>
         </header>
         <section className="mt-8 grid gap-8">
+          <StrategyPlayground />
           <div>
             <h2 className="mb-3 text-xl font-bold text-ink">双均线信号</h2>
             <LessonChart kind="moving-average" />
