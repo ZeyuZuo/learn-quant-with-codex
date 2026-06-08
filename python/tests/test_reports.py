@@ -1,7 +1,13 @@
 import pandas as pd
 
 from quant_learning.backtest import BacktestConfig, run_backtest
-from quant_learning.reports import generate_backtest_report, paper_signal_log, validate_capstone_report
+from quant_learning.reports import (
+    generate_backtest_report,
+    generate_capstone_template,
+    paper_signal_log,
+    save_capstone_template,
+    validate_capstone_report,
+)
 from quant_learning.strategies import buy_and_hold_signal
 
 
@@ -44,3 +50,17 @@ def test_validate_capstone_report_flags_missing_parts() -> None:
     assert result["is_complete"] is False
     assert "数据" in result["missing_sections"]
     assert result["has_disclaimer"] is False
+
+
+def test_generate_capstone_template_is_valid() -> None:
+    template = generate_capstone_template("ma")
+    result = validate_capstone_report(template)
+    assert result["is_complete"] is True
+    assert "Final Research Report: ma" in template
+
+
+def test_save_capstone_template(tmp_path) -> None:
+    output = tmp_path / "report.md"
+    save_capstone_template(output, strategy_name="demo")
+    assert output.exists()
+    assert validate_capstone_report(output.read_text(encoding="utf-8"))["is_complete"] is True

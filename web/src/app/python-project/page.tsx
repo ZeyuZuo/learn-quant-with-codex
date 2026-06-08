@@ -15,7 +15,8 @@ export default function PythonProjectPage() {
 {`cd python
 uv sync
 uv run pytest
-uv run python examples/run_buy_and_hold.py`}
+uv run python examples/run_buy_and_hold.py
+uv run python examples/generate_capstone_template.py`}
           </pre>
         </section>
         <section className="mt-6 rounded-lg border border-line bg-white p-5 shadow-soft">

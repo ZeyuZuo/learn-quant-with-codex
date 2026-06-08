@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CheckCircle2, FileText, ShieldCheck } from "lucide-react";
+import { CheckCircle2, FileText, ShieldCheck, Terminal } from "lucide-react";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { LessonChart } from "@/components/charts/LessonChart";
 
@@ -12,6 +12,23 @@ const sections = [
   "净值曲线、回撤曲线和完整指标表",
   "参数扫描、样本内 / 样本外验证",
   "至少 5 条局限、偏差或风险",
+];
+
+const commands = `cd python
+uv run python examples/generate_capstone_template.py
+uv run python examples/run_capstone_check.py`;
+
+const templateOutline = [
+  "摘要",
+  "数据",
+  "策略",
+  "回测",
+  "基准",
+  "成本",
+  "参数",
+  "样本外",
+  "风险",
+  "风险清单示例",
 ];
 
 export default function CapstonePage() {
@@ -64,6 +81,31 @@ export default function CapstonePage() {
           <div>
             <h2 className="mb-3 text-xl font-bold text-ink">报告应展示的核心图</h2>
             <LessonChart kind="strategy-comparison" />
+          </div>
+        </section>
+
+        <section className="mt-10 grid gap-8 lg:grid-cols-[1fr_1fr]">
+          <div className="rounded-lg border border-line bg-white p-5 shadow-soft">
+            <h2 className="flex items-center gap-2 text-xl font-bold text-ink">
+              <Terminal className="h-5 w-5 text-accent" />
+              生成报告模板
+            </h2>
+            <p className="mt-2 text-sm leading-7 text-muted">
+              Python 项目提供模板生成和模板校验脚本。生成的文件位于根目录 `reports/final_research_report.md`。
+            </p>
+            <pre className="mt-4 overflow-x-auto rounded-lg bg-slate-950 p-4 text-sm leading-7 text-slate-100">
+              <code>{commands}</code>
+            </pre>
+          </div>
+          <div className="rounded-lg border border-line bg-white p-5 shadow-soft">
+            <h2 className="text-xl font-bold text-ink">模板结构</h2>
+            <div className="mt-4 grid gap-2 sm:grid-cols-2">
+              {templateOutline.map((item) => (
+                <div key={item} className="rounded-md border border-line bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700">
+                  {item}
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       </main>

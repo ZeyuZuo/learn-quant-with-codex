@@ -531,6 +531,14 @@ Capstone 要求：
 - 报告中必须包含“不构成投资建议，不代表未来收益”的声明。
 - Python 测试必须通过。
 
+Capstone 模板生成：
+
+- Python 项目提供 `generate_capstone_template.py`。
+- 命令：`uv run python examples/generate_capstone_template.py`。
+- 输出：`reports/final_research_report.md`。
+- 模板会包含数据、策略、回测、基准、成本、参数、样本外和风险章节。
+- `validate_capstone_report` 用于检查模板或最终报告是否包含必要章节和风险声明。
+
 ## 7. 课程与代码同步契约
 
 课程内容和 Python 项目必须遵守同步契约。

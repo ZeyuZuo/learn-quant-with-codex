@@ -28,6 +28,7 @@ uv sync
 uv run pytest
 uv run python examples/run_buy_and_hold.py
 uv run python examples/run_capstone_check.py
+uv run python examples/generate_capstone_template.py
 ```
 
 ## 学习路径

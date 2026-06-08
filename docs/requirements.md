@@ -793,11 +793,15 @@ learn-quant-with-codex/
 - `generate_backtest_report(result) -> dict`
 - `save_report_json(report, path)`
 - `save_report_markdown(report, path)`
+- `generate_capstone_template(strategy_name) -> str`
+- `save_capstone_template(path, strategy_name)`
+- `validate_capstone_report(markdown_text) -> dict`
 
 要求：
 
 - 报告包含配置、指标、数据区间、风险提示。
 - Markdown 报告必须包含“教育用途，不构成投资建议”的声明。
+- Capstone 模板必须包含数据、策略、回测、基准、成本、参数、样本外和风险章节。
 
 ### 10.9 测试要求
 
