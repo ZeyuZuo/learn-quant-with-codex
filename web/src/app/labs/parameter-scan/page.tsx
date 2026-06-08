@@ -1,6 +1,7 @@
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { LessonChart } from "@/components/charts/LessonChart";
 import { ParameterPlayground } from "@/components/labs/ParameterPlayground";
+import { LabLearningCard } from "@/components/labs/LabLearningCard";
 
 export default function ParameterScanLabPage() {
   return (
@@ -13,6 +14,18 @@ export default function ParameterScanLabPage() {
             参数扫描可以帮你观察策略是否稳定，也会暴露过拟合风险。历史最优参数不是未来收益承诺。
           </p>
         </header>
+        <LabLearningCard
+          title="把参数扫描当成稳定性检查"
+          focus="调节 Sharpe 过滤条件时，观察哪些参数被留下、样本外是否迁移，以及最优参数是不是只在历史里好看。"
+          pythonModule="python/src/quant_learning/experiments.py"
+          caution="历史最优参数不是未来承诺；样本外仍然只是更严格的历史验证。"
+          lessons={[
+            { href: "/courses/parameter-scan", label: "8.1 参数扫描" },
+            { href: "/courses/in-sample-out-of-sample", label: "8.2 样本外" },
+            { href: "/courses/best-parameter-transfer", label: "8.3 参数迁移" },
+            { href: "/courses/random-strategy-winners", label: "8.4 随机赢家" },
+          ]}
+        />
         <div className="mt-8">
           <ParameterPlayground />
         </div>

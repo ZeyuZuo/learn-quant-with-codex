@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { LessonChart } from "@/components/charts/LessonChart";
 import { StrategyPlayground } from "@/components/labs/StrategyPlayground";
 import { CostLagPlayground } from "@/components/labs/CostLagPlayground";
+import { LabLearningCard } from "@/components/labs/LabLearningCard";
 
 export default function StrategiesLabPage() {
   return (
@@ -15,6 +16,18 @@ export default function StrategiesLabPage() {
             用相同图表比较 buy and hold、双均线、动量和均值回归，并观察成本和错误 shift 如何改变回测曲线。重点是理解策略假设和风险，而不是挑最好看的曲线。
           </p>
         </header>
+        <LabLearningCard
+          title="先审查策略假设，再看曲线"
+          focus="切换策略图时，先问它的 signal 从哪里来，再检查 position、成本和 benchmark 是否使用同一套规则。"
+          pythonModule="python/src/quant_learning/strategies.py + backtest.py"
+          caution="实验里的策略只是学习案例；错误 shift 曲线只用于展示 look-ahead bias。"
+          lessons={[
+            { href: "/courses/signal-position", label: "4.1 Signal / Position" },
+            { href: "/courses/minimal-backtester", label: "5.2 回测器" },
+            { href: "/courses/moving-average-crossover", label: "6.1 双均线" },
+            { href: "/courses/strategy-comparison", label: "6.5 策略对比" },
+          ]}
+        />
         <section className="mt-8 grid gap-8">
           <StrategyPlayground />
           <CostLagPlayground />

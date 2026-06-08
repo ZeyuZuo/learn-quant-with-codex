@@ -3,6 +3,7 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { LessonChart } from "@/components/charts/LessonChart";
 import { MetricCard } from "@/components/lesson/MetricCard";
 import { MetricsPlayground } from "@/components/labs/MetricsPlayground";
+import { LabLearningCard } from "@/components/labs/LabLearningCard";
 
 export default function MetricsLabPage() {
   return (
@@ -15,6 +16,18 @@ export default function MetricsLabPage() {
             用同一段样例数据观察价格、收益率、净值和回撤之间的关系。这里的数字只用于学习。
           </p>
         </header>
+        <LabLearningCard
+          title="把指标当成提问工具"
+          focus="调节日收益、样本长度和波动率，观察总收益、年化收益、年化波动和夏普如何一起变化。重点是理解指标的局限，而不是追一个最好看的数字。"
+          pythonModule="python/src/quant_learning/metrics.py"
+          caution="实验里的参数是教学假设，不是市场预测；短样本年化尤其容易误导。"
+          lessons={[
+            { href: "/courses/returns", label: "2.1 收益率" },
+            { href: "/courses/compound-equity", label: "2.2 净值曲线" },
+            { href: "/courses/max-drawdown", label: "3.1 最大回撤" },
+            { href: "/courses/sharpe-ratio", label: "3.2 夏普比率" },
+          ]}
+        />
         <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <MetricCard label="样例总收益" value="10.0%" note="基于示例净值曲线" />
           <MetricCard label="最大回撤" value="-12.3%" note="从历史高点回落" />
