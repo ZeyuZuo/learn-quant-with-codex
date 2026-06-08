@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Clock, FileCode2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Clock, FileCode2, ListChecks, Milestone } from "lucide-react";
 import type { Lesson } from "@/lib/types";
-import { getAdjacentLessons } from "@/lib/courses";
+import { allLessons, getAdjacentLessons, getModule } from "@/lib/courses";
 import { LessonChart } from "@/components/charts/LessonChart";
 import { Checkpoint } from "./Checkpoint";
 import { CodeBlock } from "@/components/prompt/CodeBlock";
@@ -14,9 +14,25 @@ type LessonViewProps = {
 
 export function LessonView({ lesson }: LessonViewProps) {
   const { previous, next } = getAdjacentLessons(lesson.slug);
+  const courseModule = getModule(lesson.moduleId);
+  const lessonIndex = allLessons.findIndex((item) => item.slug === lesson.slug);
+  const progress = Math.round(((lessonIndex + 1) / allLessons.length) * 100);
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-8 sm:px-6 lg:py-12">
+      <div className="mb-6 rounded-lg border border-line bg-white p-4 shadow-soft">
+        <div className="flex items-center justify-between gap-4 text-sm">
+          <span className="font-semibold text-ink">课程进度</span>
+          <span className="text-muted">
+            {lessonIndex + 1} / {allLessons.length}
+          </span>
+        </div>
+        <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-100">
+          <div className="h-full rounded-full bg-accent transition-all duration-700 ease-out" style={{ width: `${progress}%` }} />
+        </div>
+        {courseModule ? <p className="mt-3 text-sm leading-6 text-muted">{courseModule.title}</p> : null}
+      </div>
+
       <div className="mb-6 flex flex-wrap items-center gap-2 text-sm text-muted">
         <span className="rounded-md border border-line bg-white px-2 py-1">{lesson.id}</span>
         <span className="rounded-md border border-line bg-white px-2 py-1">{lesson.difficulty}</span>
@@ -36,10 +52,16 @@ export function LessonView({ lesson }: LessonViewProps) {
       </header>
 
       <section className="mt-8 rounded-lg border border-line bg-white p-5 shadow-soft">
-        <h2 className="text-base font-bold text-ink">本节目标</h2>
+        <h2 className="flex items-center gap-2 text-base font-bold text-ink">
+          <ListChecks className="h-4 w-4 text-accent" />
+          本节目标
+        </h2>
         <ul className="mt-3 grid gap-2 text-sm leading-7 text-slate-700">
           {lesson.objectives.map((objective) => (
-            <li key={objective}>- {objective}</li>
+            <li key={objective} className="flex gap-2">
+              <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-accent" />
+              <span>{objective}</span>
+            </li>
           ))}
         </ul>
       </section>
@@ -84,6 +106,23 @@ export function LessonView({ lesson }: LessonViewProps) {
         <QuizCard quiz={lesson.quiz} />
         <PromptBox prompt={lesson.codexTask} />
         <Checkpoint items={lesson.checkpoint} />
+        {courseModule ? (
+          <section className="rounded-lg border border-teal-200 bg-teal-50 p-5">
+            <h3 className="flex items-center gap-2 text-base font-bold text-teal-950">
+              <Milestone className="h-4 w-4" />
+              模块 Mini Project
+            </h3>
+            <p className="mt-2 text-sm leading-7 text-teal-950">{courseModule.miniProject.deliverable}</p>
+            <ul className="mt-3 grid gap-2">
+              {courseModule.miniProject.checks.map((check) => (
+                <li key={check} className="flex gap-2 text-sm leading-6 text-teal-950">
+                  <CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span>{check}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ) : null}
       </div>
 
       <nav className="mt-10 grid gap-3 sm:grid-cols-2">

@@ -61,5 +61,10 @@ export type CourseModule = {
   title: string;
   summary: string;
   product: string;
+  miniProject: {
+    title: string;
+    deliverable: string;
+    checks: string[];
+  };
   lessons: Lesson[];
 };

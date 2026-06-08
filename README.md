@@ -27,6 +27,7 @@ cd python
 uv sync
 uv run pytest
 uv run python examples/run_buy_and_hold.py
+uv run python examples/run_capstone_check.py
 ```
 
 ## 学习路径
@@ -42,6 +43,8 @@ uv run python examples/run_buy_and_hold.py
 7. 完成一份带代码、图表、测试和风险声明的学习型研究报告。
 
 详细课程蓝图见 [docs/course-design.md](docs/course-design.md)。
+
+最终报告要求见前端 `/capstone` 页面和第 9.4 课。
 
 ## 验证
 

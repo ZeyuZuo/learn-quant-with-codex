@@ -6,7 +6,7 @@ type CheckpointProps = {
 
 export function Checkpoint({ items }: CheckpointProps) {
   return (
-    <section className="rounded-lg border border-amber-200 bg-amber-50 p-5">
+    <section className="rounded-lg border border-amber-200 bg-amber-50 p-5 transition duration-200 hover:border-amber-300">
       <h3 className="text-base font-bold text-amber-950">Checkpoint</h3>
       <ul className="mt-3 grid gap-2">
         {items.map((item) => (

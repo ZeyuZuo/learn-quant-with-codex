@@ -39,6 +39,13 @@ export default function HomePage() {
                   查看课程目录
                   <BookOpen className="h-4 w-4" />
                 </Link>
+                <Link
+                  href="/capstone"
+                  className="inline-flex items-center gap-2 rounded-md border border-line bg-white px-4 py-3 text-sm font-bold text-ink transition hover:border-accent hover:text-accent"
+                >
+                  最终报告要求
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
               </div>
             </div>
             <div className="min-w-0">

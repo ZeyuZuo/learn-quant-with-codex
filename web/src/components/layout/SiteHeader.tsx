@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { BookOpen, FlaskConical, Github } from "lucide-react";
+import { BookOpen, FileText, FlaskConical, Github } from "lucide-react";
 
 export function SiteHeader() {
   return (
@@ -17,6 +17,10 @@ export function SiteHeader() {
           <Link href="/labs/metrics" className="inline-flex items-center gap-2 rounded-md px-3 py-2 transition hover:bg-slate-100">
             <FlaskConical className="h-4 w-4" />
             实验
+          </Link>
+          <Link href="/capstone" className="hidden items-center gap-2 rounded-md px-3 py-2 transition hover:bg-slate-100 sm:inline-flex">
+            <FileText className="h-4 w-4" />
+            Capstone
           </Link>
           <a
             href="https://github.com/ZeyuZuo/learn-quant-with-codex"

@@ -6,7 +6,7 @@ type PromptBoxProps = {
 
 export function PromptBox({ prompt }: PromptBoxProps) {
   return (
-    <section className="rounded-lg border border-teal-200 bg-teal-50/70 p-4">
+    <section className="rounded-lg border border-teal-200 bg-teal-50/70 p-4 transition duration-200 hover:border-teal-300 hover:shadow-soft">
       <div className="mb-3 flex items-center justify-between gap-3">
         <h3 className="text-base font-bold text-teal-950">Codex 练习任务</h3>
         <CopyButton value={prompt} label="复制 Prompt" />

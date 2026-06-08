@@ -10,6 +10,17 @@ from quant_learning.backtest import BacktestResult
 
 DISCLAIMER = "教育用途，不构成投资建议；历史回测结果不代表未来收益。"
 
+CAPSTONE_REQUIRED_SECTIONS = [
+    "数据",
+    "策略",
+    "回测",
+    "基准",
+    "成本",
+    "参数",
+    "样本外",
+    "风险",
+]
+
 
 def generate_backtest_report(result: BacktestResult) -> dict[str, Any]:
     return {
@@ -63,4 +74,18 @@ def paper_signal_log(date: Any, symbol: str, signal: float, reason: str) -> dict
         "reason": reason,
         "note": "paper log only; no order is sent",
         "disclaimer": DISCLAIMER,
+    }
+
+
+def validate_capstone_report(markdown_text: str) -> dict[str, Any]:
+    """Check whether a learning report contains the required capstone parts."""
+
+    missing_sections = [section for section in CAPSTONE_REQUIRED_SECTIONS if section not in markdown_text]
+    has_disclaimer = "不构成投资建议" in markdown_text and "不代表未来收益" in markdown_text
+    risk_mentions = markdown_text.count("风险") + markdown_text.lower().count("bias")
+    return {
+        "is_complete": not missing_sections and has_disclaimer and risk_mentions >= 5,
+        "missing_sections": missing_sections,
+        "has_disclaimer": has_disclaimer,
+        "risk_mentions": risk_mentions,
     }

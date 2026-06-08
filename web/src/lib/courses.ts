@@ -1535,60 +1535,110 @@ const modulesMeta = [
     title: "Module 0: 学习方式和项目边界",
     summary: "先理解课程边界，再学会让 Codex 带着验收标准写代码。",
     product: "学习计划、风险声明、第一个收益率函数",
+    miniProject: {
+      title: "学习边界和第一条 Codex 工单",
+      deliverable: "生成 learning-notes.md，记录项目边界、第一条 Prompt 和第一个已测试函数。",
+      checks: ["说明非投资建议边界", "写出 Explain -> Implement -> Test -> Reflect 流程", "至少包含一个 pytest 结果"],
+    },
   },
   {
     id: "m1",
     title: "Module 1: 美股数据入门",
     summary: "读懂 ticker、交易日、OHLCV、复权价格和数据质量。",
     product: "数据读取函数和质量报告",
+    miniProject: {
+      title: "样例价格数据质量报告",
+      deliverable: "生成 sample_prices_quality_report.json，并在报告里解释 close 与 adj_close 的选择。",
+      checks: ["检查 OHLCV 必要列", "报告缺失值和重复日期", "说明复权价格用途"],
+    },
   },
   {
     id: "m2",
     title: "Module 2: 收益和净值",
     summary: "从价格序列得到收益率、复利和净值曲线。",
     product: "收益率和净值曲线函数",
+    miniProject: {
+      title: "价格到净值曲线",
+      deliverable: "从样例价格生成日收益率、总收益和净值曲线数据。",
+      checks: ["首日收益处理清楚", "复利用累乘而不是累加", "解释短样本年化风险"],
+    },
   },
   {
     id: "m3",
     title: "Module 3: 风险和绩效指标",
     summary: "用回撤、夏普、胜率和盈亏比评价策略表现。",
     product: "指标计算模块",
+    miniProject: {
+      title: "绩效指标卡片",
+      deliverable: "为 buy and hold 样例生成收益、波动率、最大回撤、夏普、胜率和盈亏比摘要。",
+      checks: ["最大回撤从净值曲线计算", "零波动夏普有明确行为", "指出至少 3 个指标盲点"],
+    },
   },
   {
     id: "m4",
     title: "Module 4: 信号、仓位和成本",
     summary: "把策略想法转换成现实一点的持仓和成本模型。",
     product: "position 和 transaction cost 模块",
+    miniProject: {
+      title: "信号、仓位和成本对比",
+      deliverable: "比较同一信号在无成本、有成本、错误 shift、正确 shift 下的净值差异。",
+      checks: ["position 默认滞后一日", "成本用 bps 表示", "解释 look-ahead bias"],
+    },
   },
   {
     id: "m5",
     title: "Module 5: 第一套回测系统",
     summary: "把数据、信号、仓位、成本、净值和指标串成回测器。",
     product: "BacktestResult 和报告",
+    miniProject: {
+      title: "Buy and Hold 回测报告",
+      deliverable: "运行 SPY 样例 buy and hold 回测，输出 JSON 或 Markdown 报告。",
+      checks: ["保存 BacktestResult 过程数据", "报告包含成本配置", "报告包含非投资建议声明"],
+    },
   },
   {
     id: "m6",
     title: "Module 6: 入门策略模式",
     summary: "用同一套回测器比较双均线、动量和均值回归。",
     product: "策略函数库",
+    miniProject: {
+      title: "三类入门策略对比",
+      deliverable: "在同一资产上比较 buy and hold、双均线、动量和均值回归。",
+      checks: ["策略函数只生成 signal", "使用同一回测配置", "写出每个策略的假设和失效场景"],
+    },
   },
   {
     id: "m7",
     title: "Module 7: 多股票组合",
     summary: "理解组合收益、权重、再平衡和 benchmark。",
     product: "等权组合和轮动组合实验",
+    miniProject: {
+      title: "组合和 SPY 基准比较",
+      deliverable: "比较单股票、等权组合、动量轮动组合和 SPY benchmark。",
+      checks: ["多资产日期已对齐", "组合收益按权重计算", "分散化结论有指标支持"],
+    },
   },
   {
     id: "m8",
     title: "Module 8: 参数实验和验证",
     summary: "用参数扫描、样本外验证和随机策略识别过拟合风险。",
     product: "参数扫描和样本外报告",
+    miniProject: {
+      title: "参数扫描和样本外验证",
+      deliverable: "扫描双均线参数，选择样本内最优参数，并展示样本外表现。",
+      checks: ["跳过非法参数组合", "按日期切分样本", "说明历史最优不代表未来"],
+    },
   },
   {
     id: "m9",
     title: "Module 9: 回测边界和 Capstone",
     summary: "理解回测不能代表未来，并完成最终学习报告。",
     product: "完整策略研究报告",
+    miniProject: {
+      title: "Capstone 最终研究报告",
+      deliverable: "提交 final_research_report.md，包含数据、策略、指标、成本、参数、样本外、偏差和风险声明。",
+      checks: ["至少 5 条限制或风险", "包含 benchmark", "不包含投资建议或收益承诺"],
+    },
   },
 ];
 

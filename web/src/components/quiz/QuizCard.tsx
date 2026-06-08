@@ -14,7 +14,7 @@ export function QuizCard({ quiz }: QuizCardProps) {
   const isCorrect = selected === quiz.correctValue;
 
   return (
-    <section className="rounded-lg border border-line bg-white p-5 shadow-soft">
+    <section className="rounded-lg border border-line bg-white p-5 shadow-soft transition duration-200 hover:border-slate-300">
       <h3 className="text-base font-bold text-ink">小练习</h3>
       <p className="mt-2 text-sm leading-7 text-slate-700">{quiz.question}</p>
       <div className="mt-4 grid gap-2">
