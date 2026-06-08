@@ -45,6 +45,16 @@ function unique(values) {
 
 function validateLesson(lesson, failures) {
   const prefix = `${lesson.id ?? "unknown"} ${lesson.title ?? "untitled"}`;
+  const lessonText = [
+    lesson.title,
+    lesson.subtitle,
+    lesson.intuition,
+    lesson.handExample,
+    lesson.chartNote,
+    ...(lesson.objectives ?? []),
+    ...(lesson.mistakes ?? []),
+    ...(lesson.checkpoint ?? []),
+  ].join(" ");
 
   assert(Boolean(lesson.id), `${prefix}: missing id`, failures);
   assert(Boolean(lesson.slug), `${prefix}: missing slug`, failures);
@@ -57,11 +67,27 @@ function validateLesson(lesson, failures) {
   assert(Array.isArray(lesson.concepts) && lesson.concepts.length >= 3, `${prefix}: needs at least 3 concepts`, failures);
   assert(Boolean(lesson.intuition) && lesson.intuition.length >= 35, `${prefix}: intuition should be beginner-friendly and substantial`, failures);
   assert(Boolean(lesson.handExample) && lesson.handExample.length >= 20, `${prefix}: missing hand example`, failures);
+  assert(Boolean(lesson.handExample) && /[\d%]/.test(lesson.handExample), `${prefix}: hand example should include a concrete number or percentage`, failures);
   assert(Boolean(lesson.pythonCode) && lesson.pythonCode.length >= 20, `${prefix}: missing Python code example`, failures);
   assert(Boolean(lesson.chart), `${prefix}: missing chart kind`, failures);
   assert(Boolean(lesson.chartNote) && lesson.chartNote.length >= 20, `${prefix}: missing chart note`, failures);
   assert(Array.isArray(lesson.mistakes) && lesson.mistakes.length >= 3, `${prefix}: needs at least 3 mistakes`, failures);
+  assert(
+    Array.isArray(lesson.mistakes) && lesson.mistakes.every((mistake) => mistake.length >= 5),
+    `${prefix}: every mistake should be concrete enough for beginners`,
+    failures,
+  );
   assert(Array.isArray(lesson.checkpoint) && lesson.checkpoint.length >= 3, `${prefix}: needs at least 3 checkpoint items`, failures);
+  assert(
+    Array.isArray(lesson.checkpoint) && lesson.checkpoint.some((item) => /能|知道|解释|实现|生成|写|运行|交付/.test(item)),
+    `${prefix}: checkpoint should include an observable learning action`,
+    failures,
+  );
+  assert(
+    /误区|错误|错|误导|风险|偏差|成本|限制|不代表|不构成|不能|忽略|忘记|只看|直接|保证|偷看|失效|静默|混为|随机打乱|过拟合|未来|look-ahead/i.test(lessonText),
+    `${prefix}: lesson should explicitly connect the concept to a common trap or risk`,
+    failures,
+  );
 
   const quiz = lesson.quiz ?? {};
   assert(Boolean(quiz.question), `${prefix}: missing quiz question`, failures);
@@ -77,6 +103,9 @@ function validateLesson(lesson, failures) {
   assert(Boolean(lesson.codexTask) && lesson.codexTask.includes("任务："), `${prefix}: Codex task missing task section`, failures);
   assert(Boolean(lesson.codexTask) && lesson.codexTask.includes("验收："), `${prefix}: Codex task missing acceptance section`, failures);
   assert(Boolean(lesson.codexTask) && lesson.codexTask.includes("不提供投资建议"), `${prefix}: Codex task missing project boundary`, failures);
+  assert(Boolean(lesson.codexTask) && lesson.codexTask.includes("请先说明实现思路"), `${prefix}: Codex task should require implementation reasoning`, failures);
+  assert(Boolean(lesson.codexTask) && lesson.codexTask.includes("误用"), `${prefix}: Codex task should require misuse reflection`, failures);
+  assert(Boolean(lesson.codexTask) && /pytest|无需测试/.test(lesson.codexTask), `${prefix}: Codex task should name a test expectation`, failures);
 }
 
 function validateModules(courseModules, allLessons, failures) {

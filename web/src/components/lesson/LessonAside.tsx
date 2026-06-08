@@ -9,6 +9,7 @@ type LessonAsideProps = {
 };
 
 const anchors = [
+  ["#focus", "学习焦点"],
   ["#objectives", "本节目标"],
   ["#concepts", "概念和公式"],
   ["#code", "Python 示例"],

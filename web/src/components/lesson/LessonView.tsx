@@ -14,6 +14,7 @@ import { NotesPanel } from "./NotesPanel";
 import { LessonLearningScaffold } from "./LessonLearningScaffold";
 import { MistakeClinic } from "./MistakeClinic";
 import { LessonAside } from "./LessonAside";
+import { LessonFocusPanel } from "./LessonFocusPanel";
 
 type LessonViewProps = {
   lesson: Lesson;
@@ -61,6 +62,8 @@ export function LessonView({ lesson }: LessonViewProps) {
             <LessonCompleteButton slug={lesson.slug} />
           </div>
         </header>
+
+        <LessonFocusPanel lesson={lesson} />
 
         <LessonLearningScaffold lesson={lesson} />
 
