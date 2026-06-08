@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, X } from "lucide-react";
+import { CheckCircle2, Circle, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { courseModules } from "@/lib/courses";
+import { useLessonProgress } from "@/lib/progress";
 
 type MobileCourseNavProps = {
   activeSlug?: string;
@@ -11,6 +12,7 @@ type MobileCourseNavProps = {
 
 export function MobileCourseNav({ activeSlug }: MobileCourseNavProps) {
   const [open, setOpen] = useState(false);
+  const progress = useLessonProgress();
 
   return (
     <div className="border-b border-line bg-white lg:hidden">
@@ -29,18 +31,24 @@ export function MobileCourseNav({ activeSlug }: MobileCourseNavProps) {
             <section key={module.id} className="mb-4">
               <h3 className="mb-2 text-sm font-bold text-ink">{module.title}</h3>
               <div className="grid gap-1">
-                {module.lessons.map((lesson) => (
-                  <Link
-                    key={lesson.slug}
-                    href={`/courses/${lesson.slug}`}
-                    onClick={() => setOpen(false)}
-                    className={`rounded-md px-3 py-2 text-sm ${
-                      activeSlug === lesson.slug ? "bg-teal-50 font-semibold text-accent" : "text-slate-700"
-                    }`}
-                  >
-                    {lesson.id} {lesson.title}
-                  </Link>
-                ))}
+                {module.lessons.map((lesson) => {
+                  const completed = progress.isCompleted(lesson.slug);
+                  return (
+                    <Link
+                      key={lesson.slug}
+                      href={`/courses/${lesson.slug}`}
+                      onClick={() => setOpen(false)}
+                      className={`flex items-start gap-2 rounded-md px-3 py-2 text-sm ${
+                        activeSlug === lesson.slug ? "bg-teal-50 font-semibold text-accent" : "text-slate-700"
+                      }`}
+                    >
+                      {completed ? <CheckCircle2 className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" /> : <Circle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-300" />}
+                      <span>
+                        {lesson.id} {lesson.title}
+                      </span>
+                    </Link>
+                  );
+                })}
               </div>
             </section>
           ))}

@@ -7,6 +7,7 @@ import { Checkpoint } from "./Checkpoint";
 import { CodeBlock } from "@/components/prompt/CodeBlock";
 import { PromptBox } from "@/components/prompt/PromptBox";
 import { QuizCard } from "@/components/quiz/QuizCard";
+import { LessonCompleteButton } from "@/components/progress/LessonCompleteButton";
 
 type LessonViewProps = {
   lesson: Lesson;
@@ -49,6 +50,9 @@ export function LessonView({ lesson }: LessonViewProps) {
       <header>
         <h1 className="text-3xl font-black leading-tight text-ink sm:text-4xl">{lesson.title}</h1>
         <p className="mt-4 text-lg leading-8 text-slate-600">{lesson.subtitle}</p>
+        <div className="mt-5">
+          <LessonCompleteButton slug={lesson.slug} />
+        </div>
       </header>
 
       <section className="mt-8 rounded-lg border border-line bg-white p-5 shadow-soft">
@@ -106,6 +110,15 @@ export function LessonView({ lesson }: LessonViewProps) {
         <QuizCard quiz={lesson.quiz} />
         <PromptBox prompt={lesson.codexTask} />
         <Checkpoint items={lesson.checkpoint} />
+        <div className="rounded-lg border border-line bg-white p-5 shadow-soft">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h3 className="text-base font-bold text-ink">完成本课</h3>
+              <p className="mt-1 text-sm leading-6 text-muted">完成 Quiz、复制 Codex Prompt 并确认 Checkpoint 后，把本课标记为已完成。</p>
+            </div>
+            <LessonCompleteButton slug={lesson.slug} />
+          </div>
+        </div>
         {courseModule ? (
           <section className="rounded-lg border border-teal-200 bg-teal-50 p-5">
             <h3 className="flex items-center gap-2 text-base font-bold text-teal-950">

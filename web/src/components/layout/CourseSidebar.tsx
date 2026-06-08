@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { courseModules } from "@/lib/courses";
+import { SidebarProgressMarks } from "./SidebarProgressMarks";
 
 type CourseSidebarProps = {
   activeSlug?: string;
@@ -16,19 +16,7 @@ export function CourseSidebar({ activeSlug }: CourseSidebarProps) {
               <h3 className="mb-2 text-sm font-bold text-ink">{module.title}</h3>
               {module.lessons.length > 0 ? (
                 <div className="grid gap-1">
-                  {module.lessons.map((lesson) => (
-                    <Link
-                      key={lesson.slug}
-                      href={`/courses/${lesson.slug}`}
-                      className={`rounded-md px-3 py-2 text-sm leading-5 transition ${
-                        activeSlug === lesson.slug
-                          ? "bg-teal-50 font-semibold text-accent"
-                          : "text-slate-700 hover:bg-slate-100"
-                      }`}
-                    >
-                      {lesson.id} {lesson.title}
-                    </Link>
-                  ))}
+                  <SidebarProgressMarks lessons={module.lessons} activeSlug={activeSlug} />
                 </div>
               ) : (
                 <p className="rounded-md border border-dashed border-line px-3 py-2 text-xs leading-5 text-muted">

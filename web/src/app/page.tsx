@@ -3,6 +3,7 @@ import { ArrowRight, BookOpen, FlaskConical, ShieldCheck, Terminal } from "lucid
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { courseModules, allLessons } from "@/lib/courses";
 import { LessonChart } from "@/components/charts/LessonChart";
+import { ProgressSummary } from "@/components/progress/ProgressSummary";
 
 export default function HomePage() {
   const firstLesson = allLessons[0];
@@ -55,27 +56,30 @@ export default function HomePage() {
         </section>
 
         <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
-          <div className="grid gap-4 md:grid-cols-3">
-            <div className="rounded-lg border border-line bg-white p-5 shadow-soft">
-              <Terminal className="h-5 w-5 text-accent" />
-              <h2 className="mt-3 text-lg font-bold text-ink">课程和代码同步</h2>
-              <p className="mt-2 text-sm leading-7 text-muted">
-                每节课都绑定一个 Python 函数、一个测试方向、一个图表和一条可复制的 Codex 任务。
-              </p>
-            </div>
-            <div className="rounded-lg border border-line bg-white p-5 shadow-soft">
-              <FlaskConical className="h-5 w-5 text-accent" />
-              <h2 className="mt-3 text-lg font-bold text-ink">实验服务理解</h2>
-              <p className="mt-2 text-sm leading-7 text-muted">
-                图表用于解释收益、回撤、成本、策略对比和参数扫描，不为了展示复杂交易功能。
-              </p>
-            </div>
-            <div className="rounded-lg border border-line bg-white p-5 shadow-soft">
-              <ShieldCheck className="h-5 w-5 text-accent" />
-              <h2 className="mt-3 text-lg font-bold text-ink">先学验证再谈策略</h2>
-              <p className="mt-2 text-sm leading-7 text-muted">
-                策略只是学习案例。课程会持续强调回测偏差、样本外验证和未来收益不确定性。
-              </p>
+          <div className="grid gap-4 lg:grid-cols-[360px_1fr]">
+            <ProgressSummary />
+            <div className="grid gap-4 md:grid-cols-3">
+              <div className="rounded-lg border border-line bg-white p-5 shadow-soft">
+                <Terminal className="h-5 w-5 text-accent" />
+                <h2 className="mt-3 text-lg font-bold text-ink">课程和代码同步</h2>
+                <p className="mt-2 text-sm leading-7 text-muted">
+                  每节课都绑定一个 Python 函数、一个测试方向、一个图表和一条可复制的 Codex 任务。
+                </p>
+              </div>
+              <div className="rounded-lg border border-line bg-white p-5 shadow-soft">
+                <FlaskConical className="h-5 w-5 text-accent" />
+                <h2 className="mt-3 text-lg font-bold text-ink">实验服务理解</h2>
+                <p className="mt-2 text-sm leading-7 text-muted">
+                  图表用于解释收益、回撤、成本、策略对比和参数扫描，不为了展示复杂交易功能。
+                </p>
+              </div>
+              <div className="rounded-lg border border-line bg-white p-5 shadow-soft">
+                <ShieldCheck className="h-5 w-5 text-accent" />
+                <h2 className="mt-3 text-lg font-bold text-ink">先学验证再谈策略</h2>
+                <p className="mt-2 text-sm leading-7 text-muted">
+                  策略只是学习案例。课程会持续强调回测偏差、样本外验证和未来收益不确定性。
+                </p>
+              </div>
             </div>
           </div>
         </section>
