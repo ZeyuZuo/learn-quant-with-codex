@@ -10,6 +10,7 @@ import { QuizCard } from "@/components/quiz/QuizCard";
 import { LessonCompleteButton } from "@/components/progress/LessonCompleteButton";
 import { PracticePanel } from "./PracticePanel";
 import { ConceptPills } from "./ConceptPills";
+import { NotesPanel } from "./NotesPanel";
 
 type LessonViewProps = {
   lesson: Lesson;
@@ -107,6 +108,7 @@ export function LessonView({ lesson }: LessonViewProps) {
       <div className="mt-8 grid gap-6">
         <QuizCard quiz={lesson.quiz} />
         <PracticePanel lesson={lesson} />
+        <NotesPanel slug={lesson.slug} />
         <PromptBox prompt={lesson.codexTask} />
         <Checkpoint items={lesson.checkpoint} />
         <div className="rounded-lg border border-line bg-white p-5 shadow-soft">
