@@ -9,6 +9,7 @@ import { PromptBox } from "@/components/prompt/PromptBox";
 import { QuizCard } from "@/components/quiz/QuizCard";
 import { LessonCompleteButton } from "@/components/progress/LessonCompleteButton";
 import { PracticePanel } from "./PracticePanel";
+import { ConceptPills } from "./ConceptPills";
 
 type LessonViewProps = {
   lesson: Lesson;
@@ -74,11 +75,7 @@ export function LessonView({ lesson }: LessonViewProps) {
       <div className="lesson-prose mt-8">
         <h2>概念解释</h2>
         <p>
-          本节涉及的核心概念是：{lesson.concepts.map((concept) => <code key={concept}>{concept}</code>).reduce<React.ReactNode[]>((acc, node, index) => {
-            if (index > 0) acc.push("、");
-            acc.push(node);
-            return acc;
-          }, [])}。
+          本节涉及的核心概念是：<ConceptPills concepts={lesson.concepts} />
         </p>
         <p>{lesson.intuition}</p>
 

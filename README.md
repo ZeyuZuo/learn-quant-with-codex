@@ -60,6 +60,8 @@ uv run python examples/generate_capstone_template.py
 
 - 每节课包含 Quiz、动手练习、可复制 Python 示例、可复制 Codex Prompt 和 Checkpoint。
 - 指标、策略和参数实验页提供滑块、分段控件或勾选项，帮助观察概念变化。
+- 课程目录支持搜索课程、概念和 Python 模块，并可按模块过滤。
+- 术语表 `/glossary` 用通俗语言解释高频量化术语，课程页概念标签会链接到对应术语。
 - 所有交互都服务学习目标，不提供交易信号，也不连接任何实盘环境。
 
 ## 验证
