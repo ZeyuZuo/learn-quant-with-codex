@@ -864,7 +864,7 @@ learn-quant-with-codex/
 | 双均线策略 | `strategies.py` | `moving_average_crossover` |
 | 动量策略 | `strategies.py` | `momentum_signal` |
 | 均值回归 | `strategies.py` | `mean_reversion_signal` |
-| 多股票组合 | `strategies.py` | `equal_weight_portfolio` |
+| 多股票组合 | `portfolio.py` | `equal_weight_portfolio` |
 | 简单回测系统 | `backtest.py` | `run_backtest` |
 | 参数扫描 | `experiments.py` | `scan_moving_average_parameters` |
 | 样本内 / 样本外 | `experiments.py` | `train_test_split_time_series` |

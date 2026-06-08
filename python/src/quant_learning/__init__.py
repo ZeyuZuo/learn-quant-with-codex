@@ -10,6 +10,7 @@ __all__ = [
     "data",
     "experiments",
     "metrics",
+    "portfolio",
     "positions",
     "reports",
     "strategies",

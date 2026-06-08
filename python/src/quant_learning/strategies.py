@@ -2,6 +2,9 @@ from __future__ import annotations
 
 import pandas as pd
 
+from quant_learning.portfolio import equal_weight_portfolio as _equal_weight_portfolio
+from quant_learning.portfolio import momentum_rotation_signal as _momentum_rotation_signal
+
 
 def _require_positive_int(value: int, name: str) -> None:
     if not isinstance(value, int) or value <= 0:
@@ -50,19 +53,12 @@ def mean_reversion_signal(prices: pd.Series, window: int, threshold: float) -> p
 
 
 def equal_weight_portfolio(returns: pd.DataFrame) -> pd.Series:
-    if returns.empty:
-        return pd.Series(dtype=float, name="portfolio_returns")
-    portfolio_returns = returns.astype(float).mean(axis=1)
-    portfolio_returns.name = "portfolio_returns"
-    return portfolio_returns
+    """Backward-compatible import path for the Module 7 portfolio lesson."""
+
+    return _equal_weight_portfolio(returns)
 
 
 def momentum_rotation_signal(prices: pd.DataFrame, lookback: int, top_n: int = 1) -> pd.DataFrame:
-    _require_positive_int(lookback, "lookback")
-    _require_positive_int(top_n, "top_n")
-    if top_n > len(prices.columns):
-        raise ValueError("top_n cannot exceed number of assets")
-    momentum = prices.astype(float).pct_change(lookback)
-    ranks = momentum.rank(axis=1, ascending=False, method="first")
-    signals = (ranks <= top_n).astype(float).fillna(0.0)
-    return signals
+    """Backward-compatible import path for the Module 7 rotation lesson."""
+
+    return _momentum_rotation_signal(prices, lookback=lookback, top_n=top_n)

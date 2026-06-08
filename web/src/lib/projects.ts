@@ -8,7 +8,7 @@ const projectCommands: Record<string, string[]> = {
   m4: ["cd python", "uv run pytest tests/test_positions.py tests/test_costs.py"],
   m5: ["cd python", "uv run python examples/run_buy_and_hold.py"],
   m6: ["cd python", "uv run python examples/run_moving_average.py"],
-  m7: ["cd python", "uv run pytest tests/test_strategies.py"],
+  m7: ["cd python", "uv run pytest tests/test_portfolio.py", "uv run python examples/run_equal_weight_portfolio.py"],
   m8: ["cd python", "uv run python examples/run_parameter_scan.py"],
   m9: ["cd python", "uv run python examples/generate_capstone_template.py"],
 };

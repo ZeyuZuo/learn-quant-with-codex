@@ -16,6 +16,7 @@ export default function PythonProjectPage() {
 uv sync
 uv run pytest
 uv run python examples/run_buy_and_hold.py
+uv run python examples/run_equal_weight_portfolio.py
 uv run python examples/generate_capstone_template.py`}
           </pre>
         </section>
@@ -27,7 +28,8 @@ uv run python examples/generate_capstone_template.py`}
               ["metrics.py", "收益率、复利、年化收益、波动率、回撤、夏普、胜率、盈亏比"],
               ["positions.py", "signal 到 position 的滞后转换和权重处理"],
               ["costs.py", "换手、手续费和滑点简化模型"],
-              ["strategies.py", "buy and hold、双均线、动量、均值回归、组合收益"],
+              ["strategies.py", "buy and hold、双均线、动量、均值回归"],
+              ["portfolio.py", "多资产收益、等权组合、轮动信号、组合 benchmark 输入"],
               ["backtest.py", "最小可用向量化回测器和策略比较"],
               ["experiments.py", "参数扫描、样本内 / 样本外、随机策略"],
               ["reports.py", "JSON 和 Markdown 学习报告"],

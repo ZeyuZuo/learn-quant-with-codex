@@ -647,7 +647,7 @@ Capstone 模板生成：
 | 仓位成本 | `401-*.mdx` | `positions.py`, `costs.py` | `test_positions.py`, `test_costs.py` | `PositionChart`, `CostComparisonChart` |
 | 回测 | `501-*.mdx` | `backtest.py`, `reports.py` | `test_backtest.py`, `test_reports.py` | `BacktestSummary` |
 | 策略 | `601-*.mdx` | `strategies.py` | `test_strategies.py` | `MovingAverageChart`, `StrategyComparisonChart` |
-| 组合 | `701-*.mdx` | `portfolio.py` 或 `strategies.py` | `test_portfolio.py` | `PortfolioWeightsChart` |
+| 组合 | `701-*.mdx` | `portfolio.py`, `positions.py` | `test_portfolio.py`, `test_positions.py` | `PortfolioWeightsChart` |
 | 实验 | `801-*.mdx` | `experiments.py` | `test_experiments.py` | `ParameterScanChart`, `OutOfSampleChart` |
 | 边界 | `901-*.mdx` | `reports.py` | `test_reports.py` | `BiasChecklist`, `ReportPreview` |
 
