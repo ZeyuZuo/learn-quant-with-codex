@@ -4,10 +4,12 @@ import vm from "node:vm";
 import ts from "typescript";
 
 const root = process.cwd();
+const repoRoot = path.resolve(root, "..");
 const courseFile = path.join(root, "src", "lib", "courses.ts");
+const courseCodeMapFile = path.join(root, "src", "lib", "course-code-map.ts");
 
-function loadCourses() {
-  const source = fs.readFileSync(courseFile, "utf-8");
+function loadTypeScriptModule(filePath) {
+  const source = fs.readFileSync(filePath, "utf-8");
   const compiled = ts.transpileModule(source, {
     compilerOptions: {
       module: ts.ModuleKind.CommonJS,
@@ -15,7 +17,7 @@ function loadCourses() {
       esModuleInterop: true,
       isolatedModules: true,
     },
-    fileName: courseFile,
+    fileName: filePath,
   }).outputText;
 
   const moduleObject = { exports: {} };
@@ -27,7 +29,7 @@ function loadCourses() {
     },
   };
 
-  vm.runInNewContext(compiled, sandbox, { filename: courseFile });
+  vm.runInNewContext(compiled, sandbox, { filename: filePath });
   return moduleObject.exports;
 }
 
@@ -132,7 +134,42 @@ function validateCoverage(allLessons, failures) {
   }
 }
 
-const { allLessons, courseModules } = loadCourses();
+function validateCourseCodeMap(courseCodeMap, courseModules, failures) {
+  assert(Array.isArray(courseCodeMap), "courseCodeMap export must be an array", failures);
+  if (!Array.isArray(courseCodeMap)) {
+    return;
+  }
+
+  const moduleIds = courseModules.map((module) => module.id);
+  assert(courseCodeMap.length === moduleIds.length, `courseCodeMap should have ${moduleIds.length} entries`, failures);
+  assert(unique(courseCodeMap.map((item) => item.moduleId)), "courseCodeMap module ids must be unique", failures);
+
+  for (const moduleId of moduleIds) {
+    assert(courseCodeMap.some((item) => item.moduleId === moduleId), `courseCodeMap missing ${moduleId}`, failures);
+  }
+
+  for (const item of courseCodeMap) {
+    assert(moduleIds.includes(item.moduleId), `courseCodeMap has unknown module ${item.moduleId}`, failures);
+    assert(Boolean(item.focus) && item.focus.length >= 20, `${item.moduleId}: focus is too thin`, failures);
+    assert(Array.isArray(item.codeFiles) && item.codeFiles.length >= 1, `${item.moduleId}: missing code files`, failures);
+    assert(Array.isArray(item.testFiles) && item.testFiles.length >= 1, `${item.moduleId}: missing test files`, failures);
+    assert(Array.isArray(item.exampleCommands) && item.exampleCommands.length >= 2, `${item.moduleId}: missing example commands`, failures);
+
+    for (const file of [...item.codeFiles, ...item.testFiles]) {
+      assert(fs.existsSync(path.join(repoRoot, file)), `${item.moduleId}: mapped file does not exist: ${file}`, failures);
+    }
+
+    for (const command of item.exampleCommands) {
+      const match = command.match(/examples\/[A-Za-z0-9_]+\.py/);
+      if (match) {
+        assert(fs.existsSync(path.join(repoRoot, "python", match[0])), `${item.moduleId}: mapped example does not exist: ${match[0]}`, failures);
+      }
+    }
+  }
+}
+
+const { allLessons, courseModules } = loadTypeScriptModule(courseFile);
+const { courseCodeMap } = loadTypeScriptModule(courseCodeMapFile);
 const failures = [];
 
 assert(Array.isArray(allLessons), "allLessons export must be an array", failures);
@@ -151,6 +188,7 @@ if (Array.isArray(allLessons)) {
 
 if (Array.isArray(courseModules) && Array.isArray(allLessons)) {
   validateModules(courseModules, allLessons, failures);
+  validateCourseCodeMap(courseCodeMap, courseModules, failures);
 }
 
 if (failures.length > 0) {
