@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, BookOpen, FlaskConical, ShieldCheck, Terminal } from "lucide-react";
+import { ArrowRight, BookOpen, FlaskConical, ShieldCheck, SquareKanban, Terminal } from "lucide-react";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { courseModules, allLessons } from "@/lib/courses";
 import { LessonChart } from "@/components/charts/LessonChart";
@@ -46,6 +46,13 @@ export default function HomePage() {
                 >
                   最终报告要求
                   <ArrowRight className="h-4 w-4" />
+                </Link>
+                <Link
+                  href="/projects"
+                  className="inline-flex items-center gap-2 rounded-md border border-line bg-white px-4 py-3 text-sm font-bold text-ink transition hover:border-accent hover:text-accent"
+                >
+                  项目实践
+                  <SquareKanban className="h-4 w-4" />
                 </Link>
               </div>
             </div>
@@ -103,6 +110,16 @@ export default function HomePage() {
                 <p className="mt-3 text-sm font-semibold text-slate-700">模块产物：{module.product}</p>
               </Link>
             ))}
+          </div>
+          <div className="mt-6 rounded-lg border border-teal-200 bg-teal-50 p-5">
+            <h3 className="text-lg font-bold text-teal-950">按项目推进学习</h3>
+            <p className="mt-2 text-sm leading-7 text-teal-950">
+              每个模块都有一个 Mini Project。完成这些项目后，你会自然得到最终 Capstone 报告需要的材料。
+            </p>
+            <Link href="/projects" className="mt-4 inline-flex items-center gap-2 rounded-md bg-ink px-4 py-3 text-sm font-bold text-white transition hover:bg-slate-700">
+              查看项目实践
+              <ArrowRight className="h-4 w-4" />
+            </Link>
           </div>
         </section>
       </main>

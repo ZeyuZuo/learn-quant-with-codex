@@ -47,6 +47,8 @@ uv run python examples/generate_capstone_template.py
 
 最终报告要求见前端 `/capstone` 页面和第 9.4 课。
 
+项目实践入口见前端 `/projects` 页面。每个模块都有一个 Mini Project，包含交付物、验收项、建议命令和相关课程入口。
+
 ## 学习进度
 
 前端课程站支持本地学习进度：
@@ -69,6 +71,7 @@ uv run python examples/generate_capstone_template.py
 - 课程目录支持搜索课程、概念和 Python 模块，并可按模块过滤。
 - 术语表 `/glossary` 用通俗语言解释高频量化术语，课程页概念标签会链接到对应术语。
 - 学习笔记 `/notebook` 汇总个人反思，帮助把课程内容转化为可继续追问的 Codex 任务。
+- 项目实践 `/projects` 把模块 Mini Project 汇总成可执行清单。
 - 所有交互都服务学习目标，不提供交易信号，也不连接任何实盘环境。
 
 ## 验证

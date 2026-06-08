@@ -91,6 +91,11 @@
   - 测试方式
   - 课程与代码映射表
 
+- 项目实践 `/projects`
+  - 汇总所有模块 Mini Project
+  - 展示交付物、验收项、建议命令和相关课程
+  - 帮助用户把课程内容逐步转化为 Capstone 材料
+
 - 指标实验页 `/labs/metrics`
   - 收益率、波动率、最大回撤、夏普比率的交互式展示
 
@@ -131,13 +136,15 @@
 
 ## 5. 课程体系
 
-课程设计以 [course-design.md](./course-design.md) 为主文档。
+课程设计以 [course-design.md](./course-design.md) 为主文档，外部教程参考和课程优化依据见 [tutorial-reference-analysis.md](./tutorial-reference-analysis.md)。
 
-需求文档中的课程目标和主题覆盖范围仍然有效，但详细课程编排、模块产物、Mini Project、Capstone、Codex Task 模板和课程与代码同步契约，以 `docs/course-design.md` 的 v2 设计为准。
+需求文档中的课程目标和主题覆盖范围仍然有效，但详细课程编排、模块产物、Mini Project、Capstone、Codex Task 模板和课程与代码同步契约，以 `docs/course-design.md` 的 v3 设计为准。
 
-v2 课程分为 10 个模块、47 节课、9 个 Mini Project 和 1 个 Capstone，从数据读取、收益风险、仓位成本、回测系统、策略实验、多股票组合、参数验证一路推进到最终研究报告。
+v3 课程分为 10 个模块、47 节课、9 个 Mini Project 和 1 个 Capstone，从数据读取、收益风险、仓位成本、回测系统、策略实验、多股票组合、参数验证一路推进到最终研究报告。
 
-以下旧版课程体系保留为主题覆盖参考。
+v3 的核心优化是：参考 QuantConnect、Georgia Tech ML4T、Backtrader、Zipline、QuantStart 和投资管理 Python 课程的结构后，采用项目驱动、评价能力前置、回测偏差前置、向量化先行但强调边界、每节课可验收、最终报告不做收益宣传的课程设计。
+
+以下旧版课程体系仅保留为主题覆盖参考，不作为实现顺序。实现时必须优先遵守 v3 课程设计。
 
 课程分为 8 个模块，从市场基础逐步推进到回测、策略实验和量化学习路线。
 
