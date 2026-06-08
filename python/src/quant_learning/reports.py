@@ -4,6 +4,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+import pandas as pd
+
 from quant_learning.backtest import BacktestResult
 
 DISCLAIMER = "教育用途，不构成投资建议；历史回测结果不代表未来收益。"
@@ -51,3 +53,14 @@ def save_report_markdown(report: dict[str, Any], path: str | Path) -> None:
 {metric_lines}
 """
     output.write_text(content, encoding="utf-8")
+
+
+def paper_signal_log(date: Any, symbol: str, signal: float, reason: str) -> dict[str, Any]:
+    return {
+        "date": str(pd.Timestamp(date).date()),
+        "symbol": symbol,
+        "signal": float(signal),
+        "reason": reason,
+        "note": "paper log only; no order is sent",
+        "disclaimer": DISCLAIMER,
+    }

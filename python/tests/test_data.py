@@ -3,7 +3,7 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from quant_learning.data import choose_price_column, read_price_csv, validate_ohlcv_columns, validate_price_data
+from quant_learning.data import align_price_data, choose_price_column, read_price_csv, validate_ohlcv_columns, validate_price_data
 
 
 def test_read_price_csv_uses_datetime_index() -> None:
@@ -40,3 +40,12 @@ def test_validate_price_data_reports_issues() -> None:
     assert report["non_positive_close"] == 1
     assert report["non_positive_volume"] == 1
     assert report["has_issues"] is True
+
+
+def test_align_price_data_inner_drops_missing_dates() -> None:
+    prices = pd.DataFrame(
+        {"a": [1.0, 2.0, 3.0], "b": [1.0, None, 3.0]},
+        index=pd.date_range("2024-01-01", periods=3),
+    )
+    aligned = align_price_data(prices)
+    assert aligned.index.tolist() == [pd.Timestamp("2024-01-01"), pd.Timestamp("2024-01-03")]

@@ -1,7 +1,7 @@
 import pandas as pd
 import pytest
 
-from quant_learning.positions import equal_weight_positions, normalize_weights, signals_to_positions
+from quant_learning.positions import equal_weight_positions, normalize_weights, rebalance_weights, signals_to_positions
 
 
 def test_signals_to_positions_lags_by_default() -> None:
@@ -25,3 +25,10 @@ def test_equal_weight_positions() -> None:
     weights = equal_weight_positions(signals)
     assert weights.iloc[0].tolist() == pytest.approx([0.5, 0.5])
     assert weights.iloc[2].tolist() == pytest.approx([0.0, 0.0])
+
+
+def test_rebalance_weights_returns_normalized_schedule() -> None:
+    dates = pd.date_range("2024-01-01", periods=40)
+    target = pd.DataFrame({"a": 0.6, "b": 0.4}, index=dates)
+    weights = rebalance_weights(target, frequency="ME")
+    assert weights.iloc[-1].sum() == pytest.approx(1.0)

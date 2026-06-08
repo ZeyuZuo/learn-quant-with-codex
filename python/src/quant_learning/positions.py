@@ -25,3 +25,16 @@ def equal_weight_positions(signals: pd.DataFrame) -> pd.DataFrame:
     active_counts = signals.astype(float).abs().sum(axis=1)
     weights = signals.astype(float).div(active_counts.replace(0, pd.NA), axis=0)
     return weights.fillna(0.0)
+
+
+def rebalance_weights(target_weights: pd.DataFrame, frequency: str = "ME") -> pd.DataFrame:
+    """Create a simple calendar rebalanced weight schedule.
+
+    `frequency` uses pandas offset aliases. "ME" means month end.
+    """
+
+    if target_weights.empty:
+        return target_weights.astype(float)
+    sampled = target_weights.astype(float).resample(frequency).last()
+    rebalanced = sampled.reindex(target_weights.index).ffill().fillna(0.0)
+    return normalize_weights(rebalanced)

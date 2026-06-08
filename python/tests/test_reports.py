@@ -1,7 +1,7 @@
 import pandas as pd
 
 from quant_learning.backtest import BacktestConfig, run_backtest
-from quant_learning.reports import generate_backtest_report
+from quant_learning.reports import generate_backtest_report, paper_signal_log
 from quant_learning.strategies import buy_and_hold_signal
 
 
@@ -11,3 +11,10 @@ def test_report_contains_disclaimer() -> None:
     report = generate_backtest_report(result)
     assert "不构成投资建议" in report["disclaimer"]
     assert report["name"] == "report_test"
+
+
+def test_paper_signal_log_never_sends_order() -> None:
+    log = paper_signal_log("2024-01-01", "SPY", 1.0, "example signal")
+    assert log["symbol"] == "SPY"
+    assert "no order is sent" in log["note"]
+    assert "不构成投资建议" in log["disclaimer"]

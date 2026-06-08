@@ -69,3 +69,19 @@ def choose_price_column(df: pd.DataFrame, adjusted: bool = True) -> pd.Series:
     if "close" not in df.columns:
         raise ValueError("price data must contain close")
     return df["close"].rename("price")
+
+
+def align_price_data(prices: pd.DataFrame, how: str = "inner") -> pd.DataFrame:
+    """Align multi-asset prices by date.
+
+    The default keeps only dates where every asset has a price. This is a
+    conservative teaching default; production research should document any
+    fill policy explicitly.
+    """
+
+    if how not in {"inner", "ffill"}:
+        raise ValueError("how must be 'inner' or 'ffill'")
+    sorted_prices = prices.sort_index()
+    if how == "inner":
+        return sorted_prices.dropna(how="any")
+    return sorted_prices.ffill().dropna(how="any")
