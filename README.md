@@ -20,6 +20,8 @@ npm install
 npm run dev
 ```
 
+打开 `http://localhost:3000` 后，建议先从 `/courses` 进入课程目录，再按模块顺序学习。课程页的进度、笔记和完成状态都只保存在浏览器本地。
+
 Python：
 
 ```bash
@@ -29,6 +31,18 @@ uv run pytest
 uv run python examples/run_buy_and_hold.py
 uv run python examples/run_capstone_check.py
 uv run python examples/generate_capstone_template.py
+```
+
+如果只想确认整个项目是否健康，可以运行：
+
+```bash
+cd web
+npm run validate:course
+npm run lint
+npm run build
+
+cd ../python
+UV_CACHE_DIR=/tmp/uv-cache uv run pytest
 ```
 
 ## 学习路径
@@ -48,6 +62,36 @@ uv run python examples/generate_capstone_template.py
 最终报告要求见前端 `/capstone` 页面和第 9.4 课。
 
 项目实践入口见前端 `/projects` 页面。每个模块都有一个 Mini Project，包含交付物、验收项、建议命令和相关课程入口。
+
+## 课程和代码如何对应
+
+课程不是独立文章，Python 项目也不是孤立代码。两者按同一条主线推进：
+
+| 课程模块 | 学习问题 | Python 落点 |
+| --- | --- | --- |
+| Module 1 数据 | 一行美股日线数据代表什么？ | `python/src/quant_learning/data.py` |
+| Module 2 收益 | 价格如何变成收益和净值？ | `python/src/quant_learning/metrics.py` |
+| Module 3 风险 | 如何评价一条收益路径？ | `metrics.py` 和 `tests/test_metrics.py` |
+| Module 4 执行 | signal 如何变成 position？成本怎么扣？ | `positions.py`、`costs.py` |
+| Module 5 回测 | 如何把数据、仓位、成本和指标串起来？ | `backtest.py`、`reports.py` |
+| Module 6 策略 | 双均线、动量、均值回归如何编码？ | `strategies.py` |
+| Module 7 组合 | 多资产收益和权重如何工作？ | `portfolio.py` |
+| Module 8 验证 | 参数扫描和样本外如何暴露过拟合？ | `experiments.py` |
+| Module 9 报告 | 如何正确陈述回测边界？ | `reports.py`、Capstone 模板 |
+
+前端 `/python-project` 页面提供更完整的课程到代码同步表，包括代码文件、测试文件和建议命令。
+
+## 推荐学习方式
+
+每节课建议按这个顺序完成：
+
+1. 阅读“本课学习焦点”，先知道本节解决的问题和最容易踩的坑。
+2. 看概念解释、公式和手算例子，不急着跑策略。
+3. 观察图表的读图提示，确认图表在解释什么。
+4. 完成 Quiz 和动手练习。
+5. 复制 Codex Prompt，让 Codex 实现或审查对应 Python 代码。
+6. 运行对应测试或示例脚本。
+7. 勾选课程页底部的完成前自查，再标记本课完成。
 
 ## 学习进度
 

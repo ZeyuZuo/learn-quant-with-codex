@@ -1,6 +1,25 @@
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { courseModules } from "@/lib/courses";
 import { courseCodeMap } from "@/lib/course-code-map";
+import { BookOpen, FileCode2, TestTube2 } from "lucide-react";
+
+const projectWorkflow = [
+  {
+    title: "跟着课程写",
+    body: "先读课程页，再复制 Codex Prompt，把概念落到 Python 函数。",
+    icon: BookOpen,
+  },
+  {
+    title: "用测试验收",
+    body: "每个模块都有 pytest，避免公式、索引和回测逻辑悄悄跑偏。",
+    icon: TestTube2,
+  },
+  {
+    title: "反查代码",
+    body: "从函数名回到课程模块，确认代码为什么存在、如何被误用。",
+    icon: FileCode2,
+  },
+];
 
 export default function PythonProjectPage() {
   return (
@@ -11,6 +30,17 @@ export default function PythonProjectPage() {
         <p className="mt-4 text-lg leading-8 text-slate-600">
           Python 项目和课程一一对应。课程讲到的收益率、最大回撤、signal、position、双均线和回测，都有对应模块和测试。
         </p>
+        <section className="mt-8 grid gap-3 md:grid-cols-3">
+          {projectWorkflow.map(({ title, body, icon: Icon }) => (
+            <article key={title} className="rounded-lg border border-line bg-white p-4 shadow-soft">
+              <div className="flex items-center gap-2 text-sm font-black text-ink">
+                <Icon className="h-4 w-4 text-accent" />
+                {title}
+              </div>
+              <p className="mt-2 text-sm leading-6 text-muted">{body}</p>
+            </article>
+          ))}
+        </section>
         <section className="mt-8 rounded-lg border border-line bg-white p-5 shadow-soft">
           <h2 className="text-xl font-bold text-ink">使用 uv</h2>
           <pre className="mt-4 overflow-x-auto rounded-lg bg-slate-950 p-4 text-sm text-slate-100">

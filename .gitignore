@@ -3,6 +3,7 @@
 .env.local
 .next/
 node_modules/
+*.tsbuildinfo
 dist/
 build/
 coverage/
