@@ -2,6 +2,7 @@ import Link from "next/link";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { LessonChart } from "@/components/charts/LessonChart";
 import { StrategyPlayground } from "@/components/labs/StrategyPlayground";
+import { CostLagPlayground } from "@/components/labs/CostLagPlayground";
 
 export default function StrategiesLabPage() {
   return (
@@ -11,11 +12,12 @@ export default function StrategiesLabPage() {
         <header>
           <h1 className="text-3xl font-black text-ink">策略实验室</h1>
           <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-650">
-            用相同图表比较 buy and hold、双均线、动量和均值回归。重点是理解策略假设和风险，而不是挑最好看的曲线。
+            用相同图表比较 buy and hold、双均线、动量和均值回归，并观察成本和错误 shift 如何改变回测曲线。重点是理解策略假设和风险，而不是挑最好看的曲线。
           </p>
         </header>
         <section className="mt-8 grid gap-8">
           <StrategyPlayground />
+          <CostLagPlayground />
           <div>
             <h2 className="mb-3 text-xl font-bold text-ink">双均线信号</h2>
             <LessonChart kind="moving-average" />

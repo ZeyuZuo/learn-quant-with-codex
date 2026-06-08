@@ -30,7 +30,7 @@ export function StrategyPlayground() {
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h2 className="text-xl font-bold text-ink">策略观察器</h2>
-          <p className="mt-2 max-w-2xl text-sm leading-7 text-muted">切换不同观察模式，重点看信号假设、净值路径和风险边界。</p>
+          <p className="mt-2 max-w-2xl text-sm leading-7 text-muted">切换不同观察模式，先看策略假设和净值路径，再用下面的敏感性实验检查成本与滞后。</p>
         </div>
         <div className="flex rounded-md border border-line bg-slate-50 p-1">
           {Object.entries(strategyNotes).map(([key, value]) => (

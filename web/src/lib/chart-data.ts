@@ -94,3 +94,14 @@ export const portfolioData = [
   { date: "01-10", aapl: 1.04, msft: 1.08, spy: 1.05, equalWeight: 1.06 },
   { date: "01-11", aapl: 1.1, msft: 1.11, spy: 1.08, equalWeight: 1.105 },
 ];
+
+export const strategySimulatorData = [
+  { date: "01-02", assetReturn: 0, signal: 0 },
+  { date: "01-03", assetReturn: 0.02, signal: 1 },
+  { date: "01-04", assetReturn: -0.0098, signal: 1 },
+  { date: "01-05", assetReturn: 0.0396, signal: 0 },
+  { date: "01-08", assetReturn: 0.0095, signal: 1 },
+  { date: "01-09", assetReturn: 0.0189, signal: 1 },
+  { date: "01-10", assetReturn: -0.0093, signal: 0 },
+  { date: "01-11", assetReturn: 0.028, signal: 0 },
+];
