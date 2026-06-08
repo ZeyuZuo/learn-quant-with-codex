@@ -83,6 +83,7 @@ uv run pytest
 
 ```bash
 cd web
+npm run validate:course
 npm run lint
 npm run build
 ```
