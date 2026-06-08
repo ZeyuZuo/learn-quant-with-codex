@@ -15,6 +15,7 @@ import { LessonLearningScaffold } from "./LessonLearningScaffold";
 import { MistakeClinic } from "./MistakeClinic";
 import { LessonAside } from "./LessonAside";
 import { LessonFocusPanel } from "./LessonFocusPanel";
+import { LessonCompletionPanel } from "./LessonCompletionPanel";
 
 type LessonViewProps = {
   lesson: Lesson;
@@ -127,15 +128,7 @@ export function LessonView({ lesson }: LessonViewProps) {
           <div id="checkpoint" className="scroll-mt-24">
             <Checkpoint items={lesson.checkpoint} />
           </div>
-          <div className="rounded-lg border border-line bg-white p-5 shadow-soft">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <h3 className="text-base font-bold text-ink">完成本课</h3>
-                <p className="mt-1 text-sm leading-6 text-muted">完成 Quiz、复制 Codex Prompt 并确认 Checkpoint 后，把本课标记为已完成。</p>
-              </div>
-              <LessonCompleteButton slug={lesson.slug} />
-            </div>
-          </div>
+          <LessonCompletionPanel lesson={lesson} />
           {courseModule ? (
             <section className="rounded-lg border border-teal-200 bg-teal-50 p-5">
               <h3 className="flex items-center gap-2 text-base font-bold text-teal-950">
