@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { AlertTriangle, CheckCircle2, ClipboardCheck, FileWarning } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { AlertTriangle, CheckCircle2, ClipboardCheck, FileWarning, RotateCcw } from "lucide-react";
 
 const checklist = [
   { id: "boundary", label: "项目边界和非投资建议声明", group: "边界" },
@@ -18,17 +18,58 @@ const checklist = [
   { id: "tests", label: "记录 Python 测试通过结果", group: "复现" },
 ];
 
+const STORAGE_KEY = "learn-quant-with-codex.capstone-checklist.v1";
+
+function readCompletedItems() {
+  if (typeof window === "undefined") {
+    return new Set<string>(["boundary"]);
+  }
+
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      return new Set<string>(["boundary"]);
+    }
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) {
+      return new Set<string>(["boundary"]);
+    }
+    return new Set(parsed.filter((item) => typeof item === "string"));
+  } catch {
+    return new Set<string>(["boundary"]);
+  }
+}
+
+function writeCompletedItems(items: Set<string>) {
+  window.localStorage.setItem(STORAGE_KEY, JSON.stringify([...items]));
+}
+
 export function CapstoneChecklist() {
   const [completed, setCompleted] = useState<Set<string>>(new Set(["boundary"]));
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    setCompleted(readCompletedItems());
+    setReady(true);
+  }, []);
 
   const progress = useMemo(() => {
     const count = completed.size;
+    const missing = checklist.filter((item) => !completed.has(item.id));
+    const groups = [...new Set(checklist.map((item) => item.group))].map((group) => {
+      const items = checklist.filter((item) => item.group === group);
+      const done = items.filter((item) => completed.has(item.id)).length;
+      return { group, done, total: items.length };
+    });
+
     return {
       count,
       percent: Math.round((count / checklist.length) * 100),
-      missing: checklist.filter((item) => !completed.has(item.id)),
+      missing,
+      groups,
       hasRiskStatement: completed.has("boundary") && completed.has("risks"),
       readyForReview: count === checklist.length,
+      nextItem: missing[0],
     };
   }, [completed]);
 
@@ -40,8 +81,15 @@ export function CapstoneChecklist() {
       } else {
         next.add(id);
       }
+      writeCompletedItems(next);
       return next;
     });
+  }
+
+  function resetChecklist() {
+    const initial = new Set<string>(["boundary"]);
+    writeCompletedItems(initial);
+    setCompleted(initial);
   }
 
   return (
@@ -56,11 +104,35 @@ export function CapstoneChecklist() {
             勾选报告里已经完成的部分。这个清单不替代 Python 校验脚本，但能帮助你在写报告时及时发现缺口。
           </p>
         </div>
-        <div className="rounded-md border border-teal-200 bg-teal-50 px-3 py-2 text-sm font-black text-teal-950">{progress.percent}% 完成</div>
+        <div className="flex flex-wrap items-center gap-2">
+          <div className="rounded-md border border-teal-200 bg-teal-50 px-3 py-2 text-sm font-black text-teal-950">{ready ? `${progress.percent}% 完成` : "读取中"}</div>
+          <button
+            type="button"
+            onClick={resetChecklist}
+            className="inline-flex items-center gap-2 rounded-md border border-line bg-white px-3 py-2 text-sm font-bold text-ink transition hover:border-accent hover:text-accent"
+          >
+            <RotateCcw className="h-4 w-4" />
+            重置
+          </button>
+        </div>
       </div>
 
       <div className="mt-4 h-2 overflow-hidden rounded-full bg-slate-100">
-        <div className="h-full rounded-full bg-accent transition-all duration-700 ease-out" style={{ width: `${progress.percent}%` }} />
+        <div className="h-full rounded-full bg-accent transition-all duration-700 ease-out" style={{ width: `${ready ? progress.percent : 0}%` }} />
+      </div>
+
+      <div className="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
+        {progress.groups.map((group) => {
+          const done = group.done === group.total;
+          return (
+            <div key={group.group} className={`rounded-md border px-3 py-2 text-sm ${done ? "border-teal-200 bg-teal-50 text-teal-950" : "border-line bg-slate-50 text-slate-700"}`}>
+              <div className="font-black">{group.group}</div>
+              <div className="mt-1 text-xs opacity-80">
+                {group.done}/{group.total}
+              </div>
+            </div>
+          );
+        })}
       </div>
 
       <div className="mt-5 grid gap-3 lg:grid-cols-2">
@@ -101,13 +173,31 @@ export function CapstoneChecklist() {
         <div className={`rounded-md border p-4 ${progress.readyForReview ? "border-teal-200 bg-teal-50 text-teal-950" : "border-rose-200 bg-rose-50 text-rose-950"}`}>
           <div className="flex items-center gap-2 text-sm font-bold">
             {progress.readyForReview ? <CheckCircle2 className="h-4 w-4" /> : <FileWarning className="h-4 w-4" />}
-            缺失项
+            下一步
           </div>
           <p className="mt-2 text-sm leading-7">
-            {progress.readyForReview ? "清单已全部完成。下一步运行 Python 校验脚本并复查报告措辞。" : `还有 ${progress.missing.length} 项未完成：${progress.missing.slice(0, 3).map((item) => item.group).join("、")}${progress.missing.length > 3 ? " 等" : ""}。`}
+            {progress.readyForReview
+              ? "清单已全部完成。下一步运行 Python 校验脚本并复查报告措辞。"
+              : progress.nextItem
+                ? `先补齐：${progress.nextItem.group} - ${progress.nextItem.label}。`
+                : "继续检查报告缺口。"}
           </p>
         </div>
       </div>
+
+      {progress.missing.length > 0 ? (
+        <div className="mt-5 rounded-md border border-line bg-slate-50 p-4">
+          <div className="text-sm font-black text-ink">未完成清单</div>
+          <div className="mt-3 grid gap-2 lg:grid-cols-2">
+            {progress.missing.map((item) => (
+              <div key={item.id} className="rounded-md bg-white px-3 py-2 text-sm leading-6 text-slate-700">
+                <span className="font-bold text-ink">{item.group}：</span>
+                {item.label}
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }
