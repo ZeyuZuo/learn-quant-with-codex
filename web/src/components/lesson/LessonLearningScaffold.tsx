@@ -1,4 +1,15 @@
-import { AlertTriangle, BarChart3, BookOpenText, Brain, CheckCircle2, Code2, MessageSquareText, PencilLine, TestTube2 } from "lucide-react";
+import {
+  AlertTriangle,
+  ArrowDown,
+  BarChart3,
+  BookOpenText,
+  Brain,
+  CheckCircle2,
+  Code2,
+  MessageSquareText,
+  PencilLine,
+  TestTube2,
+} from "lucide-react";
 import type { Lesson } from "@/lib/types";
 
 type LessonLearningScaffoldProps = {
@@ -13,6 +24,7 @@ export function LessonLearningScaffold({ lesson }: LessonLearningScaffoldProps) 
       label: "Concept",
       title: "读懂概念",
       body: lesson.concepts.slice(0, 3).join(" / "),
+      action: "先知道本节在解决哪类量化问题。",
       tone: "border-slate-200 bg-white text-slate-800",
       iconTone: "bg-slate-100 text-slate-700",
     },
@@ -22,6 +34,7 @@ export function LessonLearningScaffold({ lesson }: LessonLearningScaffoldProps) 
       label: "Intuition",
       title: "建立直觉",
       body: lesson.intuition,
+      action: "用白话把公式背后的含义说出来。",
       tone: "border-violet-200 bg-violet-50 text-violet-950",
       iconTone: "bg-violet-100 text-violet-700",
     },
@@ -31,6 +44,7 @@ export function LessonLearningScaffold({ lesson }: LessonLearningScaffoldProps) 
       label: "Example",
       title: "手算一次",
       body: lesson.handExample,
+      action: "用小数字确认自己没有被术语带偏。",
       tone: "border-amber-200 bg-amber-50 text-amber-950",
       iconTone: "bg-amber-100 text-amber-700",
     },
@@ -40,6 +54,7 @@ export function LessonLearningScaffold({ lesson }: LessonLearningScaffoldProps) 
       label: "Code",
       title: "落到代码",
       body: lesson.pythonModule,
+      action: "找到本节在 Python 项目里的真实落点。",
       tone: "border-teal-200 bg-teal-50 text-teal-950",
       iconTone: "bg-teal-100 text-teal-700",
     },
@@ -49,6 +64,7 @@ export function LessonLearningScaffold({ lesson }: LessonLearningScaffoldProps) 
       label: "Chart",
       title: "观察图表",
       body: lesson.chartNote,
+      action: "只读图表能证明的内容，不外推结论。",
       tone: "border-sky-200 bg-sky-50 text-sky-950",
       iconTone: "bg-sky-100 text-sky-700",
     },
@@ -58,6 +74,7 @@ export function LessonLearningScaffold({ lesson }: LessonLearningScaffoldProps) 
       label: "Practice",
       title: "做小练习",
       body: lesson.quiz.question,
+      action: "用一个选择题暴露常见误区。",
       tone: "border-blue-200 bg-blue-50 text-blue-950",
       iconTone: "bg-blue-100 text-blue-700",
     },
@@ -67,6 +84,7 @@ export function LessonLearningScaffold({ lesson }: LessonLearningScaffoldProps) 
       label: "Codex",
       title: "复制任务",
       body: "把背景、目标、约束和验收标准一起交给 Codex。",
+      action: "让 Codex 写代码，也要求它解释边界。",
       tone: "border-teal-200 bg-white text-teal-950",
       iconTone: "bg-teal-100 text-teal-700",
     },
@@ -76,6 +94,7 @@ export function LessonLearningScaffold({ lesson }: LessonLearningScaffoldProps) 
       label: "Checkpoint",
       title: "留下产物",
       body: lesson.checkpoint[0] ?? "完成本节 Checkpoint",
+      action: "确认本节能进入 Mini Project 或 Capstone。",
       tone: "border-emerald-200 bg-emerald-50 text-emerald-950",
       iconTone: "bg-emerald-100 text-emerald-700",
     },
@@ -101,8 +120,8 @@ export function LessonLearningScaffold({ lesson }: LessonLearningScaffoldProps) 
             <a
               key={step.label}
               href={step.href}
-              className={`chart-enter group flex min-h-36 flex-col rounded-lg border p-4 transition duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:outline-none focus:ring-2 focus:ring-accent/30 ${step.tone}`}
-              style={{ animationDelay: `${index * 70}ms` }}
+              className={`learning-step group relative flex min-h-48 flex-col overflow-hidden rounded-lg border p-4 transition duration-200 hover:-translate-y-0.5 hover:shadow-soft focus:outline-none focus:ring-2 focus:ring-accent/30 ${step.tone}`}
+              style={{ animationDelay: `${index * 65}ms` }}
             >
               <div className="flex items-start gap-3">
                 <div className={`grid h-9 w-9 shrink-0 place-items-center rounded-md transition group-hover:scale-105 ${step.iconTone}`}>
@@ -114,6 +133,17 @@ export function LessonLearningScaffold({ lesson }: LessonLearningScaffoldProps) 
                   <p className="clamp-3 mt-2 text-sm leading-6 opacity-90">{step.body}</p>
                 </div>
               </div>
+              <div className="mt-auto pt-4">
+                <div className="flex items-center gap-2 border-t border-current/10 pt-3 text-xs font-bold leading-5 opacity-85">
+                  <span className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-white/70">{index + 1}</span>
+                  <span>{step.action}</span>
+                </div>
+              </div>
+              {index < steps.length - 1 ? (
+                <div className="pointer-events-none absolute right-3 top-3 hidden h-7 w-7 place-items-center rounded-full bg-white/75 text-current/60 xl:grid">
+                  <ArrowDown className="h-3.5 w-3.5" />
+                </div>
+              ) : null}
             </a>
           );
         })}
