@@ -367,6 +367,8 @@ function validateLessonReviewTemplate(failures) {
   assert(templateSource.includes("buildReviewTemplate"), "LessonReviewTemplate should generate structured Markdown", failures);
   assert(templateSource.includes("不构成投资建议"), "LessonReviewTemplate should include the project boundary", failures);
   assert(templateSource.includes("代码和测试证据"), "LessonReviewTemplate should ask for code and test evidence", failures);
+  assert(templateSource.includes("getLessonCommandInfo"), "LessonReviewTemplate should include concrete lesson validation commands", failures);
+  assert(templateSource.includes("commandInfo.secondary"), "LessonReviewTemplate should include optional example commands when available", failures);
   assert(templateSource.includes("图表观察"), "LessonReviewTemplate should ask for chart observations", failures);
   assert(templateSource.includes("常见误区防线"), "LessonReviewTemplate should ask learners to name misuse risks", failures);
   assert(templateSource.includes("Capstone 关联"), "LessonReviewTemplate should connect lesson output to Capstone evidence", failures);

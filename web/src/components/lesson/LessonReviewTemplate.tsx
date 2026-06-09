@@ -3,6 +3,7 @@
 import { ClipboardCheck, FileText, Flag } from "lucide-react";
 import { CopyButton } from "@/components/prompt/CopyButton";
 import { getModule, getSkillLine } from "@/lib/courses";
+import { getLessonCommandInfo } from "@/lib/lesson-commands";
 import { emitLessonActivity } from "@/lib/lesson-activity";
 import type { Lesson } from "@/lib/types";
 
@@ -17,6 +18,8 @@ function listItems(items: string[]) {
 function buildReviewTemplate(lesson: Lesson) {
   const courseModule = getModule(lesson.moduleId);
   const skillLine = getSkillLine(lesson.skillLine);
+  const commandInfo = getLessonCommandInfo(lesson);
+  const commands = commandInfo.secondary ? `${commandInfo.primary}\n${commandInfo.secondary}` : commandInfo.primary;
   const sections = [
     `# ${lesson.id} ${lesson.title} 复盘`,
     "",
@@ -49,7 +52,7 @@ function buildReviewTemplate(lesson: Lesson) {
     "我运行的命令：",
     "",
     "```bash",
-    "",
+    commands,
     "```",
     "",
     "我检查到的边界条件：",
@@ -91,6 +94,8 @@ function buildReviewTemplate(lesson: Lesson) {
 
 export function LessonReviewTemplate({ lesson }: LessonReviewTemplateProps) {
   const skillLine = getSkillLine(lesson.skillLine);
+  const commandInfo = getLessonCommandInfo(lesson);
+  const commandText = commandInfo.secondary ? `${commandInfo.primary}\n${commandInfo.secondary}` : commandInfo.primary;
   const reviewTemplate = buildReviewTemplate(lesson);
 
   function handleCopied() {
@@ -127,6 +132,13 @@ export function LessonReviewTemplate({ lesson }: LessonReviewTemplateProps) {
           </span>
           <p className="mt-1">{skillLine?.capstoneEvidence ?? "把本节产物写入最终报告。"}</p>
         </div>
+      </div>
+
+      <div className="mt-3 rounded-md border border-line bg-slate-50 p-3">
+        <div className="text-xs font-black uppercase tracking-wide text-muted">{commandInfo.label}</div>
+        <pre className="mt-2 overflow-x-auto rounded-md bg-slate-950 px-3 py-2 text-xs leading-5 text-slate-100">
+          <code>{commandText}</code>
+        </pre>
       </div>
     </section>
   );
