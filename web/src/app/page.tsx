@@ -6,6 +6,7 @@ import { LessonChart } from "@/components/charts/LessonChart";
 import { ProgressSummary } from "@/components/progress/ProgressSummary";
 import { HomeModulePath } from "@/components/progress/HomeModulePath";
 import { HomeSkillLines } from "@/components/progress/HomeSkillLines";
+import { SkillLineProgress } from "@/components/progress/SkillLineProgress";
 
 export default function HomePage() {
   const firstLesson = allLessons[0];
@@ -101,6 +102,10 @@ export default function HomePage() {
               </div>
             </div>
           </div>
+        </section>
+
+        <section className="mx-auto max-w-7xl px-4 pb-10 sm:px-6">
+          <SkillLineProgress />
         </section>
 
         <section className="mx-auto max-w-7xl px-4 pb-14 sm:px-6">

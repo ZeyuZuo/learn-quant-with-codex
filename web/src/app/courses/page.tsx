@@ -3,6 +3,7 @@ import { allLessons, courseModules } from "@/lib/courses";
 import { ProgressSummary } from "@/components/progress/ProgressSummary";
 import { CourseCatalog } from "@/components/courses/CourseCatalog";
 import Link from "next/link";
+import { SkillLineProgress } from "@/components/progress/SkillLineProgress";
 
 export default function CoursesPage() {
   const totalMinutes = allLessons.reduce((sum, lesson) => sum + Number.parseInt(lesson.duration, 10), 0);
@@ -38,6 +39,10 @@ export default function CoursesPage() {
             <div className="mt-1 text-xs text-muted">预计学习</div>
           </div>
         </div>
+
+        <section className="mt-6">
+          <SkillLineProgress compact />
+        </section>
 
         <CourseCatalog />
       </main>
