@@ -19,6 +19,9 @@ export default function ParameterScanLabPage() {
           focus="调节 Sharpe 过滤条件时，观察哪些参数被留下、样本外是否迁移，以及最优参数是不是只在历史里好看。"
           pythonModule="python/src/quant_learning/experiments.py"
           caution="历史最优参数不是未来承诺；样本外仍然只是更严格的历史验证。"
+          command={`cd python
+UV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_parameter_scan.py`}
+          reportPath="reports/parameter_scan_oos_report.md"
           lessons={[
             { href: "/courses/parameter-scan", label: "8.1 参数扫描" },
             { href: "/courses/in-sample-out-of-sample", label: "8.2 样本外" },

@@ -21,6 +21,9 @@ export default function StrategiesLabPage() {
           focus="切换策略图时，先问它的 signal 从哪里来，再检查 position、成本和 benchmark 是否使用同一套规则。"
           pythonModule="python/src/quant_learning/strategies.py + backtest.py"
           caution="实验里的策略只是学习案例；错误 shift 曲线只用于展示 look-ahead bias。"
+          command={`cd python
+UV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_moving_average.py`}
+          reportPath="reports/strategy_comparison_report.md"
           lessons={[
             { href: "/courses/signal-position", label: "4.1 Signal / Position" },
             { href: "/courses/minimal-backtester", label: "5.2 回测器" },

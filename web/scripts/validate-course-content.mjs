@@ -10,6 +10,7 @@ const courseCodeMapFile = path.join(root, "src", "lib", "course-code-map.ts");
 const lessonCommandsFile = path.join(root, "src", "lib", "lesson-commands.ts");
 const lessonLabsFile = path.join(root, "src", "lib", "lesson-labs.ts");
 const glossaryFile = path.join(root, "src", "lib", "glossary.ts");
+const labPageDir = path.join(root, "src", "app", "labs");
 
 function loadTypeScriptModule(filePath) {
   const source = fs.readFileSync(filePath, "utf-8");
@@ -276,6 +277,25 @@ function validateLessonLabsSource(allLessons, failures) {
   assert(source.includes("getRelatedLabs"), "lesson labs should export getRelatedLabs", failures);
 }
 
+function validateLabPages(failures) {
+  const labPages = [
+    path.join(labPageDir, "metrics", "page.tsx"),
+    path.join(labPageDir, "strategies", "page.tsx"),
+    path.join(labPageDir, "parameter-scan", "page.tsx"),
+  ];
+
+  for (const file of labPages) {
+    const relativeFile = path.relative(repoRoot, file);
+    const source = fs.readFileSync(file, "utf-8");
+    assert(source.includes("<LabLearningCard"), `${relativeFile}: missing LabLearningCard`, failures);
+    assert(source.includes("command={`cd python"), `${relativeFile}: lab card should include a runnable Python command`, failures);
+    assert(source.includes("UV_CACHE_DIR=/tmp/uv-cache uv run python examples/"), `${relativeFile}: lab command should use a Python example script`, failures);
+    assert(/reportPath="reports\/[^"]+"/.test(source), `${relativeFile}: lab card should name a report output path`, failures);
+    assert((source.match(/href: "\/courses\//g) ?? []).length >= 3, `${relativeFile}: lab should link at least 3 related lessons`, failures);
+    assert(source.includes("不") && /投资建议|未来|承诺|look-ahead|过拟合|误导/.test(source), `${relativeFile}: lab should include a learning boundary or misuse warning`, failures);
+  }
+}
+
 const { allLessons, courseModules } = loadTypeScriptModule(courseFile);
 const { courseCodeMap } = loadTypeScriptModule(courseCodeMapFile);
 const failures = [];
@@ -299,6 +319,7 @@ if (Array.isArray(courseModules) && Array.isArray(allLessons)) {
   validateCourseCodeMap(courseCodeMap, courseModules, failures);
   validateLessonCommandsSource(failures);
   validateLessonLabsSource(allLessons, failures);
+  validateLabPages(failures);
   validateGlossarySource(allLessons, failures);
 }
 

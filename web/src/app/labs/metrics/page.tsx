@@ -21,6 +21,9 @@ export default function MetricsLabPage() {
           focus="调节日收益、样本长度和波动率，观察总收益、年化收益、年化波动和夏普如何一起变化。重点是理解指标的局限，而不是追一个最好看的数字。"
           pythonModule="python/src/quant_learning/metrics.py"
           caution="实验里的参数是教学假设，不是市场预测；短样本年化尤其容易误导。"
+          command={`cd python
+UV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_metrics_summary.py`}
+          reportPath="reports/performance_metrics_summary.json"
           lessons={[
             { href: "/courses/returns", label: "2.1 收益率" },
             { href: "/courses/compound-equity", label: "2.2 净值曲线" },
