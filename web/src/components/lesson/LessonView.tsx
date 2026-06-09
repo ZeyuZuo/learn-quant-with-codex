@@ -118,12 +118,12 @@ export function LessonView({ lesson }: LessonViewProps) {
         <div className="mt-8 grid gap-6">
           <MistakeClinic mistakes={lesson.mistakes} />
           <div id="quiz" className="scroll-mt-24">
-            <QuizCard quiz={lesson.quiz} />
+            <QuizCard quiz={lesson.quiz} lessonSlug={lesson.slug} />
           </div>
           <PracticePanel lesson={lesson} />
           <NotesPanel slug={lesson.slug} />
           <div id="codex-task" className="scroll-mt-24">
-            <PromptBox prompt={lesson.codexTask} />
+            <PromptBox prompt={lesson.codexTask} lessonSlug={lesson.slug} />
           </div>
           <div id="checkpoint" className="scroll-mt-24">
             <Checkpoint items={lesson.checkpoint} />

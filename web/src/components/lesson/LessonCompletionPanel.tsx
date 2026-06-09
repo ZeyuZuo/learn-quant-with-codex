@@ -1,9 +1,10 @@
 "use client";
 
 import { CheckCircle2, Circle, ClipboardCheck } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Lesson } from "@/lib/types";
 import { useLessonProgress } from "@/lib/progress";
+import { onLessonActivity } from "@/lib/lesson-activity";
 
 type LessonCompletionPanelProps = {
   lesson: Lesson;
@@ -32,6 +33,15 @@ export function LessonCompletionPanel({ lesson }: LessonCompletionPanelProps) {
   const completed = progress.isCompleted(lesson.slug);
   const [checked, setChecked] = useState<Record<string, boolean>>({});
 
+  useEffect(() => {
+    return onLessonActivity((activity) => {
+      if (activity.slug !== lesson.slug) {
+        return;
+      }
+      setChecked((current) => ({ ...current, [activity.type]: true }));
+    });
+  }, [lesson.slug]);
+
   const checkedCount = useMemo(() => gates.filter((gate) => checked[gate.id]).length, [checked]);
   const ready = checkedCount === gates.length;
 
@@ -48,7 +58,7 @@ export function LessonCompletionPanel({ lesson }: LessonCompletionPanelProps) {
             完成本课前自查
           </div>
           <p className="mt-1 text-sm leading-6 text-muted">
-            先完成这 3 个动作，再把本课记入本地学习进度。
+            Quiz 和 Prompt 会在实际操作后自动点亮；Checkpoint 需要你手动确认。
           </p>
         </div>
         <span className="rounded-md border border-line bg-slate-50 px-2 py-1 text-xs font-bold text-muted">{checkedCount}/3</span>

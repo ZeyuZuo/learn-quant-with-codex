@@ -7,13 +7,15 @@ type CopyButtonProps = {
   value: string;
   label?: string;
   className?: string;
+  onCopied?: () => void;
 };
 
-export function CopyButton({ value, label = "复制", className = "" }: CopyButtonProps) {
+export function CopyButton({ value, label = "复制", className = "", onCopied }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
 
   async function copy() {
     await navigator.clipboard.writeText(value);
+    onCopied?.();
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1500);
   }

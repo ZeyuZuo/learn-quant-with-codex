@@ -3,15 +3,24 @@
 import { CheckCircle2, Circle, XCircle } from "lucide-react";
 import { useState } from "react";
 import type { Quiz } from "@/lib/types";
+import { emitLessonActivity } from "@/lib/lesson-activity";
 
 type QuizCardProps = {
   quiz: Quiz;
+  lessonSlug?: string;
 };
 
-export function QuizCard({ quiz }: QuizCardProps) {
+export function QuizCard({ quiz, lessonSlug }: QuizCardProps) {
   const [selected, setSelected] = useState<string | null>(null);
   const answered = selected !== null;
   const isCorrect = selected === quiz.correctValue;
+
+  function selectOption(value: string) {
+    setSelected(value);
+    if (lessonSlug) {
+      emitLessonActivity(lessonSlug, "quiz");
+    }
+  }
 
   return (
     <section className="rounded-lg border border-line bg-white p-5 shadow-soft transition duration-200 hover:border-slate-300">
@@ -27,7 +36,7 @@ export function QuizCard({ quiz }: QuizCardProps) {
             <button
               key={option.value}
               type="button"
-              onClick={() => setSelected(option.value)}
+              onClick={() => selectOption(option.value)}
               className={`flex min-h-11 items-center justify-between rounded-md border px-4 py-2 text-left text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-accent/30 ${
                 correct
                   ? "border-teal-300 bg-teal-50 text-teal-950"
