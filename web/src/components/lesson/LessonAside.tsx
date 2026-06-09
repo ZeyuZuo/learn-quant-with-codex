@@ -1,6 +1,8 @@
 import Link from "next/link";
-import { CheckCircle2, FileCode2, Milestone, Navigation } from "lucide-react";
+import { CheckCircle2, FileCode2, Milestone, Navigation, Terminal } from "lucide-react";
 import type { CourseModule, Lesson } from "@/lib/types";
+import { getCourseCodeMapItem } from "@/lib/course-code-map";
+import { getLessonCommandInfo } from "@/lib/lesson-commands";
 
 type LessonAsideProps = {
   lesson: Lesson;
@@ -14,12 +16,16 @@ const anchors = [
   ["#concepts", "概念和公式"],
   ["#code", "Python 示例"],
   ["#chart", "图表观察"],
-  ["#quiz", "Quiz 和练习"],
+  ["#quiz", "Quiz"],
+  ["#practice", "动手练习"],
   ["#codex-task", "Codex 任务"],
   ["#checkpoint", "Checkpoint"],
 ];
 
 export function LessonAside({ lesson, courseModule, progress }: LessonAsideProps) {
+  const codeMap = getCourseCodeMapItem(lesson.moduleId);
+  const commandInfo = getLessonCommandInfo(lesson);
+
   return (
     <aside className="hidden w-72 shrink-0 xl:block">
       <div className="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto px-4 py-10">
@@ -47,7 +53,42 @@ export function LessonAside({ lesson, courseModule, progress }: LessonAsideProps
             代码落点
           </div>
           <code className="mt-3 block rounded-md border border-line bg-slate-50 px-2 py-2 text-xs leading-5 text-slate-700">{lesson.pythonModule}</code>
+          {codeMap ? (
+            <>
+              <div className="mt-3 text-xs font-black uppercase tracking-wide text-muted">代码文件</div>
+              <div className="mt-2 grid gap-1.5">
+                {codeMap.codeFiles.slice(0, 3).map((file) => (
+                  <code key={file} className="block truncate rounded-md bg-slate-50 px-2 py-1.5 text-xs text-slate-700">
+                    {file}
+                  </code>
+                ))}
+              </div>
+              <div className="mt-3 text-xs font-black uppercase tracking-wide text-muted">测试文件</div>
+              <div className="mt-2 grid gap-1.5">
+                {codeMap.testFiles.slice(0, 3).map((file) => (
+                  <code key={file} className="block truncate rounded-md bg-slate-50 px-2 py-1.5 text-xs text-slate-700">
+                    {file}
+                  </code>
+                ))}
+              </div>
+            </>
+          ) : null}
           <p className="mt-3 text-xs leading-5 text-muted">复制 Codex Prompt 前，先确认你知道本课会修改或检查哪个 Python 模块。</p>
+        </section>
+
+        <section className="mt-4 rounded-lg border border-line bg-white p-4 shadow-soft">
+          <div className="flex items-center gap-2 text-sm font-black text-ink">
+            <Terminal className="h-4 w-4 text-accent" />
+            本课验收
+          </div>
+          <pre className="mt-3 max-h-36 overflow-auto rounded-md bg-slate-950 p-3 text-xs leading-5 text-slate-100">
+            <code>{commandInfo.primary}</code>
+          </pre>
+          {commandInfo.secondary ? (
+            <Link href="#practice" className="mt-3 inline-flex rounded-md border border-line bg-white px-3 py-2 text-xs font-bold text-ink transition hover:border-accent hover:text-accent">
+              查看示例脚本
+            </Link>
+          ) : null}
         </section>
 
         <section className="mt-4 rounded-lg border border-teal-200 bg-teal-50 p-4">

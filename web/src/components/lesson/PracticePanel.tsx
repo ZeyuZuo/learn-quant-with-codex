@@ -30,7 +30,7 @@ export function PracticePanel({ lesson }: PracticePanelProps) {
   const copyValue = commandInfo.secondary ? `${commandInfo.primary}\n${commandInfo.secondary}` : commandInfo.primary;
 
   return (
-    <section className="rounded-lg border border-blue-200 bg-blue-50/70 p-5">
+    <section id="practice" className="scroll-mt-24 rounded-lg border border-blue-200 bg-blue-50/70 p-5">
       <h3 className="text-base font-bold text-blue-950">动手练习</h3>
       <p className="mt-2 text-sm leading-7 text-blue-950">
         这一段不是额外作业，而是把本节知识落到代码里的最小动作。完成后再进入 Codex Prompt。

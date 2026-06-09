@@ -78,3 +78,7 @@ export const courseCodeMap: CourseCodeMapItem[] = [
     focus: "生成、校验最终研究报告，并保持教育用途和非投资建议边界。",
   },
 ];
+
+export function getCourseCodeMapItem(moduleId: string) {
+  return courseCodeMap.find((item) => item.moduleId === moduleId);
+}
