@@ -12,8 +12,11 @@ type LessonAsideProps = {
 
 const anchors = [
   ["#focus", "学习焦点"],
+  ["#route", "本课路线"],
   ["#objectives", "本节目标"],
-  ["#concepts", "概念和公式"],
+  ["#concepts", "概念"],
+  ["#intuition", "直觉"],
+  ["#hand-example", "手算"],
   ["#code", "Python 示例"],
   ["#chart", "图表观察"],
   ["#quiz", "Quiz"],

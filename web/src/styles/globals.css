@@ -86,6 +86,13 @@ a {
   word-break: break-word;
 }
 
+.clamp-3 {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
 .chart-enter {
   animation: chartEnter 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }

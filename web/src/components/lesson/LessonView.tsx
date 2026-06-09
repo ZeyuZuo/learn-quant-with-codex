@@ -68,7 +68,7 @@ export function LessonView({ lesson }: LessonViewProps) {
 
         <LessonLearningScaffold lesson={lesson} />
 
-        <section id="objectives" className="scroll-mt-24 mt-8 rounded-lg border border-line bg-white p-5 shadow-soft">
+        <section id="objectives" className="chart-enter scroll-mt-24 mt-8 rounded-lg border border-line bg-white p-5 shadow-soft">
           <h2 className="flex items-center gap-2 text-base font-bold text-ink">
             <ListChecks className="h-4 w-4 text-accent" />
             本节目标
@@ -88,7 +88,9 @@ export function LessonView({ lesson }: LessonViewProps) {
           <p>
             本节涉及的核心概念是：<ConceptPills concepts={lesson.concepts} />
           </p>
-          <p>{lesson.intuition}</p>
+          <p id="intuition" className="scroll-mt-24">
+            {lesson.intuition}
+          </p>
 
           {lesson.formula ? (
             <>
@@ -97,8 +99,10 @@ export function LessonView({ lesson }: LessonViewProps) {
             </>
           ) : null}
 
-          <h2>小型手算例子</h2>
-          <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-950">{lesson.handExample}</div>
+          <h2 id="hand-example" className="scroll-mt-24">
+            小型手算例子
+          </h2>
+          <div className="chart-enter rounded-lg border border-amber-200 bg-amber-50 p-4 text-sm leading-7 text-amber-950">{lesson.handExample}</div>
 
           <h2 id="code" className="scroll-mt-24">
             Python 示例
@@ -106,7 +110,9 @@ export function LessonView({ lesson }: LessonViewProps) {
           <p>
             这段代码对应 <code>{lesson.pythonModule}</code>。先理解输入和输出，再复制到 Codex 任务里要求补测试。
           </p>
-          <CodeBlock code={lesson.pythonCode} />
+          <div className="chart-enter">
+            <CodeBlock code={lesson.pythonCode} />
+          </div>
 
           <h2 id="chart" className="scroll-mt-24">
             可视化观察
