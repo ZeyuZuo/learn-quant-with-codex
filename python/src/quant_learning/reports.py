@@ -19,7 +19,19 @@ CAPSTONE_REQUIRED_SECTIONS = [
     "参数",
     "样本外",
     "风险",
+    "测试",
 ]
+
+CAPSTONE_REQUIRED_EVIDENCE = {
+    "数据质量": ["OHLCV", "复权", "日期"],
+    "信号仓位": ["signal", "position"],
+    "成本假设": ["commission", "slippage", "成本"],
+    "基准比较": ["buy and hold", "SPY", "benchmark", "基准"],
+    "参数实验": ["参数", "扫描"],
+    "样本外验证": ["样本外"],
+    "风险边界": ["不构成投资建议", "不代表未来收益"],
+    "测试记录": ["pytest", "测试"],
+}
 
 CAPSTONE_TEMPLATE_SECTIONS = [
     ("数据", "说明数据文件、ticker、日期范围、OHLCV 检查结果，以及为什么选择 close 或 adj_close。"),
@@ -30,6 +42,7 @@ CAPSTONE_TEMPLATE_SECTIONS = [
     ("参数", "记录参数扫描范围、跳过的非法组合、样本内最优参数和稳定性观察。"),
     ("样本外", "说明时间序列切分日期，比较样本内和样本外指标。"),
     ("风险", "至少列出 5 条限制、偏差或风险。"),
+    ("测试", "记录 pytest 命令、测试范围和通过结果，说明测试不能证明未来收益。"),
 ]
 
 
@@ -134,9 +147,15 @@ def validate_capstone_report(markdown_text: str) -> dict[str, Any]:
     missing_sections = [section for section in CAPSTONE_REQUIRED_SECTIONS if section not in markdown_text]
     has_disclaimer = "不构成投资建议" in markdown_text and "不代表未来收益" in markdown_text
     risk_mentions = markdown_text.count("风险") + markdown_text.lower().count("bias")
+    missing_evidence = [
+        label
+        for label, keywords in CAPSTONE_REQUIRED_EVIDENCE.items()
+        if not any(keyword.lower() in markdown_text.lower() for keyword in keywords)
+    ]
     return {
-        "is_complete": not missing_sections and has_disclaimer and risk_mentions >= 5,
+        "is_complete": not missing_sections and not missing_evidence and has_disclaimer and risk_mentions >= 5,
         "missing_sections": missing_sections,
+        "missing_evidence": missing_evidence,
         "has_disclaimer": has_disclaimer,
         "risk_mentions": risk_mentions,
     }

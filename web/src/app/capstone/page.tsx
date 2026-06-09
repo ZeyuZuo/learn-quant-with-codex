@@ -13,6 +13,7 @@ const sections = [
   "净值曲线、回撤曲线和完整指标表",
   "参数扫描、样本内 / 样本外验证",
   "至少 5 条局限、偏差或风险",
+  "Python 测试命令和通过结果",
 ];
 
 const commands = `cd python
@@ -30,6 +31,16 @@ const templateOutline = [
   "样本外",
   "风险",
   "风险清单示例",
+  "测试",
+];
+
+const evidence = [
+  "数据质量：OHLCV、复权列和日期范围",
+  "信号仓位：signal、position 和默认滞后一日",
+  "成本假设：commission、slippage、turnover",
+  "基准比较：buy and hold、SPY 或 benchmark",
+  "验证证据：参数扫描和样本外结果",
+  "复现记录：pytest 命令和通过结果",
 ];
 
 export default function CapstonePage() {
@@ -111,6 +122,20 @@ export default function CapstonePage() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className="mt-10 rounded-lg border border-teal-200 bg-teal-50 p-5 text-teal-950">
+          <h2 className="text-xl font-bold">Python 校验会检查的证据</h2>
+          <p className="mt-2 text-sm leading-7">
+            `validate_capstone_report` 不只检查章节名，还会检查报告里是否真的出现关键证据。写报告时至少覆盖下面这些词和事实。
+          </p>
+          <div className="mt-4 grid gap-2 md:grid-cols-2 lg:grid-cols-3">
+            {evidence.map((item) => (
+              <div key={item} className="rounded-md border border-teal-200 bg-white px-3 py-2 text-sm font-semibold leading-6">
+                {item}
+              </div>
+            ))}
           </div>
         </section>
       </main>
