@@ -35,104 +35,124 @@ type LessonChartProps = {
   kind: ChartKind;
 };
 
-const chartGuides: Record<ChartKind, { title: string; focus: string; caution: string }> = {
+const chartGuides: Record<ChartKind, { title: string; question: string; focus: string; caution: string }> = {
   "learning-path": {
     title: "学习路径图",
+    question: "这一步结束后，用户应该留下什么可检查产物？",
     focus: "看每一步留下的学习产物，而不是把课程当成术语列表。",
     caution: "路径图不是进度证明，真正的完成标准是代码、测试和 Checkpoint。",
   },
   price: {
     title: "价格曲线",
+    question: "哪些点是真实交易日，哪些间隔只是日历空档？",
     focus: "看价格路径如何随交易日变化，并注意日期并不等于连续日历日。",
     caution: "价格上涨不等于策略收益，后续还要转换成收益率和净值。",
   },
   ohlcv: {
     title: "OHLCV 关系图",
+    question: "同一天的 open、high、low、close 分别在描述什么？",
     focus: "同时比较 open、high、low、close 和 volume，读懂一行日线数据。",
     caution: "不要把 high 当成最终成交价，也不要跳过必要列检查。",
   },
   "adjusted-close": {
     title: "Close 与 Adjusted Close 对比",
+    question: "哪条线更适合长期收益计算，为什么？",
     focus: "观察普通收盘价的断点和复权价格的连续性。",
     caution: "长期回测直接使用未复权 close，可能会把拆股或分红误读成暴跌。",
   },
   "data-quality": {
     title: "数据质量问题图",
+    question: "哪些数据问题必须在回测前被记录或阻断？",
     focus: "看哪些问题会进入回测前检查：缺失、重复、异常价格和列缺失。",
     caution: "发现问题后要记录原因，不要静默删除或填补。",
   },
   returns: {
     title: "价格与日收益率",
+    question: "同一个价格变化，对应的百分比收益是多少？",
     focus: "看价格线和日收益柱如何对应，理解收益率是百分比变化。",
     caution: "第一天通常没有上一日价格可比，不要随意制造收益。",
   },
   equity: {
     title: "净值曲线",
+    question: "复利路径中，哪一段上涨或回落最影响最终净值？",
     focus: "观察复利累乘后的路径，尤其是上涨、回落和恢复。",
     caution: "不要把每日收益简单相加，也不要只看最终净值。",
   },
   annualized: {
     title: "年化收益观察",
+    question: "如果样本更短，年化数字会被怎样放大或扭曲？",
     focus: "看净值路径和样本长度如何影响年化数字。",
     caution: "短样本年化很容易被少数日期放大，不能当作未来承诺。",
   },
   volatility: {
     title: "波动率观察",
+    question: "收益柱越分散时，年化波动率会怎样变化？",
     focus: "看日收益率柱状图的分散程度，理解波动来自收益变化。",
     caution: "波动率不是最大亏损，也不能替代回撤分析。",
   },
   drawdown: {
     title: "净值与回撤",
+    question: "最深回撤发生在哪段净值路径之后？",
     focus: "看净值从历史高点跌下来的幅度，找出最难持有的区间。",
     caution: "最大回撤不是单日亏损；只看最终收益会隐藏过程风险。",
   },
   metrics: {
     title: "指标卡片",
+    question: "哪一个指标看起来最好，哪一个指标在提醒风险？",
     focus: "把收益、波动、回撤和夏普放在一起看。",
     caution: "任何单一指标都可能误导，指标表只能总结历史样本。",
   },
   position: {
     title: "Signal 与 Position 对齐",
+    question: "signal 变动后，position 为什么晚一格才变化？",
     focus: "看 signal 和 position 的时间差，理解为什么持仓通常滞后一日。",
     caution: "当天收盘信号当天成交会引入 look-ahead bias。",
   },
   costs: {
     title: "成本与错误 shift 对比",
+    question: "哪条曲线因为假设更乐观而显得更好看？",
     focus: "比较无成本、有成本和错误 shift 曲线的差异。",
     caution: "更漂亮的曲线可能来自忽略成本或偷看未来。",
   },
   backtest: {
     title: "回测净值对比",
+    question: "如果只保存最终收益，会丢掉哪些中间证据？",
     focus: "同时观察净值、成本影响和错误 shift 示例。",
     caution: "回测器必须保存过程数据，不能只返回一个最终收益。",
   },
   "moving-average": {
     title: "双均线信号图",
+    question: "signal 是在哪些位置由快慢均线关系产生的？",
     focus: "观察快线、慢线和 signal 如何从价格派生。",
     caution: "均线参数不能只按历史最优挑选，signal 也不能直接当 position。",
   },
   "strategy-comparison": {
     title: "策略对比图",
+    question: "哪条曲线路径更平稳，哪条曲线回撤更明显？",
     focus: "把 buy and hold、双均线、动量和均值回归放在同一规则下比较。",
     caution: "公平比较必须使用同一数据、成本、lag 和指标口径。",
   },
   portfolio: {
     title: "组合与基准路径",
+    question: "组合曲线是否真的改善了路径，还是只改变了最终数字？",
     focus: "观察单资产、SPY 和等权组合的路径差异。",
     caution: "买很多股票不自动等于分散化，仍要看回撤和相关性。",
   },
   "parameter-scan": {
     title: "参数扫描图",
+    question: "样本内最好的参数，在样本外是否仍然站得住？",
     focus: "观察不同参数的指标变化，以及样本内与样本外是否一致。",
     caution: "历史最优参数最容易过拟合，不能直接外推到未来。",
   },
   "out-of-sample": {
     title: "样本内 / 样本外图",
+    question: "调参区间里的优势，到了验证区间是否消失？",
     focus: "比较调参区间和验证区间的表现是否迁移。",
     caution: "样本外仍然是历史验证，不是未来收益证明。",
   },
   bias: {
     title: "偏差诊断图",
+    question: "错误逻辑如何让历史曲线看起来异常漂亮？",
     focus: "用对比曲线观察逻辑错误如何美化回测结果。",
     caution: "回测偏差常常不会报错，必须靠测试和清单主动审查。",
   },
@@ -153,6 +173,7 @@ function ChartStudyFrame({ kind, children }: { kind: ChartKind; children: React.
             <Eye className="h-4 w-4 text-accent" />
             {guide.title}
           </div>
+          <div className="mt-2 rounded-md border border-teal-100 bg-teal-50 px-3 py-2 text-sm font-bold leading-6 text-teal-950">{guide.question}</div>
           <p className="mt-1 text-sm leading-6 text-slate-700">{guide.focus}</p>
         </div>
         <div className="rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm leading-6 text-amber-950">

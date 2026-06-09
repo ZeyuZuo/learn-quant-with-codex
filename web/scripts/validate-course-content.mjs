@@ -11,6 +11,7 @@ const lessonCommandsFile = path.join(root, "src", "lib", "lesson-commands.ts");
 const lessonLabsFile = path.join(root, "src", "lib", "lesson-labs.ts");
 const glossaryFile = path.join(root, "src", "lib", "glossary.ts");
 const labPageDir = path.join(root, "src", "app", "labs");
+const lessonChartFile = path.join(root, "src", "components", "charts", "LessonChart.tsx");
 
 function loadTypeScriptModule(filePath) {
   const source = fs.readFileSync(filePath, "utf-8");
@@ -296,6 +297,21 @@ function validateLabPages(failures) {
   }
 }
 
+function validateLessonChartGuides(failures) {
+  const source = fs.readFileSync(lessonChartFile, "utf-8");
+  const guideEntries = [...source.matchAll(/^\s*"?([a-z-]+)"?: \{\n\s*title: "([^"]+)",\n\s*question: "([^"]+)",\n\s*focus: "([^"]+)",\n\s*caution: "([^"]+)"/gm)];
+
+  assert(source.includes("读图提醒"), "LessonChart should keep chart reading guidance visible", failures);
+  assert(source.includes("guide.question"), "LessonChart should render a concrete observation question", failures);
+  assert(guideEntries.length >= 20, `LessonChart should define guide entries for chart kinds, found ${guideEntries.length}`, failures);
+
+  for (const [, kind, , question, focus, caution] of guideEntries) {
+    assert(question.length >= 12, `${kind}: chart guide question is too thin`, failures);
+    assert(focus.length >= 16, `${kind}: chart guide focus is too thin`, failures);
+    assert(/不|不能|不要|风险|误读|误导|偏差|过拟合|成本|未来|承诺|look-ahead/.test(caution), `${kind}: chart guide caution should include a misuse warning`, failures);
+  }
+}
+
 const { allLessons, courseModules } = loadTypeScriptModule(courseFile);
 const { courseCodeMap } = loadTypeScriptModule(courseCodeMapFile);
 const failures = [];
@@ -320,6 +336,7 @@ if (Array.isArray(courseModules) && Array.isArray(allLessons)) {
   validateLessonCommandsSource(failures);
   validateLessonLabsSource(allLessons, failures);
   validateLabPages(failures);
+  validateLessonChartGuides(failures);
   validateGlossarySource(allLessons, failures);
 }
 
