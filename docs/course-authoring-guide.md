@@ -155,6 +155,24 @@ Checkpoint material:
 - 一个限制或偏差反思问题。
 - 下一模块会如何使用这个产物。
 
+### 4.5 课程文件维护规则
+
+课程内容必须按“模板 + 单课内容文件”维护，避免把所有课程堆进一个长文件。
+
+- 课程模板入口是 `web/src/content/course/define-lesson.ts`。它负责补齐默认难度、时长、Quiz 结构、Codex Task 和能力线默认值。
+- 每节课是一个独立文件，放在 `web/src/content/lessons/{slug}.ts`，并且只调用 `defineLesson({...})` 填写本节内容。
+- 课程聚合文件是 `web/src/content/lessons/index.ts`。新增课程时只在这里追加 import 和数组项，不在聚合文件里写正文。
+- 模块元数据放在 `web/src/content/course/modules.ts`，能力线和模块能力线映射放在 `web/src/content/course/skill-lines.ts`。
+- `web/src/lib/courses.ts` 只保留页面需要的公共导出，不再承载课程正文。
+
+新增或修改课程后，至少运行：
+
+```bash
+cd web
+npm run validate:course
+npx tsc --noEmit
+```
+
 ## 5. 48 节课写作矩阵
 
 下表补充 `course-design.md` 的详细课表。它规定每节课必须暴露的误区、必须留下的产物和推荐反馈方式。

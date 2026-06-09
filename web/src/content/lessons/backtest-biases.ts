@@ -1,0 +1,33 @@
+import { defineLesson } from "../course/define-lesson";
+
+export default defineLesson({
+  id: "9.1",
+  moduleId: "m9",
+  order: 901,
+  slug: "backtest-biases",
+  title: "常见回测偏差",
+  subtitle: "回测最危险的问题，往往不是代码报错，而是代码逻辑看起来没问题。",
+  pythonModule: "quant_learning.reports",
+  objectives: ["识别 look-ahead bias", "理解 survivorship 和 selection bias", "建立偏差检查清单"],
+  concepts: ["look-ahead bias", "survivorship bias", "selection bias", "data snooping"],
+  intuition: "偏差会让历史结果比现实更漂亮。你要像审查实验一样审查回测，而不是把图表当结论。",
+  handExample: "只选择 2026 年还存在的大公司做 2000-2025 年历史回测，会忽略过去失败或退市的公司，这就是幸存者偏差。",
+  pythonCode: `BIAS_CHECKLIST = [
+    "signal 是否使用未来信息",
+    "样本是否只包含幸存资产",
+    "参数是否在全样本反复挑选",
+    "是否忽略交易成本和滑点",
+]`,
+  chart: "bias",
+  chartNote: "偏差检查图把常见问题放进同一张清单，方便审查报告。",
+  mistakes: ["代码能跑就认为正确", "只看漂亮曲线", "不记录数据选择过程"],
+  checkpoint: ["能列出 4 类偏差", "能审查 signal lag", "知道选择样本也会产生偏差"],
+  skillLine: "research-writing",
+  quizQuestion: "只回测当前仍存在的大公司，可能有什么问题？",
+  correctLabel: "幸存者偏差",
+  wrongLabels: ["收益率定义错误", "代码不能运行"],
+  quizExplanation: "只看幸存资产会让历史表现偏乐观。",
+  codexFunction: "bias_checklist",
+  targetFile: "docs/bias-checklist.md",
+  testFile: "python/tests/test_reports.py",
+});

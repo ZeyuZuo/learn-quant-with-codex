@@ -1,0 +1,31 @@
+import { defineLesson } from "../course/define-lesson";
+
+export default defineLesson({
+  id: "4.1",
+  moduleId: "m4",
+  order: 401,
+  slug: "signal-position",
+  title: "Signal 是想法，不是收益",
+  subtitle: "信号只是策略想法，还没有变成持仓、成交和收益。",
+  duration: "17 分钟",
+  pythonModule: "quant_learning.positions",
+  objectives: ["理解 signal 是策略规则输出", "用 0/1 序列表达学习信号", "知道 signal 不能直接乘收益"],
+  concepts: ["signal", "entry", "exit", "trading rule", "learning signal"],
+  intuition: "Signal 是策略说“我想买、想卖或观望”的想法。它还没有说明哪一天真的持仓，也没有说明买多少，更不能直接等于收益。",
+  formula: "signal_t = 1 if condition_t else 0",
+  handExample: "如果 1 月 3 日收盘价高于 20 日均线，signal 可以是 1；这只表示收盘后产生了买入想法，不表示 1 月 3 日已经吃到当天收益。",
+  pythonCode: `def price_above_average_signal(prices: pd.Series, average: pd.Series) -> pd.Series:
+    return (prices > average).astype(float).fillna(0.0)`,
+  chart: "position",
+  chartNote: "信号标记图先只展示策略想法出现在哪些日期，下一课再把它转换为 position。",
+  mistakes: ["把 signal 当作成交记录", "把 signal 直接乘以当天收益", "没有说明信号在什么时间点产生"],
+  checkpoint: ["能解释 signal 是策略想法", "知道 signal 不是收益", "能说明信号产生的时间点"],
+  skillLine: "execution-assumptions",
+  quizQuestion: "Signal 在课程项目里首先代表什么？",
+  correctLabel: "策略规则输出的想法",
+  wrongLabels: ["已经成交的仓位", "未来收益保证"],
+  quizExplanation: "Signal 是策略想法，必须再经过 position、lag 和成本处理才进入回测收益。",
+  codexFunction: "一个 0/1 signal 示例和索引对齐测试",
+  targetFile: "python/src/quant_learning/positions.py",
+  testFile: "python/tests/test_positions.py",
+});

@@ -22,8 +22,44 @@ const capstoneEvidenceMatrixFile = path.join(root, "src", "components", "capston
 const labLearningCardFile = path.join(root, "src", "components", "labs", "LabLearningCard.tsx");
 const courseCatalogFile = path.join(root, "src", "components", "courses", "CourseCatalog.tsx");
 const quizCardFile = path.join(root, "src", "components", "quiz", "QuizCard.tsx");
+const sourceRoot = path.join(root, "src");
+const moduleCache = new Map();
+
+function resolveTypeScriptModule(specifier, fromFile) {
+  if (!specifier.startsWith(".") && !specifier.startsWith("@/")) {
+    throw new Error(`Unexpected external runtime import in course data: ${specifier}`);
+  }
+
+  const basePath = specifier.startsWith("@/")
+    ? path.join(sourceRoot, specifier.slice(2))
+    : path.resolve(path.dirname(fromFile), specifier);
+  const candidates = [
+    basePath,
+    `${basePath}.ts`,
+    `${basePath}.tsx`,
+    path.join(basePath, "index.ts"),
+    path.join(basePath, "index.tsx"),
+  ];
+
+  const resolved = candidates.find((candidate) => fs.existsSync(candidate) && fs.statSync(candidate).isFile());
+  if (!resolved) {
+    throw new Error(`Unable to resolve runtime import ${specifier} from ${fromFile}`);
+  }
+
+  if (!resolved.startsWith(sourceRoot)) {
+    throw new Error(`Runtime import resolved outside src: ${specifier}`);
+  }
+
+  return resolved;
+}
 
 function loadTypeScriptModule(filePath) {
+  const normalizedFilePath = path.resolve(filePath);
+  const cached = moduleCache.get(normalizedFilePath);
+  if (cached) {
+    return cached.exports;
+  }
+
   const source = fs.readFileSync(filePath, "utf-8");
   const compiled = ts.transpileModule(source, {
     compilerOptions: {
@@ -36,15 +72,18 @@ function loadTypeScriptModule(filePath) {
   }).outputText;
 
   const moduleObject = { exports: {} };
+  moduleCache.set(normalizedFilePath, moduleObject);
+
   const sandbox = {
     exports: moduleObject.exports,
     module: moduleObject,
     require: (specifier) => {
-      throw new Error(`Unexpected runtime import in course data: ${specifier}`);
+      const resolvedPath = resolveTypeScriptModule(specifier, normalizedFilePath);
+      return loadTypeScriptModule(resolvedPath);
     },
   };
 
-  vm.runInNewContext(compiled, sandbox, { filename: filePath });
+  vm.runInNewContext(compiled, sandbox, { filename: normalizedFilePath });
   return moduleObject.exports;
 }
 

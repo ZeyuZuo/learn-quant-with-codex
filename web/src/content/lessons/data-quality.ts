@@ -1,0 +1,38 @@
+import { defineLesson } from "../course/define-lesson";
+
+export default defineLesson({
+  id: "1.5",
+  moduleId: "m1",
+  order: 105,
+  slug: "data-quality",
+  title: "数据清洗和质量检查",
+  subtitle: "回测前先检查数据，否则后面的结果都不可靠。",
+  duration: "16 分钟",
+  pythonModule: "quant_learning.data",
+  objectives: ["识别缺失值、重复日期和异常价格", "输出数据质量报告", "理解为什么不能盲目修复数据"],
+  concepts: ["missing data", "duplicate index", "outlier", "data quality"],
+  intuition: "数据质量检查像出发前看地图和油量。你不一定马上修车，但至少要知道车哪里可能有问题。",
+  handExample: "如果同一天出现两行价格，回测器可能计算两次收益；如果 close 为 0，收益率会变成无意义的巨大数字。",
+  pythonCode: `def validate_price_data(df: pd.DataFrame) -> dict:
+    return {
+        "rows": len(df),
+        "start": str(df.index.min().date()),
+        "end": str(df.index.max().date()),
+        "missing_values": int(df.isna().sum().sum()),
+        "duplicate_dates": int(df.index.duplicated().sum()),
+        "is_monotonic": bool(df.index.is_monotonic_increasing),
+        "non_positive_close": int((df["close"] <= 0).sum()) if "close" in df else None,
+    }`,
+  chart: "data-quality",
+  chartNote: "数据质量图把缺失值、重复日期和异常价格标出来，避免问题藏在表格里。",
+  mistakes: ["下载数据后直接回测", "静默删除异常值但不记录", "把所有缺失值都用前一天价格填充"],
+  checkpoint: ["能列出 4 个数据检查项", "能生成质量报告", "知道不要静默修复严重问题"],
+  skillLine: "data-review",
+  quizQuestion: "回测前发现重复日期，最合理的第一步是什么？",
+  correctLabel: "记录并调查原因",
+  wrongLabels: ["直接忽略", "把价格乘以 2"],
+  quizExplanation: "重复日期会影响收益路径，应该先记录并调查，而不是静默忽略。",
+  codexFunction: "validate_price_data",
+  targetFile: "python/src/quant_learning/data.py",
+  testFile: "python/tests/test_data.py",
+});

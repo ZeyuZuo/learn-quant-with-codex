@@ -1,0 +1,30 @@
+import { defineLesson } from "../course/define-lesson";
+
+export default defineLesson({
+  id: "7.2",
+  moduleId: "m7",
+  order: 702,
+  slug: "portfolio-returns",
+  title: "组合收益",
+  subtitle: "组合收益来自每个资产收益和权重的加权和。",
+  pythonModule: "quant_learning.portfolio",
+  objectives: ["理解资产权重", "计算等权组合收益", "手算两资产组合"],
+  concepts: ["portfolio return", "weight", "equal weight"],
+  intuition: "组合不是把股票名字放在一起，而是用权重决定每只资产对结果的贡献。同一只股票涨跌多少并不直接等于组合涨跌，关键要看它在组合里占了多少权重。",
+  formula: "portfolio_return = sum(weight_i * return_i)",
+  handExample: "AAPL +2%、MSFT -1%，各 50% 权重，组合收益是 +0.5%。",
+  pythonCode: `def equal_weight_portfolio(returns: pd.DataFrame) -> pd.Series:
+    return returns.astype(float).mean(axis=1).rename("portfolio_returns")`,
+  chart: "portfolio",
+  chartNote: "组合曲线通常不会等于任何单只股票，而是权重加权后的路径。",
+  mistakes: ["把多只股票收益简单相加", "权重和不为 1", "忽略现金仓位"],
+  checkpoint: ["能手算组合收益", "能实现等权收益", "知道权重决定贡献"],
+  skillLine: "data-review",
+  quizQuestion: "组合收益由什么决定？",
+  correctLabel: "资产收益和权重",
+  wrongLabels: ["股票名称长度", "交易所名称"],
+  quizExplanation: "组合收益是各资产收益按权重加权后的结果。",
+  codexFunction: "equal_weight_portfolio",
+  targetFile: "python/src/quant_learning/portfolio.py",
+  testFile: "python/tests/test_portfolio.py",
+});
