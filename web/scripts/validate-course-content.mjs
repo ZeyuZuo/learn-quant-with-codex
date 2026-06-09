@@ -18,6 +18,7 @@ const lessonModuleGateFile = path.join(root, "src", "components", "lesson", "Les
 const pythonProjectExplorerFile = path.join(root, "src", "components", "python", "PythonProjectExplorer.tsx");
 const capstonePageFile = path.join(root, "src", "app", "capstone", "page.tsx");
 const capstoneEvidenceMatrixFile = path.join(root, "src", "components", "capstone", "CapstoneEvidenceMatrix.tsx");
+const labLearningCardFile = path.join(root, "src", "components", "labs", "LabLearningCard.tsx");
 
 function loadTypeScriptModule(filePath) {
   const source = fs.readFileSync(filePath, "utf-8");
@@ -316,6 +317,7 @@ function validateLessonLabsSource(allLessons, failures) {
 }
 
 function validateLabPages(failures) {
+  const labCardSource = fs.readFileSync(labLearningCardFile, "utf-8");
   const labPages = [
     path.join(labPageDir, "metrics", "page.tsx"),
     path.join(labPageDir, "strategies", "page.tsx"),
@@ -332,6 +334,12 @@ function validateLabPages(failures) {
     assert((source.match(/href: "\/courses\//g) ?? []).length >= 3, `${relativeFile}: lab should link at least 3 related lessons`, failures);
     assert(source.includes("不") && /投资建议|未来|承诺|look-ahead|过拟合|误导/.test(source), `${relativeFile}: lab should include a learning boundary or misuse warning`, failures);
   }
+
+  assert(labCardSource.includes("buildLabObservationTemplate"), "LabLearningCard should generate a reusable lab observation template", failures);
+  assert(labCardSource.includes("不构成投资建议"), "LabLearningCard observation template should include the learning boundary", failures);
+  assert(labCardSource.includes("Python 复现证据"), "LabLearningCard observation template should ask for Python reproduction evidence", failures);
+  assert(labCardSource.includes("写入 Mini Project 或 Capstone"), "LabLearningCard should connect lab observations to projects and Capstone", failures);
+  assert(labCardSource.includes("复制模板"), "LabLearningCard should let learners copy the observation template", failures);
 }
 
 function validateLessonChartGuides(failures) {
