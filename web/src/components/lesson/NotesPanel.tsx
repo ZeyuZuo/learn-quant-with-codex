@@ -12,12 +12,14 @@ export function NotesPanel({ slug }: NotesPanelProps) {
   const notes = useLessonNotes();
   const [value, setValue] = useState("");
   const [saved, setSaved] = useState(false);
+  const storedValue = notes.notes[slug]?.text ?? "";
+  const hasUnsavedChanges = notes.ready && value !== storedValue;
 
   useEffect(() => {
     if (notes.ready) {
-      setValue(notes.getNote(slug));
+      setValue(storedValue);
     }
-  }, [notes, slug]);
+  }, [notes.ready, slug, storedValue]);
 
   function save() {
     notes.saveNote(slug, value);
@@ -34,6 +36,9 @@ export function NotesPanel({ slug }: NotesPanelProps) {
             我的笔记
           </h3>
           <p className="mt-1 text-sm leading-6 text-muted">写下本节你真正理解了什么、还有什么疑问。笔记只保存在当前浏览器。</p>
+          <p className="mt-1 text-xs leading-5 text-muted">
+            {hasUnsavedChanges ? "有未保存修改。" : value.trim() ? "当前笔记已保存。" : "空笔记不会保存。"}
+          </p>
         </div>
         <button
           type="button"
@@ -51,6 +56,10 @@ export function NotesPanel({ slug }: NotesPanelProps) {
         placeholder="例如：我理解了 signal 和 position 的区别，但还需要复习为什么 position 要 shift 一天。"
         className="mt-4 w-full resize-y rounded-md border border-line bg-slate-50 p-3 text-sm leading-7 text-ink outline-none transition focus:border-accent focus:bg-white focus:ring-2 focus:ring-accent/20"
       />
+      <div className="mt-2 flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
+        <span>{value.trim().length} 字</span>
+        <span>建议记录：本节概念、仍不确定的问题、下一条 Codex Prompt。</span>
+      </div>
     </section>
   );
 }

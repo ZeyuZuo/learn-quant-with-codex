@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 export type LessonNote = {
   slug: string;
@@ -40,7 +40,7 @@ export function useLessonNotes() {
     setReady(true);
   }, []);
 
-  function saveNote(slug: string, text: string) {
+  const saveNote = useCallback((slug: string, text: string) => {
     setNotes((current) => {
       const next = { ...current };
       const trimmed = text.trim();
@@ -56,12 +56,12 @@ export function useLessonNotes() {
       writeNotes(next);
       return next;
     });
-  }
+  }, []);
 
-  function clearAllNotes() {
+  const clearAllNotes = useCallback(() => {
     writeNotes({});
     setNotes({});
-  }
+  }, []);
 
   const noteList = useMemo(
     () =>
