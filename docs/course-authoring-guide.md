@@ -1,4 +1,4 @@
-# learn-quant-with-codex 课程内容创作指南 v4.3
+# learn-quant-with-codex 课程内容创作指南 v4.4
 
 ## 1. 目的
 
@@ -33,7 +33,7 @@
 | [QuantStart Successful Backtesting Part II](https://www.quantstart.com/articles/Successful-Backtesting-of-Algorithmic-Trading-Strategies-Part-II/) | 交易成本不只是佣金，还包含滑点、市场冲击等执行成本 | 成本课程和策略比较必须展示无成本 / 有成本差异 |
 | [EDHEC / Coursera Investment Management with Python](https://www.coursera.org/specializations/investment-management-python-machine-learning/) | 面向 beginner level，把 Python、风险收益和组合分析结合 | 收益、风险和组合课必须同时出现公式、Python、图表和手算例子 |
 
-这些参考带来的最终要求是：本站课程不能只像文章，也不能只像代码仓库。它必须像一组可复查的实验工单。
+这些参考带来的最终要求是：本站课程不能只像文章，也不能只像代码仓库。它必须像一组可复查的实验工单。v4.4 进一步要求每节课连接一条纵向能力线，并让每个模块通过进入 / 退出闸门证明用户已经获得下一模块所需能力。
 
 ## 3. 初学者学习路径
 
@@ -103,9 +103,74 @@ Checkpoint
 
 如果一节课无法回答这四个问题，就不是完整课程页。
 
+### 4.3 v4.4 Lesson Brief
+
+写正文前，先填下面的 Lesson Brief。它是从 QuantConnect task、EDHEC Python lab、ML4T project 和 QuantStart diagnostic 机制抽出来的最小设计单元。
+
+```text
+Lesson id:
+Lesson title:
+Lesson type: Boundary / Concept / Implementation / Diagnostic / Report
+Vertical skill line: 数据审查 / 收益路径 / 风险解释 / 执行假设 / 验证能力 / 研究表达
+
+Core question:
+  用户本节必须能回答的一个问题。
+
+Beginner trap:
+  如果用户跳过本节，最可能犯什么错？
+
+Tiny example:
+  2-5 行可手算数据或伪代码。
+
+Python artifact:
+  文件、函数、测试、脚本或报告路径。
+
+Chart observation:
+  图上看什么？不要误读什么？
+
+Codex acceptance:
+  运行哪个命令？看哪个文件？用哪个手算值核对？
+
+Checkpoint material:
+  本节进入 Mini Project 或 Capstone 的材料。
+```
+
+没有填完 Lesson Brief 的课程，不应进入正文写作。这样可以避免写成“解释一堆术语，但用户不知道该做什么”的普通文章。
+
+### 4.4 模块闸门写作规则
+
+每个模块开头和 Mini Project 区域都要呼应 `course-design.md` 的进入 / 退出闸门。
+
+模块开头必须写清：
+
+- 进入本模块前，用户已经完成什么产物。
+- 本模块会把哪个能力推进到下一步。
+- 本模块结束后，哪个文件、图表、测试或报告片段可以进入 Capstone。
+
+模块 Mini Project 必须写清：
+
+- 交付物路径。
+- 运行命令。
+- 至少 3 条验收项。
+- 一个限制或偏差反思问题。
+- 下一模块会如何使用这个产物。
+
 ## 5. 47 节课写作矩阵
 
 下表补充 `course-design.md` 的详细课表。它规定每节课必须暴露的误区、必须留下的产物和推荐反馈方式。
+
+### 5.0 纵向能力线分配
+
+每节课至少服务一条能力线。作者写作时优先使用下表，不要把课程写成彼此无关的知识点。
+
+| 能力线 | 主要课程 | 写作重点 |
+| --- | --- | --- |
+| 数据审查 | 1.1-1.5、7.1、9.1 | 数据字段、日期、复权、缺失和选择偏差 |
+| 收益路径 | 0.3、2.1-2.5、5.1、5.2、6.5 | 价格、收益、净值、回撤路径的转换 |
+| 风险解释 | 3.1-3.5、5.4、7.5 | 指标盲点、风险表、报告解释 |
+| 执行假设 | 4.1-4.5、5.2、6.1-6.4、7.3 | signal、position、lag、成本、换手 |
+| 验证能力 | 4.5、8.1-8.5、9.1、9.2 | 偏差诊断、参数稳定性、样本外、随机赢家 |
+| 研究表达 | 0.1、0.2、5.4、8.3、9.2-9.5 | Codex 工单、风险声明、报告语言和下一步路线 |
 
 ### Module 0: 学习方式和边界
 

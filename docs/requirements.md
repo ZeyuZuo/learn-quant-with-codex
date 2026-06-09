@@ -143,11 +143,11 @@
 
 课程设计以 [course-design.md](./course-design.md) 为主文档，外部教程参考和课程优化依据见 [tutorial-reference-analysis.md](./tutorial-reference-analysis.md)，单节课写作和验收规则见 [course-authoring-guide.md](./course-authoring-guide.md)。
 
-需求文档只规定产品层面的课程约束；详细课表、模块产物、Mini Project、Capstone、Codex Task 模板和课程与代码同步契约，以 `docs/course-design.md` 的 v4.3 设计为准。课程内容的实际写作必须同时满足 `docs/course-authoring-guide.md` 的单节课结构、误区矩阵、Lab 使用规则和作者自查清单。
+需求文档只规定产品层面的课程约束；详细课表、模块产物、Mini Project、Capstone、Codex Task 模板和课程与代码同步契约，以 `docs/course-design.md` 的 v4.4 设计为准。课程内容的实际写作必须同时满足 `docs/course-authoring-guide.md` 的单节课结构、Lesson Brief、误区矩阵、纵向能力线、Lab 使用规则和作者自查清单。
 
 ### 5.1 课程设计原则
 
-课程必须采用唯一的 10 模块主线，不能再维护一套旧版 8 模块大纲。v4.3 的设计参考了 QuantConnect Learning Center、Georgia Tech ML4T、Backtrader、Zipline、QuantStart 和 EDHEC / Coursera 投资管理 Python 课程的教学机制，落地为以下原则：
+课程必须采用唯一的 10 模块主线，不能再维护一套旧版 8 模块大纲。v4.4 的设计参考了 QuantConnect Learning Center、Georgia Tech ML4T、Backtrader、Zipline、QuantStart 和 EDHEC / Coursera 投资管理 Python 课程的教学机制，落地为以下原则：
 
 - 项目驱动：每个模块都有可运行、可测试、可解释的产物。
 - 评价前置：先学收益、净值、回撤、波动和夏普，再写策略。
@@ -157,6 +157,18 @@
 - 报告优先：最终交付是学习型研究报告，不是策略推荐或收益宣传页。
 - Lab 优先：指标、仓位、成本、参数和偏差必须通过小型实验帮助用户观察，而不是只解释定义。
 - 答辩意识：Capstone 必须要求用户解释数据、假设、成本、偏差和限制，不能只汇总指标。
+- 纵向能力线：数据审查、收益路径、风险解释、执行假设、验证能力和研究表达必须跨模块反复训练。
+- 模块闸门：每个模块要有进入 / 退出条件，Mini Project 不是附加题，而是进入下一模块的学习产物。
+
+### 5.1.1 v4.4 产品层课程约束
+
+课程站需要把 v4.4 设计转成用户可见的学习路径：
+
+- 首页和课程目录应帮助用户理解当前模块会产出什么，而不是只显示章节列表。
+- 课程页应显示本节对应的 Python 产物、常见误区、图表观察问题、Codex 验收命令和 Checkpoint。
+- 课程页或项目页应能说明本节材料如何进入 Mini Project 或 Capstone。
+- `/projects` 页面应按模块闸门展示交付物、运行命令、验收项、反思问题和下一模块用途。
+- `/capstone` 页面应按数据、收益、风险、执行、验证、研究表达六条能力线检查最终报告。
 
 ### 5.2 课程模块
 
