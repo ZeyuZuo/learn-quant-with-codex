@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { CheckCircle2, Circle, Clock, FileCode2 } from "lucide-react";
+import { CheckCircle2, Circle, Clock, FileCode2, Flag } from "lucide-react";
 import type { Lesson } from "@/lib/types";
+import { getSkillLine } from "@/lib/courses";
 import { useLessonProgress } from "@/lib/progress";
 
 type CourseProgressListProps = {
@@ -16,6 +17,7 @@ export function CourseProgressList({ lessons }: CourseProgressListProps) {
     <>
       {lessons.map((lesson) => {
         const completed = progress.isCompleted(lesson.slug);
+        const skillLine = getSkillLine(lesson.skillLine);
         return (
           <Link
             key={lesson.slug}
@@ -32,6 +34,12 @@ export function CourseProgressList({ lessons }: CourseProgressListProps) {
             <h3 className="mt-2 text-base font-bold text-ink">{lesson.title}</h3>
             <p className="mt-2 text-sm leading-6 text-muted">{lesson.subtitle}</p>
             <div className="mt-3 flex flex-wrap items-center gap-2 text-xs text-slate-600">
+              {skillLine ? (
+                <span className="inline-flex items-center gap-1 rounded-md border border-indigo-100 bg-indigo-50 px-2 py-1 font-bold text-indigo-950">
+                  <Flag className="h-3.5 w-3.5" />
+                  {skillLine.shortTitle}
+                </span>
+              ) : null}
               <span className="rounded-md border border-line bg-slate-50 px-2 py-1 font-semibold">{lesson.difficulty}</span>
               <span className="inline-flex items-center gap-1 rounded-md border border-line bg-slate-50 px-2 py-1">
                 <Clock className="h-3.5 w-3.5" />

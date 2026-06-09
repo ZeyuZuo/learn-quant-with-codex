@@ -5,6 +5,7 @@ import { allLessons } from "@/lib/courses";
 import { LessonChart } from "@/components/charts/LessonChart";
 import { ProgressSummary } from "@/components/progress/ProgressSummary";
 import { HomeModulePath } from "@/components/progress/HomeModulePath";
+import { HomeSkillLines } from "@/components/progress/HomeSkillLines";
 
 export default function HomePage() {
   const firstLesson = allLessons[0];
@@ -103,10 +104,14 @@ export default function HomePage() {
         </section>
 
         <section className="mx-auto max-w-7xl px-4 pb-14 sm:px-6">
+          <HomeSkillLines />
+        </section>
+
+        <section className="mx-auto max-w-7xl px-4 pb-14 sm:px-6">
           <div className="mb-5 flex items-end justify-between gap-4">
             <div>
               <h2 className="text-2xl font-black text-ink">学习路径</h2>
-              <p className="mt-2 text-sm text-muted">10 个模块会逐步生成 Python 代码、测试、实验结果和最终研究报告材料。</p>
+              <p className="mt-2 text-sm text-muted">10 个模块会逐步生成 Python 代码、测试、实验结果和最终研究报告材料；每个模块都有进入和退出闸门。</p>
             </div>
             <Link href="/python-project" className="text-sm font-bold text-accent hover:underline">
               Python 项目说明

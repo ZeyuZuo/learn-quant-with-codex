@@ -2,20 +2,23 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowRight, CheckCircle2, Filter, Milestone, PlayCircle, RotateCcw, Search, Target } from "lucide-react";
-import { courseModules } from "@/lib/courses";
+import { ArrowRight, CheckCircle2, Filter, Flag, Milestone, PlayCircle, RotateCcw, Route, Search, Target } from "lucide-react";
+import { courseModules, getSkillLine, skillLines } from "@/lib/courses";
 import { CourseProgressList } from "@/components/progress/CourseProgressList";
 import { ModuleProgress } from "@/components/progress/ModuleProgress";
 import { useLessonProgress } from "@/lib/progress";
+import type { SkillLineId } from "@/lib/types";
 
 type StatusFilter = "all" | "todo" | "done";
 type DifficultyFilter = "all" | "入门" | "基础" | "进阶";
+type SkillLineFilter = "all" | SkillLineId;
 
 export function CourseCatalog() {
   const [query, setQuery] = useState("");
   const [moduleId, setModuleId] = useState("all");
   const [status, setStatus] = useState<StatusFilter>("all");
   const [difficulty, setDifficulty] = useState<DifficultyFilter>("all");
+  const [skillLineId, setSkillLineId] = useState<SkillLineFilter>("all");
   const progress = useLessonProgress();
 
   const filteredModules = useMemo(() => {
@@ -25,27 +28,30 @@ export function CourseCatalog() {
       .map((module) => ({
         ...module,
         lessons: module.lessons.filter((lesson) => {
-          const haystack = [lesson.id, lesson.title, lesson.subtitle, lesson.pythonModule, ...lesson.concepts].join(" ").toLowerCase();
+          const lessonSkillLine = getSkillLine(lesson.skillLine);
+          const haystack = [lesson.id, lesson.title, lesson.subtitle, lesson.pythonModule, lessonSkillLine?.title, lessonSkillLine?.shortTitle, ...lesson.concepts].join(" ").toLowerCase();
           const matchesQuery = !normalizedQuery || haystack.includes(normalizedQuery);
           const matchesDifficulty = difficulty === "all" || lesson.difficulty === difficulty;
+          const matchesSkillLine = skillLineId === "all" || lesson.skillLine === skillLineId;
           const completed = progress.completedSet.has(lesson.slug);
           const matchesStatus =
             status === "all" || !progress.ready || (status === "done" && completed) || (status === "todo" && !completed);
 
-          return matchesQuery && matchesDifficulty && matchesStatus;
+          return matchesQuery && matchesDifficulty && matchesSkillLine && matchesStatus;
         }),
       }))
-      .filter((module) => module.lessons.length > 0 || (!normalizedQuery && difficulty === "all" && status === "all"));
-  }, [difficulty, moduleId, progress.completedSet, progress.ready, query, status]);
+      .filter((module) => module.lessons.length > 0 || (!normalizedQuery && difficulty === "all" && status === "all" && skillLineId === "all"));
+  }, [difficulty, moduleId, progress.completedSet, progress.ready, query, skillLineId, status]);
 
   const visibleLessons = filteredModules.reduce((sum, module) => sum + module.lessons.length, 0);
   const visibleModules = filteredModules.length;
-  const hasActiveFilters = query.trim().length > 0 || moduleId !== "all" || status !== "all" || difficulty !== "all";
+  const hasActiveFilters = query.trim().length > 0 || moduleId !== "all" || status !== "all" || difficulty !== "all" || skillLineId !== "all";
   const activeFilterLabels = [
     query.trim() ? `关键词：${query.trim()}` : null,
     moduleId !== "all" ? courseModules.find((module) => module.id === moduleId)?.title : null,
     status !== "all" ? `状态：${status === "done" ? "已完成" : "未完成"}` : null,
     difficulty !== "all" ? `难度：${difficulty}` : null,
+    skillLineId !== "all" ? `能力线：${getSkillLine(skillLineId)?.title}` : null,
   ].filter((label): label is string => Boolean(label));
 
   function clearFilters() {
@@ -53,12 +59,13 @@ export function CourseCatalog() {
     setModuleId("all");
     setStatus("all");
     setDifficulty("all");
+    setSkillLineId("all");
   }
 
   return (
     <>
       <section className="mt-8 rounded-lg border border-line bg-white p-4 shadow-soft">
-        <div className="grid gap-3 lg:grid-cols-[1fr_230px_180px_160px]">
+        <div className="grid gap-3 lg:grid-cols-[1fr_230px_190px_170px_170px]">
           <label className="grid gap-2 text-sm font-semibold text-slate-700">
             <span className="inline-flex items-center gap-2">
               <Search className="h-4 w-4 text-accent" />
@@ -70,6 +77,24 @@ export function CourseCatalog() {
               placeholder="例如：回撤、signal、metrics.py"
               className="min-h-11 rounded-md border border-line bg-slate-50 px-3 text-sm text-ink outline-none transition focus:border-accent focus:bg-white focus:ring-2 focus:ring-accent/20"
             />
+          </label>
+          <label className="grid gap-2 text-sm font-semibold text-slate-700">
+            <span className="inline-flex items-center gap-2">
+              <Flag className="h-4 w-4 text-accent" />
+              能力线
+            </span>
+            <select
+              value={skillLineId}
+              onChange={(event) => setSkillLineId(event.target.value as SkillLineFilter)}
+              className="min-h-11 rounded-md border border-line bg-slate-50 px-3 text-sm text-ink outline-none transition focus:border-accent focus:bg-white focus:ring-2 focus:ring-accent/20"
+            >
+              <option value="all">全部能力</option>
+              {skillLines.map((skillLine) => (
+                <option key={skillLine.id} value={skillLine.id}>
+                  {skillLine.title}
+                </option>
+              ))}
+            </select>
           </label>
           <label className="grid gap-2 text-sm font-semibold text-slate-700">
             <span className="inline-flex items-center gap-2">
@@ -202,10 +227,42 @@ export function CourseCatalog() {
                 </div>
                 <h2 className="mt-3 text-xl font-bold text-ink">{module.title}</h2>
                 <p className="mt-2 max-w-3xl text-sm leading-7 text-muted">{module.summary}</p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {module.skillLines
+                    .map((item) => getSkillLine(item))
+                    .filter((item) => item !== undefined)
+                    .map((item) => (
+                      <span key={item.id} className="inline-flex items-center gap-1 rounded-md border border-indigo-100 bg-indigo-50 px-2 py-1 text-xs font-bold text-indigo-950">
+                        <Flag className="h-3.5 w-3.5" />
+                        {item.title}
+                      </span>
+                    ))}
+                </div>
               </div>
               <div className="grid min-w-56 gap-2">
                 <div className="rounded-md border border-line bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-soft">{module.product}</div>
                 <ModuleProgress module={module} />
+              </div>
+            </div>
+
+            <div className="mt-5 rounded-lg border border-indigo-200 bg-indigo-50 p-4 text-indigo-950">
+              <div className="flex items-center gap-2 text-sm font-black">
+                <Route className="h-4 w-4" />
+                模块进入 / 退出闸门
+              </div>
+              <div className="mt-3 grid gap-2 md:grid-cols-3">
+                <div className="rounded-md bg-white/80 px-3 py-2 text-xs leading-5">
+                  <span className="font-black">进入：</span>
+                  {module.gate.entry}
+                </div>
+                <div className="rounded-md bg-white/80 px-3 py-2 text-xs leading-5">
+                  <span className="font-black">退出：</span>
+                  {module.gate.exit}
+                </div>
+                <div className="rounded-md bg-white/80 px-3 py-2 text-xs leading-5">
+                  <span className="font-black">下一步：</span>
+                  {module.gate.nextUse}
+                </div>
               </div>
             </div>
 
