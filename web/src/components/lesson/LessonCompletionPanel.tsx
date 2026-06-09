@@ -4,7 +4,7 @@ import { CheckCircle2, Circle, ClipboardCheck } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import type { Lesson } from "@/lib/types";
 import { useLessonProgress } from "@/lib/progress";
-import { onLessonActivity } from "@/lib/lesson-activity";
+import { getLessonActivity, onLessonActivity, setLessonActivity, type LessonActivityType } from "@/lib/lesson-activity";
 
 type LessonCompletionPanelProps = {
   lesson: Lesson;
@@ -26,7 +26,11 @@ const gates = [
     title: "确认 Checkpoint",
     body: "能用自己的话解释本节产物和最容易误用的地方。",
   },
-];
+] satisfies Array<{
+  id: LessonActivityType;
+  title: string;
+  body: string;
+}>;
 
 export function LessonCompletionPanel({ lesson }: LessonCompletionPanelProps) {
   const progress = useLessonProgress();
@@ -34,6 +38,7 @@ export function LessonCompletionPanel({ lesson }: LessonCompletionPanelProps) {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
+    setChecked(getLessonActivity(lesson.slug));
     return onLessonActivity((activity) => {
       if (activity.slug !== lesson.slug) {
         return;
@@ -45,8 +50,12 @@ export function LessonCompletionPanel({ lesson }: LessonCompletionPanelProps) {
   const checkedCount = useMemo(() => gates.filter((gate) => checked[gate.id]).length, [checked]);
   const ready = checkedCount === gates.length;
 
-  function toggleGate(id: string) {
-    setChecked((current) => ({ ...current, [id]: !current[id] }));
+  function toggleGate(id: LessonActivityType) {
+    setChecked((current) => {
+      const nextValue = !current[id];
+      setLessonActivity(lesson.slug, id, nextValue);
+      return { ...current, [id]: nextValue };
+    });
   }
 
   return (
@@ -58,7 +67,7 @@ export function LessonCompletionPanel({ lesson }: LessonCompletionPanelProps) {
             完成本课前自查
           </div>
           <p className="mt-1 text-sm leading-6 text-muted">
-            Quiz 和 Prompt 会在实际操作后自动点亮；Checkpoint 需要你手动确认。
+            Quiz 和 Prompt 会在实际操作后自动点亮；Checkpoint 需要你手动确认。自查状态会保存在本地浏览器。
           </p>
         </div>
         <span className="rounded-md border border-line bg-slate-50 px-2 py-1 text-xs font-bold text-muted">{checkedCount}/3</span>
