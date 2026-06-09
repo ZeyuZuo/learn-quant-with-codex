@@ -12,6 +12,26 @@
 
 ## 本地运行
 
+5 分钟上手：
+
+```bash
+cd web
+npm install
+npm run validate:course
+npm run dev
+```
+
+然后打开 `http://localhost:3000`，从第一课开始。另开一个终端运行 Python 项目：
+
+```bash
+cd python
+uv sync
+uv run pytest
+uv run python examples/run_data_quality_report.py
+```
+
+第一条 Python 示例会生成 `reports/sample_prices_quality_report.json`。这就是课程里 Module 1 Mini Project 的交付物。
+
 前端：
 
 ```bash
@@ -28,10 +48,19 @@ Python：
 cd python
 uv sync
 uv run pytest
+uv run python examples/run_data_quality_report.py
+uv run python examples/run_returns_summary.py
+uv run python examples/run_metrics_summary.py
+uv run python examples/run_position_cost_bias.py
 uv run python examples/run_buy_and_hold.py
+uv run python examples/run_moving_average.py
+uv run python examples/run_equal_weight_portfolio.py
+uv run python examples/run_parameter_scan.py
 uv run python examples/run_capstone_check.py
 uv run python examples/generate_capstone_template.py
 ```
+
+示例脚本会把课程项目页需要的报告写到仓库根目录 `reports/`。该目录默认不提交到 git，方便你反复生成自己的学习报告。
 
 如果只想确认整个项目是否健康，可以运行：
 
@@ -63,6 +92,24 @@ UV_CACHE_DIR=/tmp/uv-cache uv run pytest
 
 项目实践入口见前端 `/projects` 页面。每个模块都有一个 Mini Project，包含交付物、验收项、建议命令和相关课程入口。
 
+## 课程产物
+
+完成课程时，你会逐步生成这些学习产物：
+
+| 模块 | 运行命令 | 产物 |
+| --- | --- | --- |
+| Module 1 数据 | `uv run python examples/run_data_quality_report.py` | `reports/sample_prices_quality_report.json` |
+| Module 2 收益 | `uv run python examples/run_returns_summary.py` | `reports/returns_equity_summary.json` |
+| Module 3 指标 | `uv run python examples/run_metrics_summary.py` | `reports/performance_metrics_summary.json` |
+| Module 4 仓位成本 | `uv run python examples/run_position_cost_bias.py` | `reports/position_cost_bias_comparison.json` |
+| Module 5 回测 | `uv run python examples/run_buy_and_hold.py` | `reports/buy_and_hold_report.md` |
+| Module 6 策略 | `uv run python examples/run_moving_average.py` | `reports/strategy_comparison_report.md` |
+| Module 7 组合 | `uv run python examples/run_equal_weight_portfolio.py` | `reports/portfolio_comparison_report.md` |
+| Module 8 验证 | `uv run python examples/run_parameter_scan.py` | `reports/parameter_scan_oos_report.md` |
+| Module 9 Capstone | `uv run python examples/generate_capstone_template.py` | `reports/final_research_report.md` |
+
+这些产物用于学习和复盘，不构成投资建议，也不能证明未来收益。
+
 ## 课程和代码如何对应
 
 课程不是独立文章，Python 项目也不是孤立代码。两者按同一条主线推进：
@@ -80,6 +127,23 @@ UV_CACHE_DIR=/tmp/uv-cache uv run pytest
 | Module 9 报告 | 如何正确陈述回测边界？ | `reports.py`、Capstone 模板 |
 
 前端 `/python-project` 页面提供更完整的课程到代码同步表，包括代码文件、测试文件和建议命令。
+
+## 目录结构
+
+```text
+learn-quant-with-codex/
+  docs/                      需求文档、课程设计和参考教程分析
+  web/                       Next.js 课程站
+    src/app/                 页面入口
+    src/components/          课程、图表、Quiz、Prompt、项目实践组件
+    src/lib/                 课程数据、图表数据、术语表、进度和命令映射
+  python/                    uv 管理的量化学习代码项目
+    data/sample_prices.csv   本地样例 OHLCV 数据
+    src/quant_learning/      数据、指标、仓位、成本、策略、回测、实验、报告模块
+    examples/                课程报告和实验脚本
+    tests/                   pytest 单元测试
+  reports/                   本地生成的学习报告，默认不提交
+```
 
 ## 推荐学习方式
 
