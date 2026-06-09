@@ -14,6 +14,7 @@ const labPageDir = path.join(root, "src", "app", "labs");
 const lessonChartFile = path.join(root, "src", "components", "charts", "LessonChart.tsx");
 const lessonViewFile = path.join(root, "src", "components", "lesson", "LessonView.tsx");
 const lessonReviewTemplateFile = path.join(root, "src", "components", "lesson", "LessonReviewTemplate.tsx");
+const lessonModuleGateFile = path.join(root, "src", "components", "lesson", "LessonModuleGate.tsx");
 
 function loadTypeScriptModule(filePath) {
   const source = fs.readFileSync(filePath, "utf-8");
@@ -359,6 +360,18 @@ function validateLessonReviewTemplate(failures) {
   assert(templateSource.includes('emitLessonActivity(lesson.slug, "checkpoint")'), "copying the review template should count as checkpoint activity", failures);
 }
 
+function validateLessonModuleGate(failures) {
+  const lessonViewSource = fs.readFileSync(lessonViewFile, "utf-8");
+  const moduleGateSource = fs.readFileSync(lessonModuleGateFile, "utf-8");
+
+  assert(lessonViewSource.includes("<LessonModuleGate"), "lesson pages should render module gate context", failures);
+  assert(moduleGateSource.includes("courseModule.gate.entry"), "LessonModuleGate should render the module entry gate", failures);
+  assert(moduleGateSource.includes("courseModule.gate.exit"), "LessonModuleGate should render the module exit gate", failures);
+  assert(moduleGateSource.includes("courseModule.gate.nextUse"), "LessonModuleGate should render how the module is reused later", failures);
+  assert(moduleGateSource.includes("courseModule.miniProject.deliverable"), "LessonModuleGate should connect lessons to the mini project deliverable", failures);
+  assert(moduleGateSource.includes("courseModule.skillLines"), "LessonModuleGate should surface module skill lines", failures);
+}
+
 const { allLessons, courseModules } = loadTypeScriptModule(courseFile);
 const { courseCodeMap } = loadTypeScriptModule(courseCodeMapFile);
 const failures = [];
@@ -385,6 +398,7 @@ if (Array.isArray(courseModules) && Array.isArray(allLessons)) {
   validateLabPages(failures);
   validateLessonChartGuides(failures);
   validateLessonReviewTemplate(failures);
+  validateLessonModuleGate(failures);
   validateGlossarySource(allLessons, failures);
 }
 

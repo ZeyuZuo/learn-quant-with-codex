@@ -17,6 +17,7 @@ import { LessonAside } from "./LessonAside";
 import { LessonFocusPanel } from "./LessonFocusPanel";
 import { LessonCompletionPanel } from "./LessonCompletionPanel";
 import { LessonReviewTemplate } from "./LessonReviewTemplate";
+import { LessonModuleGate } from "./LessonModuleGate";
 
 type LessonViewProps = {
   lesson: Lesson;
@@ -66,6 +67,8 @@ export function LessonView({ lesson }: LessonViewProps) {
         </header>
 
         <LessonFocusPanel lesson={lesson} />
+
+        <LessonModuleGate courseModule={courseModule} />
 
         <LessonLearningScaffold lesson={lesson} />
 

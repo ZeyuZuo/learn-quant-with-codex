@@ -13,6 +13,7 @@ type LessonAsideProps = {
 
 const anchors = [
   ["#focus", "学习焦点"],
+  ["#module-gate", "模块门槛"],
   ["#route", "本课路线"],
   ["#objectives", "本节目标"],
   ["#concepts", "概念"],
