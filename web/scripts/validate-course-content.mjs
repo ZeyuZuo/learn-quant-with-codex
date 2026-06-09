@@ -20,6 +20,7 @@ const capstonePageFile = path.join(root, "src", "app", "capstone", "page.tsx");
 const capstoneEvidenceMatrixFile = path.join(root, "src", "components", "capstone", "CapstoneEvidenceMatrix.tsx");
 const labLearningCardFile = path.join(root, "src", "components", "labs", "LabLearningCard.tsx");
 const courseCatalogFile = path.join(root, "src", "components", "courses", "CourseCatalog.tsx");
+const quizCardFile = path.join(root, "src", "components", "quiz", "QuizCard.tsx");
 
 function loadTypeScriptModule(filePath) {
   const source = fs.readFileSync(filePath, "utf-8");
@@ -416,6 +417,17 @@ function validateCourseCatalogExperience(failures) {
   assert(source.includes("module.gate.nextUse"), "CourseCatalog should show module next-use gates", failures);
 }
 
+function validateQuizReviewExperience(failures) {
+  const source = fs.readFileSync(quizCardFile, "utf-8");
+
+  assert(source.includes("Quiz 复盘"), "QuizCard should provide a review section after answering", failures);
+  assert(source.includes("reviewTemplate"), "QuizCard should build a reusable review template", failures);
+  assert(source.includes("我的选择"), "QuizCard review template should include the learner's selected answer", failures);
+  assert(source.includes("正确选项"), "QuizCard review template should include the correct answer", failures);
+  assert(source.includes("quiz.explanation"), "QuizCard review template should include the explanation", failures);
+  assert(source.includes("复制复盘"), "QuizCard should let learners copy the quiz review", failures);
+}
+
 const { allLessons, courseModules } = loadTypeScriptModule(courseFile);
 const { courseCodeMap } = loadTypeScriptModule(courseCodeMapFile);
 const failures = [];
@@ -446,6 +458,7 @@ if (Array.isArray(courseModules) && Array.isArray(allLessons)) {
   validatePythonProjectExplorer(failures);
   validateCapstoneEvidenceMatrix(failures);
   validateCourseCatalogExperience(failures);
+  validateQuizReviewExperience(failures);
   validateGlossarySource(allLessons, failures);
 }
 
