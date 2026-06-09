@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, BookOpen, CheckCircle2, ClipboardList, FileCode2, FileText, Terminal } from "lucide-react";
+import { ArrowRight, BookOpen, CheckCircle2, ClipboardList, DoorOpen, FileCode2, FileText, Flag, Repeat, Target, Terminal } from "lucide-react";
 import { useMemo, useState } from "react";
 import { CopyButton } from "@/components/prompt/CopyButton";
-import { courseModules } from "@/lib/courses";
+import { courseModules, getSkillLine } from "@/lib/courses";
 import { courseCodeMap } from "@/lib/course-code-map";
 import { miniProjects } from "@/lib/projects";
 
@@ -27,6 +27,26 @@ export function PythonProjectExplorer() {
 
   const firstLesson = active.courseModule?.lessons[0];
   const commands = commandText(active.codeMap.exampleCommands);
+  const skillLines = active.courseModule?.skillLines.map((skillLineId) => getSkillLine(skillLineId)).filter((skillLine) => skillLine !== undefined) ?? [];
+  const gateItems = active.courseModule
+    ? [
+        {
+          icon: DoorOpen,
+          label: "进入前",
+          body: active.courseModule.gate.entry,
+        },
+        {
+          icon: Target,
+          label: "完成后",
+          body: active.courseModule.gate.exit,
+        },
+        {
+          icon: Repeat,
+          label: "下一步复用",
+          body: active.courseModule.gate.nextUse,
+        },
+      ]
+    : [];
 
   return (
     <section className="mt-6 rounded-lg border border-line bg-white p-5 shadow-soft">
@@ -71,12 +91,57 @@ export function PythonProjectExplorer() {
               <p className="mt-2 text-sm leading-7 text-slate-700">{active.codeMap.focus}</p>
             </div>
             {firstLesson ? (
-              <Link href={`/courses/${firstLesson.slug}`} className="inline-flex items-center gap-2 rounded-md bg-ink px-3 py-2 text-sm font-bold text-white transition hover:bg-slate-700">
-                进入课程
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+              <div className="flex flex-wrap gap-2">
+                <span className="rounded-md border border-line bg-white px-3 py-2 text-sm font-bold text-muted">
+                  {active.courseModule?.lessons.length ?? 0} 节课
+                </span>
+                <Link href={`/courses/${firstLesson.slug}`} className="inline-flex items-center gap-2 rounded-md bg-ink px-3 py-2 text-sm font-bold text-white transition hover:bg-slate-700">
+                  进入课程
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
             ) : null}
           </div>
+
+          {active.courseModule ? (
+            <section className="mt-5 rounded-lg border border-line bg-white p-4">
+              <h4 className="flex items-center gap-2 text-sm font-black text-ink">
+                <Target className="h-4 w-4 text-accent" />
+                模块学习门槛
+              </h4>
+              <div className="mt-3 grid gap-3 md:grid-cols-3">
+                {gateItems.map((item) => {
+                  const Icon = item.icon;
+                  return (
+                    <div key={item.label} className="rounded-md border border-line bg-slate-50 p-3">
+                      <div className="flex items-center gap-2 text-xs font-black text-ink">
+                        <Icon className="h-3.5 w-3.5 text-accent" />
+                        {item.label}
+                      </div>
+                      <p className="mt-2 text-xs leading-5 text-slate-600">{item.body}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </section>
+          ) : null}
+
+          {skillLines.length > 0 ? (
+            <section className="mt-3 rounded-lg border border-indigo-100 bg-indigo-50 p-4">
+              <h4 className="flex items-center gap-2 text-sm font-black text-indigo-950">
+                <Flag className="h-4 w-4" />
+                能力线和 Capstone 证据
+              </h4>
+              <div className="mt-3 grid gap-2 md:grid-cols-2">
+                {skillLines.map((skillLine) => (
+                  <div key={skillLine.id} className="rounded-md border border-indigo-100 bg-white px-3 py-2">
+                    <div className="text-xs font-black text-indigo-950">{skillLine.title}</div>
+                    <p className="mt-1 text-xs leading-5 text-slate-600">{skillLine.capstoneEvidence}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          ) : null}
 
           <div className="mt-5 grid gap-3 md:grid-cols-2">
             <section className="rounded-lg border border-line bg-white p-4">

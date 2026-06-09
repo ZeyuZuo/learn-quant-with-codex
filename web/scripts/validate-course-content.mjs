@@ -15,6 +15,7 @@ const lessonChartFile = path.join(root, "src", "components", "charts", "LessonCh
 const lessonViewFile = path.join(root, "src", "components", "lesson", "LessonView.tsx");
 const lessonReviewTemplateFile = path.join(root, "src", "components", "lesson", "LessonReviewTemplate.tsx");
 const lessonModuleGateFile = path.join(root, "src", "components", "lesson", "LessonModuleGate.tsx");
+const pythonProjectExplorerFile = path.join(root, "src", "components", "python", "PythonProjectExplorer.tsx");
 
 function loadTypeScriptModule(filePath) {
   const source = fs.readFileSync(filePath, "utf-8");
@@ -372,6 +373,17 @@ function validateLessonModuleGate(failures) {
   assert(moduleGateSource.includes("courseModule.skillLines"), "LessonModuleGate should surface module skill lines", failures);
 }
 
+function validatePythonProjectExplorer(failures) {
+  const source = fs.readFileSync(pythonProjectExplorerFile, "utf-8");
+
+  assert(source.includes("模块学习门槛"), "PythonProjectExplorer should show module gate context", failures);
+  assert(source.includes("active.courseModule.gate.entry"), "PythonProjectExplorer should show module entry gate", failures);
+  assert(source.includes("active.courseModule.gate.exit"), "PythonProjectExplorer should show module exit gate", failures);
+  assert(source.includes("active.courseModule.gate.nextUse"), "PythonProjectExplorer should show module next-use gate", failures);
+  assert(source.includes("能力线和 Capstone 证据"), "PythonProjectExplorer should show skill-line Capstone evidence", failures);
+  assert(source.includes("getSkillLine"), "PythonProjectExplorer should resolve skill-line metadata", failures);
+}
+
 const { allLessons, courseModules } = loadTypeScriptModule(courseFile);
 const { courseCodeMap } = loadTypeScriptModule(courseCodeMapFile);
 const failures = [];
@@ -399,6 +411,7 @@ if (Array.isArray(courseModules) && Array.isArray(allLessons)) {
   validateLessonChartGuides(failures);
   validateLessonReviewTemplate(failures);
   validateLessonModuleGate(failures);
+  validatePythonProjectExplorer(failures);
   validateGlossarySource(allLessons, failures);
 }
 
