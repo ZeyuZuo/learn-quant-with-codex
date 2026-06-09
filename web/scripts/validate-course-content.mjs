@@ -15,6 +15,7 @@ const lessonChartFile = path.join(root, "src", "components", "charts", "LessonCh
 const lessonViewFile = path.join(root, "src", "components", "lesson", "LessonView.tsx");
 const lessonReviewTemplateFile = path.join(root, "src", "components", "lesson", "LessonReviewTemplate.tsx");
 const lessonCompletionPanelFile = path.join(root, "src", "components", "lesson", "LessonCompletionPanel.tsx");
+const lessonEvidenceTrailFile = path.join(root, "src", "components", "lesson", "LessonEvidenceTrail.tsx");
 const lessonModuleGateFile = path.join(root, "src", "components", "lesson", "LessonModuleGate.tsx");
 const pythonProjectExplorerFile = path.join(root, "src", "components", "python", "PythonProjectExplorer.tsx");
 const capstonePageFile = path.join(root, "src", "app", "capstone", "page.tsx");
@@ -403,8 +404,10 @@ function validateLessonReviewTemplate(failures) {
   const lessonViewSource = fs.readFileSync(lessonViewFile, "utf-8");
   const templateSource = fs.readFileSync(lessonReviewTemplateFile, "utf-8");
   const completionSource = fs.readFileSync(lessonCompletionPanelFile, "utf-8");
+  const evidenceTrailSource = fs.readFileSync(lessonEvidenceTrailFile, "utf-8");
 
   assert(lessonViewSource.includes("<LessonReviewTemplate"), "lesson pages should render the review template before completion", failures);
+  assert(lessonViewSource.includes("<LessonEvidenceTrail"), "lesson pages should render a compact evidence trail before objectives", failures);
   assert(templateSource.includes("buildReviewTemplate"), "LessonReviewTemplate should generate structured Markdown", failures);
   assert(templateSource.includes("不构成投资建议"), "LessonReviewTemplate should include the project boundary", failures);
   assert(templateSource.includes("代码和测试证据"), "LessonReviewTemplate should ask for code and test evidence", failures);
@@ -417,6 +420,12 @@ function validateLessonReviewTemplate(failures) {
   assert(completionSource.includes("复制完成复盘"), "LessonCompletionPanel should let learners copy a completion review", failures);
   assert(completionSource.includes("evidence"), "LessonCompletionPanel should show evidence for each completion gate", failures);
   assert(completionSource.includes("完成度"), "LessonCompletionPanel should show completion progress before marking done", failures);
+  assert(evidenceTrailSource.includes("Evidence Trail"), "LessonEvidenceTrail should label the lesson evidence trail", failures);
+  assert(evidenceTrailSource.includes("复制证据模板"), "LessonEvidenceTrail should let learners copy evidence notes", failures);
+  assert(evidenceTrailSource.includes("commandBlock"), "LessonEvidenceTrail should include concrete validation commands", failures);
+  assert(evidenceTrailSource.includes("图表观察"), "LessonEvidenceTrail should ask learners to record chart observations", failures);
+  assert(evidenceTrailSource.includes("误用防线"), "LessonEvidenceTrail should ask learners to name misuse risks", failures);
+  assert(evidenceTrailSource.includes("不构成投资建议"), "LessonEvidenceTrail should preserve the learning boundary", failures);
 }
 
 function validateLessonModuleGate(failures) {

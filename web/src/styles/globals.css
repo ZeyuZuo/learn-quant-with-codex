@@ -105,6 +105,10 @@ a {
   animation: mistakeCardEnter 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
+.evidence-step {
+  animation: evidenceStepEnter 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
 .learning-route {
   counter-reset: lesson-route;
 }
@@ -144,8 +148,27 @@ a {
   transition: transform 180ms ease;
 }
 
+.evidence-trail .evidence-step::after {
+  position: absolute;
+  top: 1.7rem;
+  right: -0.85rem;
+  display: none;
+  width: 1.7rem;
+  height: 2px;
+  pointer-events: none;
+  content: "";
+  background: linear-gradient(90deg, #0f766e, transparent);
+  opacity: 0.24;
+}
+
 @media (min-width: 1280px) {
   .learning-route .learning-step:not(:nth-child(4n))::after {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .evidence-trail .evidence-step:not(:last-child)::after {
     display: block;
   }
 }
@@ -180,6 +203,17 @@ a {
   to {
     opacity: 1;
     transform: translateX(0);
+  }
+}
+
+@keyframes evidenceStepEnter {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 

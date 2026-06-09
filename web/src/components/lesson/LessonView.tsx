@@ -18,6 +18,7 @@ import { LessonFocusPanel } from "./LessonFocusPanel";
 import { LessonCompletionPanel } from "./LessonCompletionPanel";
 import { LessonReviewTemplate } from "./LessonReviewTemplate";
 import { LessonModuleGate } from "./LessonModuleGate";
+import { LessonEvidenceTrail } from "./LessonEvidenceTrail";
 
 type LessonViewProps = {
   lesson: Lesson;
@@ -71,6 +72,8 @@ export function LessonView({ lesson }: LessonViewProps) {
         <LessonModuleGate courseModule={courseModule} />
 
         <LessonLearningScaffold lesson={lesson} />
+
+        <LessonEvidenceTrail lesson={lesson} courseModule={courseModule} />
 
         <section id="objectives" className="chart-enter scroll-mt-24 mt-8 rounded-lg border border-line bg-white p-5 shadow-soft">
           <h2 className="flex items-center gap-2 text-base font-bold text-ink">
