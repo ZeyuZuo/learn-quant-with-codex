@@ -8,6 +8,7 @@ const repoRoot = path.resolve(root, "..");
 const courseFile = path.join(root, "src", "lib", "courses.ts");
 const courseCodeMapFile = path.join(root, "src", "lib", "course-code-map.ts");
 const lessonCommandsFile = path.join(root, "src", "lib", "lesson-commands.ts");
+const glossaryFile = path.join(root, "src", "lib", "glossary.ts");
 
 function loadTypeScriptModule(filePath) {
   const source = fs.readFileSync(filePath, "utf-8");
@@ -215,6 +216,26 @@ function validateLessonCommandsSource(failures) {
   }
 }
 
+function validateGlossarySource(allLessons, failures) {
+  const source = fs.readFileSync(glossaryFile, "utf-8");
+  const groups = ["数据", "收益", "风险", "回测", "策略", "验证", "边界"];
+  const ids = [...source.matchAll(/id: "([^"]+)"/g)].map((match) => match[1]);
+  const relatedSlugs = [...source.matchAll(/relatedSlugs: \[([^\]]*)\]/g)]
+    .flatMap((match) => [...match[1].matchAll(/"([^"]+)"/g)].map((slugMatch) => slugMatch[1]));
+  const lessonSlugs = new Set(allLessons.map((lesson) => lesson.slug));
+
+  assert(ids.length >= 15, `glossary should contain at least 15 terms, found ${ids.length}`, failures);
+  assert(source.includes("commonMistake"), "glossary terms should include beginner mistake guidance", failures);
+
+  for (const group of groups) {
+    assert(source.includes(`group: "${group}"`), `glossary missing group: ${group}`, failures);
+  }
+
+  for (const slug of relatedSlugs) {
+    assert(lessonSlugs.has(slug), `glossary related lesson does not exist: ${slug}`, failures);
+  }
+}
+
 const { allLessons, courseModules } = loadTypeScriptModule(courseFile);
 const { courseCodeMap } = loadTypeScriptModule(courseCodeMapFile);
 const failures = [];
@@ -237,6 +258,7 @@ if (Array.isArray(courseModules) && Array.isArray(allLessons)) {
   validateModules(courseModules, allLessons, failures);
   validateCourseCodeMap(courseCodeMap, courseModules, failures);
   validateLessonCommandsSource(failures);
+  validateGlossarySource(allLessons, failures);
 }
 
 if (failures.length > 0) {
