@@ -19,6 +19,7 @@ const pythonProjectExplorerFile = path.join(root, "src", "components", "python",
 const capstonePageFile = path.join(root, "src", "app", "capstone", "page.tsx");
 const capstoneEvidenceMatrixFile = path.join(root, "src", "components", "capstone", "CapstoneEvidenceMatrix.tsx");
 const labLearningCardFile = path.join(root, "src", "components", "labs", "LabLearningCard.tsx");
+const courseCatalogFile = path.join(root, "src", "components", "courses", "CourseCatalog.tsx");
 
 function loadTypeScriptModule(filePath) {
   const source = fs.readFileSync(filePath, "utf-8");
@@ -405,6 +406,16 @@ function validateCapstoneEvidenceMatrix(failures) {
   assert(matrixSource.includes("project.commands"), "CapstoneEvidenceMatrix should show a reproducible command for each project", failures);
 }
 
+function validateCourseCatalogExperience(failures) {
+  const source = fs.readFileSync(courseCatalogFile, "utf-8");
+
+  assert(source.includes("继续本模块"), "CourseCatalog should expose the next unfinished lesson inside each module", failures);
+  assert(source.includes("复习本模块"), "CourseCatalog should keep a module review path after completion", failures);
+  assert(source.includes("module.gate.entry"), "CourseCatalog should show module entry gates", failures);
+  assert(source.includes("module.gate.exit"), "CourseCatalog should show module exit gates", failures);
+  assert(source.includes("module.gate.nextUse"), "CourseCatalog should show module next-use gates", failures);
+}
+
 const { allLessons, courseModules } = loadTypeScriptModule(courseFile);
 const { courseCodeMap } = loadTypeScriptModule(courseCodeMapFile);
 const failures = [];
@@ -434,6 +445,7 @@ if (Array.isArray(courseModules) && Array.isArray(allLessons)) {
   validateLessonModuleGate(failures);
   validatePythonProjectExplorer(failures);
   validateCapstoneEvidenceMatrix(failures);
+  validateCourseCatalogExperience(failures);
   validateGlossarySource(allLessons, failures);
 }
 

@@ -213,37 +213,52 @@ export function CourseCatalog() {
       ) : null}
 
       <div className="mt-10 grid gap-10">
-        {filteredModules.map((module, moduleIndex) => (
-          <section
-            key={module.id}
-            className="chart-enter border-t border-line pt-8 first:border-t-0 first:pt-0"
-            style={{ animationDelay: `${moduleIndex * 45}ms` }}
-          >
-            <div className="flex flex-wrap items-start justify-between gap-4">
-              <div>
-                <div className="inline-flex items-center gap-2 rounded-md border border-line bg-white px-2 py-1 text-xs font-bold text-muted">
-                  <Target className="h-3.5 w-3.5 text-accent" />
-                  {module.lessons.length} 节课
+        {filteredModules.map((module, moduleIndex) => {
+          const nextModuleLesson = module.lessons.find((lesson) => !progress.completedSet.has(lesson.slug)) ?? module.lessons[0];
+
+          return (
+            <section
+              key={module.id}
+              className="chart-enter border-t border-line pt-8 first:border-t-0 first:pt-0"
+              style={{ animationDelay: `${moduleIndex * 45}ms` }}
+            >
+              <div className="flex flex-wrap items-start justify-between gap-4">
+                <div>
+                  <div className="inline-flex items-center gap-2 rounded-md border border-line bg-white px-2 py-1 text-xs font-bold text-muted">
+                    <Target className="h-3.5 w-3.5 text-accent" />
+                    {module.lessons.length} 节课
+                  </div>
+                  <h2 className="mt-3 text-xl font-bold text-ink">{module.title}</h2>
+                  <p className="mt-2 max-w-3xl text-sm leading-7 text-muted">{module.summary}</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {module.skillLines
+                      .map((item) => getSkillLine(item))
+                      .filter((item) => item !== undefined)
+                      .map((item) => (
+                        <span key={item.id} className="inline-flex items-center gap-1 rounded-md border border-indigo-100 bg-indigo-50 px-2 py-1 text-xs font-bold text-indigo-950">
+                          <Flag className="h-3.5 w-3.5" />
+                          {item.title}
+                        </span>
+                      ))}
+                  </div>
                 </div>
-                <h2 className="mt-3 text-xl font-bold text-ink">{module.title}</h2>
-                <p className="mt-2 max-w-3xl text-sm leading-7 text-muted">{module.summary}</p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {module.skillLines
-                    .map((item) => getSkillLine(item))
-                    .filter((item) => item !== undefined)
-                    .map((item) => (
-                      <span key={item.id} className="inline-flex items-center gap-1 rounded-md border border-indigo-100 bg-indigo-50 px-2 py-1 text-xs font-bold text-indigo-950">
-                        <Flag className="h-3.5 w-3.5" />
-                        {item.title}
+                <div className="grid min-w-56 gap-2">
+                  <div className="rounded-md border border-line bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-soft">{module.product}</div>
+                  <ModuleProgress module={module} />
+                  {nextModuleLesson ? (
+                    <Link
+                      href={`/courses/${nextModuleLesson.slug}`}
+                      className="inline-flex items-center justify-between gap-2 rounded-md border border-teal-200 bg-teal-50 px-3 py-2 text-xs font-black text-teal-950 transition hover:border-teal-300 hover:bg-teal-100"
+                    >
+                      <span>{progress.completedSet.has(nextModuleLesson.slug) ? "复习本模块" : "继续本模块"}</span>
+                      <span className="inline-flex items-center gap-1">
+                        {nextModuleLesson.id}
+                        <ArrowRight className="h-3.5 w-3.5" />
                       </span>
-                    ))}
+                    </Link>
+                  ) : null}
                 </div>
               </div>
-              <div className="grid min-w-56 gap-2">
-                <div className="rounded-md border border-line bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-soft">{module.product}</div>
-                <ModuleProgress module={module} />
-              </div>
-            </div>
 
             <div className="mt-5 rounded-lg border border-indigo-200 bg-indigo-50 p-4 text-indigo-950">
               <div className="flex items-center gap-2 text-sm font-black">
@@ -295,8 +310,9 @@ export function CourseCatalog() {
                 ))}
               </div>
             </div>
-          </section>
-        ))}
+            </section>
+          );
+        })}
       </div>
     </>
   );
