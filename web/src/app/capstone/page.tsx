@@ -3,6 +3,7 @@ import { CheckCircle2, FileText, Route, ShieldCheck, Terminal } from "lucide-rea
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { LessonChart } from "@/components/charts/LessonChart";
 import { CapstoneChecklist } from "@/components/capstone/CapstoneChecklist";
+import { CapstoneEvidenceMatrix } from "@/components/capstone/CapstoneEvidenceMatrix";
 import { skillLines } from "@/lib/courses";
 
 const sections = [
@@ -81,6 +82,10 @@ export default function CapstonePage() {
 
         <section className="mt-10">
           <CapstoneChecklist />
+        </section>
+
+        <section className="mt-10">
+          <CapstoneEvidenceMatrix />
         </section>
 
         <section className="mt-10 rounded-lg border border-indigo-200 bg-indigo-50 p-5 text-indigo-950">

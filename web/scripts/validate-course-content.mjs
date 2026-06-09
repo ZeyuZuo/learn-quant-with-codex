@@ -16,6 +16,8 @@ const lessonViewFile = path.join(root, "src", "components", "lesson", "LessonVie
 const lessonReviewTemplateFile = path.join(root, "src", "components", "lesson", "LessonReviewTemplate.tsx");
 const lessonModuleGateFile = path.join(root, "src", "components", "lesson", "LessonModuleGate.tsx");
 const pythonProjectExplorerFile = path.join(root, "src", "components", "python", "PythonProjectExplorer.tsx");
+const capstonePageFile = path.join(root, "src", "app", "capstone", "page.tsx");
+const capstoneEvidenceMatrixFile = path.join(root, "src", "components", "capstone", "CapstoneEvidenceMatrix.tsx");
 
 function loadTypeScriptModule(filePath) {
   const source = fs.readFileSync(filePath, "utf-8");
@@ -384,6 +386,17 @@ function validatePythonProjectExplorer(failures) {
   assert(source.includes("getSkillLine"), "PythonProjectExplorer should resolve skill-line metadata", failures);
 }
 
+function validateCapstoneEvidenceMatrix(failures) {
+  const capstonePageSource = fs.readFileSync(capstonePageFile, "utf-8");
+  const matrixSource = fs.readFileSync(capstoneEvidenceMatrixFile, "utf-8");
+
+  assert(capstonePageSource.includes("<CapstoneEvidenceMatrix"), "Capstone page should render the mini-project evidence matrix", failures);
+  assert(matrixSource.includes("miniProjects.map"), "CapstoneEvidenceMatrix should be driven by miniProjects", failures);
+  assert(matrixSource.includes("project.deliverablePath"), "CapstoneEvidenceMatrix should show project deliverable paths", failures);
+  assert(matrixSource.includes("project.capstoneMaterial"), "CapstoneEvidenceMatrix should show how each project enters the final report", failures);
+  assert(matrixSource.includes("project.commands"), "CapstoneEvidenceMatrix should show a reproducible command for each project", failures);
+}
+
 const { allLessons, courseModules } = loadTypeScriptModule(courseFile);
 const { courseCodeMap } = loadTypeScriptModule(courseCodeMapFile);
 const failures = [];
@@ -412,6 +425,7 @@ if (Array.isArray(courseModules) && Array.isArray(allLessons)) {
   validateLessonReviewTemplate(failures);
   validateLessonModuleGate(failures);
   validatePythonProjectExplorer(failures);
+  validateCapstoneEvidenceMatrix(failures);
   validateGlossarySource(allLessons, failures);
 }
 
