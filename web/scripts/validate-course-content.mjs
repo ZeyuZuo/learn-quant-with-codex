@@ -232,20 +232,41 @@ function validateLessonCommandsSource(failures) {
 function validateGlossarySource(allLessons, failures) {
   const source = fs.readFileSync(glossaryFile, "utf-8");
   const groups = ["数据", "收益", "风险", "回测", "策略", "验证", "边界"];
+  const requiredSkillLines = ["data-review", "return-path", "risk-reading", "execution-assumptions", "validation", "research-writing"];
   const ids = [...source.matchAll(/id: "([^"]+)"/g)].map((match) => match[1]);
+  const termEntries = [...source.matchAll(/id: "([^"]+)"[\s\S]*?relatedSlugs: \[([^\]]*)\]/g)].map((match) => ({
+    id: match[1],
+    relatedSlugs: [...match[2].matchAll(/"([^"]+)"/g)].map((slugMatch) => slugMatch[1]),
+  }));
   const relatedSlugs = [...source.matchAll(/relatedSlugs: \[([^\]]*)\]/g)]
     .flatMap((match) => [...match[1].matchAll(/"([^"]+)"/g)].map((slugMatch) => slugMatch[1]));
   const lessonSlugs = new Set(allLessons.map((lesson) => lesson.slug));
+  const lessonBySlug = new Map(allLessons.map((lesson) => [lesson.slug, lesson]));
+  const coveredSkillLines = new Set();
 
   assert(ids.length >= 15, `glossary should contain at least 15 terms, found ${ids.length}`, failures);
+  assert(termEntries.length === ids.length, "glossary validator should be able to inspect every term's related lessons", failures);
   assert(source.includes("commonMistake"), "glossary terms should include beginner mistake guidance", failures);
 
   for (const group of groups) {
     assert(source.includes(`group: "${group}"`), `glossary missing group: ${group}`, failures);
   }
 
+  for (const entry of termEntries) {
+    assert(entry.relatedSlugs.length >= 1, `glossary term ${entry.id} should link at least one lesson`, failures);
+    const relatedLessons = entry.relatedSlugs.map((slug) => lessonBySlug.get(slug)).filter((lesson) => lesson !== undefined);
+    for (const lesson of relatedLessons) {
+      coveredSkillLines.add(lesson.skillLine);
+    }
+    assert(relatedLessons.some((lesson) => Boolean(lesson.skillLine)), `glossary term ${entry.id} should connect to a skill-line lesson`, failures);
+  }
+
   for (const slug of relatedSlugs) {
     assert(lessonSlugs.has(slug), `glossary related lesson does not exist: ${slug}`, failures);
+  }
+
+  for (const skillLine of requiredSkillLines) {
+    assert(coveredSkillLines.has(skillLine), `glossary related lessons should cover skill line: ${skillLine}`, failures);
   }
 }
 
