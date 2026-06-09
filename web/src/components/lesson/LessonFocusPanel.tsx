@@ -1,5 +1,6 @@
-import { AlertTriangle, CheckCircle2, FileCode2, HelpCircle } from "lucide-react";
+import { AlertTriangle, CheckCircle2, FileCode2, HelpCircle, Route } from "lucide-react";
 import type { Lesson } from "@/lib/types";
+import { getSkillLine } from "@/lib/courses";
 
 type LessonFocusPanelProps = {
   lesson: Lesson;
@@ -8,6 +9,7 @@ type LessonFocusPanelProps = {
 export function LessonFocusPanel({ lesson }: LessonFocusPanelProps) {
   const firstMistake = lesson.mistakes[0] ?? "跳过本节的边界说明";
   const firstCheckpoint = lesson.checkpoint[0] ?? "完成本课 Checkpoint";
+  const skillLine = getSkillLine(lesson.skillLine);
 
   return (
     <section id="focus" className="chart-enter scroll-mt-24 mt-8">
@@ -20,6 +22,17 @@ export function LessonFocusPanel({ lesson }: LessonFocusPanelProps) {
       </div>
 
       <div className="mt-4 grid gap-3 md:grid-cols-2">
+        {skillLine ? (
+          <article className="rounded-lg border border-indigo-200 bg-indigo-50 p-4 text-indigo-950 shadow-soft md:col-span-2">
+            <div className="flex items-center gap-2 text-sm font-black">
+              <Route className="h-4 w-4" />
+              v4.4 纵向能力线：{skillLine.title}
+            </div>
+            <p className="mt-2 text-sm leading-6">{skillLine.description}</p>
+            <p className="mt-2 rounded-md bg-white/70 px-3 py-2 text-xs font-semibold leading-5">Capstone 证据：{skillLine.capstoneEvidence}</p>
+          </article>
+        ) : null}
+
         <article className="rounded-lg border border-sky-200 bg-sky-50 p-4 text-sky-950 shadow-soft">
           <div className="flex items-center gap-2 text-sm font-black">
             <HelpCircle className="h-4 w-4" />

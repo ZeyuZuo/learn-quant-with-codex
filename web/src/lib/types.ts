@@ -32,6 +32,16 @@ export type Quiz = {
   explanation: string;
 };
 
+export type SkillLineId = "data-review" | "return-path" | "risk-reading" | "execution-assumptions" | "validation" | "research-writing";
+
+export type SkillLine = {
+  id: SkillLineId;
+  title: string;
+  shortTitle: string;
+  description: string;
+  capstoneEvidence: string;
+};
+
 export type Lesson = {
   id: string;
   moduleId: string;
@@ -54,6 +64,7 @@ export type Lesson = {
   quiz: Quiz;
   codexTask: string;
   checkpoint: string[];
+  skillLine: SkillLineId;
 };
 
 export type CourseModule = {
@@ -66,5 +77,11 @@ export type CourseModule = {
     deliverable: string;
     checks: string[];
   };
+  gate: {
+    entry: string;
+    exit: string;
+    nextUse: string;
+  };
+  skillLines: SkillLineId[];
   lessons: Lesson[];
 };

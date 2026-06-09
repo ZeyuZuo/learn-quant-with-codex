@@ -76,6 +76,7 @@ function validateLesson(lesson, failures) {
   assert(Boolean(lesson.pythonCode) && lesson.pythonCode.length >= 20, `${prefix}: missing Python code example`, failures);
   assert(Boolean(lesson.chart), `${prefix}: missing chart kind`, failures);
   assert(Boolean(lesson.chartNote) && lesson.chartNote.length >= 20, `${prefix}: missing chart note`, failures);
+  assert(Boolean(lesson.skillLine), `${prefix}: missing v4.4 skillLine`, failures);
   assert(Array.isArray(lesson.mistakes) && lesson.mistakes.length >= 3, `${prefix}: needs at least 3 mistakes`, failures);
   assert(
     Array.isArray(lesson.mistakes) && lesson.mistakes.every((mistake) => mistake.length >= 5),
@@ -115,6 +116,7 @@ function validateLesson(lesson, failures) {
 
 function validateModules(courseModules, allLessons, failures) {
   const moduleIds = courseModules.map((module) => module.id);
+  const allowedSkillLines = new Set(["data-review", "return-path", "risk-reading", "execution-assumptions", "validation", "research-writing"]);
   assert(courseModules.length === 10, `expected 10 modules, found ${courseModules.length}`, failures);
   assert(unique(moduleIds), "module ids must be unique", failures);
 
@@ -126,10 +128,18 @@ function validateModules(courseModules, allLessons, failures) {
     assert(Boolean(module.miniProject?.title), `${module.id}: missing mini project title`, failures);
     assert(Boolean(module.miniProject?.deliverable), `${module.id}: missing mini project deliverable`, failures);
     assert(Array.isArray(module.miniProject?.checks) && module.miniProject.checks.length >= 3, `${module.id}: mini project needs at least 3 checks`, failures);
+    assert(Boolean(module.gate?.entry) && module.gate.entry.length >= 12, `${module.id}: missing v4.4 entry gate`, failures);
+    assert(Boolean(module.gate?.exit) && module.gate.exit.length >= 12, `${module.id}: missing v4.4 exit gate`, failures);
+    assert(Boolean(module.gate?.nextUse) && module.gate.nextUse.length >= 12, `${module.id}: missing v4.4 next-use gate`, failures);
+    assert(Array.isArray(module.skillLines) && module.skillLines.length >= 1, `${module.id}: missing v4.4 skill lines`, failures);
+    for (const skillLine of module.skillLines ?? []) {
+      assert(allowedSkillLines.has(skillLine), `${module.id}: unknown skill line ${skillLine}`, failures);
+    }
   }
 
   for (const lesson of allLessons) {
     assert(moduleIds.includes(lesson.moduleId), `${lesson.id}: unknown moduleId ${lesson.moduleId}`, failures);
+    assert(allowedSkillLines.has(lesson.skillLine), `${lesson.id}: unknown skillLine ${lesson.skillLine}`, failures);
   }
 }
 

@@ -11,12 +11,14 @@ import {
   TestTube2,
 } from "lucide-react";
 import type { Lesson } from "@/lib/types";
+import { getSkillLine } from "@/lib/courses";
 
 type LessonLearningScaffoldProps = {
   lesson: Lesson;
 };
 
 export function LessonLearningScaffold({ lesson }: LessonLearningScaffoldProps) {
+  const skillLine = getSkillLine(lesson.skillLine);
   const steps = [
     {
       href: "#concepts",
@@ -105,7 +107,10 @@ export function LessonLearningScaffold({ lesson }: LessonLearningScaffoldProps) 
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <h2 className="text-lg font-black text-ink">本课路线</h2>
-          <p className="mt-2 text-sm leading-7 text-muted">按路线走完这一页：先建立直觉，再看代码和图表，最后用练习、Prompt 和 Checkpoint 验收。</p>
+          <p className="mt-2 text-sm leading-7 text-muted">
+            按路线走完这一页：先建立直觉，再看代码和图表，最后用练习、Prompt 和 Checkpoint 验收。
+            {skillLine ? ` 本节主要训练“${skillLine.title}”。` : ""}
+          </p>
         </div>
         <div className="inline-flex items-center gap-2 rounded-md border border-rose-200 bg-rose-50 px-3 py-2 text-sm font-bold text-rose-950">
           <AlertTriangle className="h-4 w-4" />

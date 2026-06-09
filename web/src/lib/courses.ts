@@ -1,4 +1,82 @@
-import type { CourseModule, Lesson } from "./types";
+import type { CourseModule, Lesson, SkillLine, SkillLineId } from "./types";
+
+export const skillLines: SkillLine[] = [
+  {
+    id: "data-review",
+    title: "数据审查",
+    shortTitle: "数据",
+    description: "检查 ticker、交易日、OHLCV、复权列、缺失和选择偏差，让后续指标有可信输入。",
+    capstoneEvidence: "报告说明数据范围、复权列选择、缺失值、异常值和样本选择限制。",
+  },
+  {
+    id: "return-path",
+    title: "收益路径",
+    shortTitle: "收益",
+    description: "把价格转换为收益率、复利净值、年化收益和回撤路径，不只看最终数字。",
+    capstoneEvidence: "报告展示价格、日收益、净值和回撤，并解释路径风险。",
+  },
+  {
+    id: "risk-reading",
+    title: "风险解释",
+    shortTitle: "风险",
+    description: "读懂波动、最大回撤、夏普、胜率和盈亏比，并知道每个指标会怎样误导。",
+    capstoneEvidence: "报告给出绩效指标表，并写出至少 3 个指标局限。",
+  },
+  {
+    id: "execution-assumptions",
+    title: "执行假设",
+    shortTitle: "执行",
+    description: "区分 signal、position、lag、turnover、commission 和 slippage，避免把想法直接当收益。",
+    capstoneEvidence: "报告说明仓位滞后、成本假设、换手和向量化回测简化边界。",
+  },
+  {
+    id: "validation",
+    title: "验证能力",
+    shortTitle: "验证",
+    description: "用错误回测、参数扫描、样本外和随机策略识别过拟合与数据窥探。",
+    capstoneEvidence: "报告包含参数扫描、样本内 / 样本外和偏差检查。",
+  },
+  {
+    id: "research-writing",
+    title: "研究表达",
+    shortTitle: "报告",
+    description: "把代码、图表、测试和限制写成可复查的学习报告，避免收益承诺式表述。",
+    capstoneEvidence: "报告语言明确教育用途、非投资建议和历史结果不代表未来。",
+  },
+];
+
+const moduleSkillLines: Record<string, SkillLineId[]> = {
+  m0: ["research-writing", "return-path"],
+  m1: ["data-review"],
+  m2: ["return-path"],
+  m3: ["risk-reading"],
+  m4: ["execution-assumptions", "validation"],
+  m5: ["return-path", "execution-assumptions", "research-writing"],
+  m6: ["execution-assumptions", "validation"],
+  m7: ["data-review", "risk-reading"],
+  m8: ["validation"],
+  m9: ["research-writing", "validation"],
+};
+
+const lessonSkillOverrides: Record<string, SkillLineId> = {
+  "project-boundary": "research-writing",
+  "codex-workflow": "research-writing",
+  "first-tested-function": "return-path",
+  "ohlcv-data": "data-review",
+  "adjusted-close": "data-review",
+  "data-quality": "data-review",
+  "max-drawdown": "risk-reading",
+  "sharpe-ratio": "risk-reading",
+  "signal-position": "execution-assumptions",
+  "transaction-costs": "execution-assumptions",
+  "lookahead-bias-demo": "validation",
+  "backtest-report": "research-writing",
+  "parameter-scan": "validation",
+  "in-sample-out-of-sample": "validation",
+  "best-parameter-transfer": "validation",
+  "backtest-cannot-predict-future": "research-writing",
+  "capstone-research-report": "research-writing",
+};
 
 const code = {
   dailyReturn: `def daily_return(previous_price: float, current_price: float) -> float:
@@ -195,9 +273,10 @@ const task = (lesson: string, functionName: string, targetFile: string, testFile
 
 请先说明实现思路，再修改代码，最后总结这个函数可能被误用的地方。`;
 
-type SupplementalLessonInput = Omit<Lesson, "difficulty" | "duration" | "quiz" | "codexTask"> & {
+type SupplementalLessonInput = Omit<Lesson, "difficulty" | "duration" | "quiz" | "codexTask" | "skillLine"> & {
   difficulty?: Lesson["difficulty"];
   duration?: string;
+  skillLine?: SkillLineId;
   quizQuestion: string;
   correctLabel: string;
   wrongLabels: [string, string];
@@ -212,6 +291,7 @@ function makeLesson(input: SupplementalLessonInput): Lesson {
     difficulty: input.difficulty ?? "基础",
     duration: input.duration ?? "15 分钟",
     ...input,
+    skillLine: input.skillLine ?? lessonSkillOverrides[input.slug] ?? moduleSkillLines[input.moduleId]?.[0] ?? "research-writing",
     quiz: {
       question: input.quizQuestion,
       options: [
@@ -257,6 +337,7 @@ const lessons: Lesson[] = [
     },
     codexTask: task("0.1 项目边界", "项目风险声明", "README.md", "无需测试"),
     checkpoint: ["能说出本项目不是投资建议", "能解释回测和实盘的区别", "知道课程最终产物是一份学习报告"],
+    skillLine: "research-writing",
   },
   {
     id: "0.2",
@@ -289,6 +370,7 @@ const lessons: Lesson[] = [
     },
     codexTask: task("0.2 Codex 学习工作流", "daily_return", "python/src/quant_learning/metrics.py", "python/tests/test_metrics.py"),
     checkpoint: ["能写出带约束的 Prompt", "知道测试是学习过程的一部分", "能手算一个最简单收益率"],
+    skillLine: "research-writing",
   },
   {
     id: "1.1",
@@ -320,6 +402,7 @@ const lessons: Lesson[] = [
     },
     codexTask: task("1.1 美股市场和 ticker", "read_price_csv", "python/src/quant_learning/data.py", "python/tests/test_data.py"),
     checkpoint: ["能解释 ticker 的作用", "知道周末通常没有日线数据", "能读取本地 CSV"],
+    skillLine: "data-review",
   },
   {
     id: "1.2",
@@ -351,6 +434,7 @@ const lessons: Lesson[] = [
     },
     codexTask: task("1.2 OHLCV", "validate_ohlcv_columns", "python/src/quant_learning/data.py", "python/tests/test_data.py"),
     checkpoint: ["能读懂一行 OHLCV", "能说出 high 和 close 的区别", "能检查必要列"],
+    skillLine: "data-review",
   },
   {
     id: "1.3",
@@ -382,6 +466,7 @@ const lessons: Lesson[] = [
     },
     codexTask: task("1.3 Close 和 Adjusted Close", "choose_price_column", "python/src/quant_learning/data.py", "python/tests/test_data.py"),
     checkpoint: ["能解释复权价格", "知道 close 曲线可能有拆股断点", "能在代码中选择价格列"],
+    skillLine: "data-review",
   },
   {
     id: "1.4",
@@ -413,6 +498,7 @@ const lessons: Lesson[] = [
     },
     codexTask: task("1.4 数据质量检查", "validate_price_data", "python/src/quant_learning/data.py", "python/tests/test_data.py"),
     checkpoint: ["能列出 4 个数据检查项", "能生成质量报告", "知道不要静默修复严重问题"],
+    skillLine: "data-review",
   },
   {
     id: "2.1",
@@ -445,6 +531,7 @@ const lessons: Lesson[] = [
     },
     codexTask: task("2.1 收益率", "calculate_returns", "python/src/quant_learning/metrics.py", "python/tests/test_metrics.py"),
     checkpoint: ["能手算简单收益率", "能解释第一天为什么没有收益", "能用 pandas 计算收益序列"],
+    skillLine: "return-path",
   },
   {
     id: "2.2",
@@ -477,6 +564,7 @@ const lessons: Lesson[] = [
     },
     codexTask: task("2.2 复利和净值曲线", "compound_returns", "python/src/quant_learning/metrics.py", "python/tests/test_metrics.py"),
     checkpoint: ["能解释 equity curve", "知道复利不是简单相加", "能从收益率生成净值"],
+    skillLine: "return-path",
   },
   {
     id: "3.1",
@@ -509,6 +597,7 @@ const lessons: Lesson[] = [
     },
     codexTask: task("3.1 最大回撤", "drawdown_series 和 max_drawdown", "python/src/quant_learning/metrics.py", "python/tests/test_metrics.py"),
     checkpoint: ["能计算回撤", "能读懂回撤曲线", "知道最大回撤不是单日亏损"],
+    skillLine: "risk-reading",
   },
   {
     id: "3.2",
@@ -541,6 +630,7 @@ const lessons: Lesson[] = [
     },
     codexTask: task("3.2 夏普比率、胜率和盈亏比", "sharpe_ratio、win_rate、profit_loss_ratio", "python/src/quant_learning/metrics.py", "python/tests/test_metrics.py"),
     checkpoint: ["能解释夏普比率直觉", "知道胜率的局限", "知道单一指标不能评价完整策略"],
+    skillLine: "risk-reading",
   },
   {
     id: "4.1",
@@ -573,6 +663,7 @@ const lessons: Lesson[] = [
     },
     codexTask: task("4.1 Signal 和 Position", "signals_to_positions", "python/src/quant_learning/positions.py", "python/tests/test_positions.py"),
     checkpoint: ["能区分信号和仓位", "知道 position 默认滞后一日", "能指出 look-ahead bias"],
+    skillLine: "execution-assumptions",
   },
   {
     id: "4.2",
@@ -605,6 +696,7 @@ const lessons: Lesson[] = [
     },
     codexTask: task("4.2 手续费和滑点", "calculate_turnover 和 apply_transaction_costs", "python/src/quant_learning/costs.py", "python/tests/test_costs.py"),
     checkpoint: ["能解释 bps", "能计算换手成本", "知道高换手策略对成本敏感"],
+    skillLine: "execution-assumptions",
   },
   {
     id: "5.1",
@@ -636,6 +728,7 @@ const lessons: Lesson[] = [
     },
     codexTask: task("5.1 Buy and Hold", "buy_and_hold_signal", "python/src/quant_learning/strategies.py", "python/tests/test_strategies.py"),
     checkpoint: ["能解释 benchmark", "能实现 buy and hold signal", "知道策略比较不能脱离基准"],
+    skillLine: "return-path",
   },
   {
     id: "5.2",
@@ -668,6 +761,7 @@ const lessons: Lesson[] = [
     },
     codexTask: task("5.2 最小可用回测器", "run_backtest 和 BacktestResult", "python/src/quant_learning/backtest.py", "python/tests/test_backtest.py"),
     checkpoint: ["能说出回测 5 个步骤", "能解释 asset returns 和 strategy returns", "知道默认滞后仓位的重要性"],
+    skillLine: "execution-assumptions",
   },
   {
     id: "6.1",
@@ -700,6 +794,7 @@ const lessons: Lesson[] = [
     },
     codexTask: task("6.1 双均线策略", "moving_average_crossover", "python/src/quant_learning/strategies.py", "python/tests/test_strategies.py"),
     checkpoint: ["能解释快慢均线", "能实现双均线 signal", "知道历史最优参数不代表未来有效"],
+    skillLine: "execution-assumptions",
   },
 ];
 
@@ -1540,6 +1635,11 @@ const modulesMeta = [
       deliverable: "生成 learning-notes.md，记录项目边界、第一条 Prompt 和第一个已测试函数。",
       checks: ["说明非投资建议边界", "写出 Explain -> Implement -> Test -> Reflect 流程", "至少包含一个 pytest 结果"],
     },
+    gate: {
+      entry: "能打开项目并理解这是教育用途的学习站。",
+      exit: "写下非投资建议边界，完成第一条带验收的 Codex Prompt。",
+      nextUse: "Module 1 会沿用这个 Prompt 格式来读取和检查本地样例数据。",
+    },
   },
   {
     id: "m1",
@@ -1550,6 +1650,11 @@ const modulesMeta = [
       title: "样例价格数据质量报告",
       deliverable: "生成 sample_prices_quality_report.json，并在报告里解释 close 与 adj_close 的选择。",
       checks: ["检查 OHLCV 必要列", "报告缺失值和重复日期", "说明复权价格用途"],
+    },
+    gate: {
+      entry: "已经知道项目不联网、不连接账户，只使用本地样例数据。",
+      exit: "生成数据质量报告，能解释 OHLCV、交易日缺口和复权列选择。",
+      nextUse: "Module 2 会把这条可信价格序列转换成收益率和净值曲线。",
     },
   },
   {
@@ -1562,6 +1667,11 @@ const modulesMeta = [
       deliverable: "从样例价格生成日收益率、总收益和净值曲线数据。",
       checks: ["首日收益处理清楚", "复利用累乘而不是累加", "解释短样本年化风险"],
     },
+    gate: {
+      entry: "已经有经过基础检查的价格序列和复权列选择。",
+      exit: "实现收益率、复利、年化和净值函数，并能手算一个小例子。",
+      nextUse: "Module 3 会用收益路径计算波动、回撤、夏普和交易级指标。",
+    },
   },
   {
     id: "m3",
@@ -1572,6 +1682,11 @@ const modulesMeta = [
       title: "绩效指标卡片",
       deliverable: "为 buy and hold 样例生成收益、波动率、最大回撤、夏普、胜率和盈亏比摘要。",
       checks: ["最大回撤从净值曲线计算", "零波动夏普有明确行为", "指出至少 3 个指标盲点"],
+    },
+    gate: {
+      entry: "已经能从价格得到收益率和净值曲线。",
+      exit: "生成绩效指标表，能指出最终收益、夏普和胜率的局限。",
+      nextUse: "Module 4 会把这些指标连接到 signal、position、成本和偏差诊断。",
     },
   },
   {
@@ -1584,6 +1699,11 @@ const modulesMeta = [
       deliverable: "比较同一信号在无成本、有成本、错误 shift、正确 shift 下的净值差异。",
       checks: ["position 默认滞后一日", "成本用 bps 表示", "解释 look-ahead bias"],
     },
+    gate: {
+      entry: "已经能读懂收益、回撤和指标表。",
+      exit: "实现 signal -> position、turnover、cost，并能识别 look-ahead 示例。",
+      nextUse: "Module 5 会把这些执行假设固化到统一回测器里。",
+    },
   },
   {
     id: "m5",
@@ -1594,6 +1714,11 @@ const modulesMeta = [
       title: "Buy and Hold 回测报告",
       deliverable: "运行 SPY 样例 buy and hold 回测，输出 JSON 或 Markdown 报告。",
       checks: ["保存 BacktestResult 过程数据", "报告包含成本配置", "报告包含非投资建议声明"],
+    },
+    gate: {
+      entry: "已经有数据、收益、指标、仓位和成本函数。",
+      exit: "运行 buy and hold 回测，产出含回撤、指标和风险声明的报告。",
+      nextUse: "Module 6 会用同一回测器公平比较多个策略信号。",
     },
   },
   {
@@ -1606,6 +1731,11 @@ const modulesMeta = [
       deliverable: "在同一资产上比较 buy and hold、双均线、动量和均值回归。",
       checks: ["策略函数只生成 signal", "使用同一回测配置", "写出每个策略的假设和失效场景"],
     },
+    gate: {
+      entry: "已经有统一回测器和 buy and hold 基准报告。",
+      exit: "用同一数据、lag、成本和指标公平比较三类策略。",
+      nextUse: "Module 7 会把单资产策略比较扩展到多资产组合和 benchmark。",
+    },
   },
   {
     id: "m7",
@@ -1616,6 +1746,11 @@ const modulesMeta = [
       title: "组合和 SPY 基准比较",
       deliverable: "比较单股票、等权组合、动量轮动组合和 SPY benchmark。",
       checks: ["多资产日期已对齐", "组合收益按权重计算", "分散化结论有指标支持"],
+    },
+    gate: {
+      entry: "已经会做单资产策略对比和基准比较。",
+      exit: "对齐多资产数据，生成等权或轮动组合报告。",
+      nextUse: "Module 8 会检查策略和组合参数在样本外是否还能迁移。",
     },
   },
   {
@@ -1628,6 +1763,11 @@ const modulesMeta = [
       deliverable: "扫描双均线参数，选择样本内最优参数，并展示样本外表现。",
       checks: ["跳过非法参数组合", "按日期切分样本", "说明历史最优不代表未来"],
     },
+    gate: {
+      entry: "已经有策略和组合实验结果。",
+      exit: "展示参数扫描、样本内 / 外、随机策略或年度稳定性诊断。",
+      nextUse: "Module 9 会把验证材料写入最终 Capstone 报告的限制和偏差章节。",
+    },
   },
   {
     id: "m9",
@@ -1639,11 +1779,17 @@ const modulesMeta = [
       deliverable: "提交 final_research_report.md，包含数据、策略、指标、成本、参数、样本外、偏差和风险声明。",
       checks: ["至少 5 条限制或风险", "包含 benchmark", "不包含投资建议或收益承诺"],
     },
+    gate: {
+      entry: "已经完成数据、指标、策略、组合和验证模块材料。",
+      exit: "交付完整 Capstone 报告，并通过 Python 报告验证函数。",
+      nextUse: "后续学习可以进入因子研究、事件驱动回测或组合优化，但继续保留验证和风险边界。",
+    },
   },
 ];
 
 export const courseModules: CourseModule[] = modulesMeta.map((module) => ({
   ...module,
+  skillLines: moduleSkillLines[module.id] ?? [],
   lessons: lessons.filter((lesson) => lesson.moduleId === module.id),
 }));
 
@@ -1663,4 +1809,8 @@ export function getAdjacentLessons(slug: string) {
 
 export function getModule(moduleId: string) {
   return courseModules.find((module) => module.id === moduleId);
+}
+
+export function getSkillLine(skillLineId: SkillLineId) {
+  return skillLines.find((skillLine) => skillLine.id === skillLineId);
 }

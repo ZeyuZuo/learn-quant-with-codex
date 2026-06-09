@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { ArrowRight, CheckCircle2, Circle, ClipboardList, FileText, HelpCircle, Lightbulb, Terminal } from "lucide-react";
+import { ArrowRight, CheckCircle2, Circle, ClipboardList, FileText, Flag, HelpCircle, Lightbulb, Route, Terminal } from "lucide-react";
 import { CopyButton } from "@/components/prompt/CopyButton";
 import { miniProjects } from "@/lib/projects";
 
@@ -130,6 +130,35 @@ export function ProjectRoadmap() {
 
               <div className="mt-5 grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
                 <div className="space-y-4">
+                  <section className="rounded-lg border border-indigo-200 bg-indigo-50 p-4 text-indigo-950">
+                    <h3 className="flex items-center gap-2 text-sm font-black">
+                      <Route className="h-4 w-4" />
+                      v4.4 模块闸门
+                    </h3>
+                    <div className="mt-3 grid gap-2 text-sm leading-6">
+                      <div className="rounded-md bg-white/75 px-3 py-2">
+                        <span className="font-black">进入：</span>
+                        {project.gate.entry}
+                      </div>
+                      <div className="rounded-md bg-white/75 px-3 py-2">
+                        <span className="font-black">退出：</span>
+                        {project.gate.exit}
+                      </div>
+                      <div className="rounded-md bg-white/75 px-3 py-2">
+                        <span className="font-black">下一步用途：</span>
+                        {project.gate.nextUse}
+                      </div>
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {project.skillLineTitles.map((title) => (
+                        <span key={title} className="inline-flex items-center gap-1 rounded-md border border-indigo-200 bg-white px-2 py-1 text-xs font-bold">
+                          <Flag className="h-3.5 w-3.5" />
+                          {title}
+                        </span>
+                      ))}
+                    </div>
+                  </section>
+
                   <section>
                     <h3 className="flex items-center gap-2 text-sm font-black text-ink">
                       <HelpCircle className="h-4 w-4 text-accent" />

@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { CheckCircle2, FileText, ShieldCheck, Terminal } from "lucide-react";
+import { CheckCircle2, FileText, Route, ShieldCheck, Terminal } from "lucide-react";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { LessonChart } from "@/components/charts/LessonChart";
 import { CapstoneChecklist } from "@/components/capstone/CapstoneChecklist";
+import { skillLines } from "@/lib/courses";
 
 const sections = [
   "项目边界和非投资建议声明",
@@ -80,6 +81,24 @@ export default function CapstonePage() {
 
         <section className="mt-10">
           <CapstoneChecklist />
+        </section>
+
+        <section className="mt-10 rounded-lg border border-indigo-200 bg-indigo-50 p-5 text-indigo-950">
+          <div className="flex items-center gap-2">
+            <Route className="h-5 w-5" />
+            <h2 className="text-xl font-bold">v4.4 六条能力线验收</h2>
+          </div>
+          <p className="mt-2 text-sm leading-7">
+            最终报告不是把指标贴在一起，而是证明你完成了课程主线训练的六类能力。每一类都应该在报告里留下可复查证据。
+          </p>
+          <div className="mt-4 grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+            {skillLines.map((skillLine) => (
+              <article key={skillLine.id} className="rounded-md border border-indigo-200 bg-white p-3">
+                <div className="text-sm font-black">{skillLine.title}</div>
+                <p className="mt-2 text-sm leading-6">{skillLine.capstoneEvidence}</p>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section className="mt-10 grid gap-8 lg:grid-cols-[1fr_1fr]">

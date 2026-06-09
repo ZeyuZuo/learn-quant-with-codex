@@ -1,4 +1,8 @@
-import { courseModules } from "./courses";
+import { courseModules, skillLines } from "./courses";
+
+function getSkillLineTitles(ids: string[]) {
+  return ids.map((id) => skillLines.find((skillLine) => skillLine.id === id)?.title).filter((title): title is string => Boolean(title));
+}
 
 const projectCommands: Record<string, string[]> = {
   m0: ["cd python", "uv run pytest tests/test_metrics.py"],
@@ -124,6 +128,8 @@ export const miniProjects = courseModules.map((module, index) => ({
   deliverablePath: projectDetails[module.id].deliverablePath,
   capstoneMaterial: projectDetails[module.id].capstoneMaterial,
   reflection: projectDetails[module.id].reflection,
+  gate: module.gate,
+  skillLineTitles: getSkillLineTitles(module.skillLines),
   codexPrompt: buildPrompt(
     module.id,
     module.title,
