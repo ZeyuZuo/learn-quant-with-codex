@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { allLessons } from "@/lib/courses";
+import { clearAllLessonActivity } from "@/lib/lesson-activity";
 
 const STORAGE_KEY = "learn-quant-with-codex.completed-lessons";
 
@@ -53,6 +54,7 @@ export function useLessonProgress() {
 
   function resetProgress() {
     writeCompletedLessons([]);
+    clearAllLessonActivity();
     setCompleted([]);
   }
 

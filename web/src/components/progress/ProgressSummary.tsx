@@ -19,6 +19,7 @@ export function ProgressSummary({ compact = false }: ProgressSummaryProps) {
           <p className="mt-1 text-sm text-muted">
             {progress.ready ? `${progress.completedCount} / ${progress.totalCount} 节完成` : "读取本地进度中"}
           </p>
+          {progress.completedCount > 0 ? <p className="mt-1 text-xs leading-5 text-muted">重置会清除课程完成和单课自查，不会删除笔记。</p> : null}
         </div>
         {progress.completedCount > 0 ? (
           <button

@@ -33,6 +33,14 @@ function writeStoredActivity(activity: StoredLessonActivity) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(activity));
 }
 
+export function clearAllLessonActivity() {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  window.localStorage.removeItem(STORAGE_KEY);
+}
+
 export function getLessonActivity(slug: string): Record<LessonActivityType, boolean> {
   const stored = readStoredActivity();
   const types = new Set(stored[slug] ?? []);
