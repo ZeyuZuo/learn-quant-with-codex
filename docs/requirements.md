@@ -143,11 +143,11 @@
 
 课程设计以 [course-design.md](./course-design.md) 为主文档，外部教程参考和课程优化依据见 [tutorial-reference-analysis.md](./tutorial-reference-analysis.md)。
 
-需求文档只规定产品层面的课程约束；详细课表、模块产物、Mini Project、Capstone、Codex Task 模板和课程与代码同步契约，以 `docs/course-design.md` 的 v4.1 设计为准。
+需求文档只规定产品层面的课程约束；详细课表、模块产物、Mini Project、Capstone、Codex Task 模板和课程与代码同步契约，以 `docs/course-design.md` 的 v4.2 设计为准。
 
 ### 5.1 课程设计原则
 
-课程必须采用唯一的 10 模块主线，不能再维护一套旧版 8 模块大纲。v4.1 的设计参考了 QuantConnect Learning Center、Georgia Tech ML4T、Backtrader、Zipline、QuantStart 和 EDHEC / Coursera 投资管理 Python 课程的教学机制，落地为以下原则：
+课程必须采用唯一的 10 模块主线，不能再维护一套旧版 8 模块大纲。v4.2 的设计参考了 QuantConnect Learning Center、Georgia Tech ML4T、Backtrader、Zipline、QuantStart 和 EDHEC / Coursera 投资管理 Python 课程的教学机制，落地为以下原则：
 
 - 项目驱动：每个模块都有可运行、可测试、可解释的产物。
 - 评价前置：先学收益、净值、回撤、波动和夏普，再写策略。
@@ -155,6 +155,8 @@
 - 向量化先行：首版使用 pandas 向量化回测降低门槛，同时明确它不是完整交易系统。
 - 每节可验收：课程页必须包含 Quiz、Codex Task、Checkpoint 和至少一个可保留的学习产物。
 - 报告优先：最终交付是学习型研究报告，不是策略推荐或收益宣传页。
+- Lab 优先：指标、仓位、成本、参数和偏差必须通过小型实验帮助用户观察，而不是只解释定义。
+- 答辩意识：Capstone 必须要求用户解释数据、假设、成本、偏差和限制，不能只汇总指标。
 
 ### 5.2 课程模块
 
@@ -199,7 +201,33 @@
 - 可复制的 Codex Prompt，包含背景、目标、约束、验收和反思。
 - Checkpoint，总结本节保留下来的代码、笔记或报告产物。
 
-### 5.5 Mini Project 和 Capstone
+### 5.5 参考教程对课程设计的硬约束
+
+课程实现时必须把外部教程启发转为可检查要求：
+
+| 参考机制 | 产品约束 |
+| --- | --- |
+| QuantConnect lesson/task/result | 每节课必须有可复制 Codex Prompt、验收命令或可检查产物 |
+| ML4T 项目作业 | 每个模块必须有 Mini Project，且材料能进入 Capstone |
+| EDHEC Python lab | 收益、风险和组合课程必须同时出现公式、手算例子、Python 函数和图表 |
+| Backtrader 逐步搭建 | 回测系统必须从最小流程逐步加入结果对象、报告和测试 |
+| Zipline 执行现实 | 策略比较前必须讲 `signal`、`position`、lag、手续费和滑点 |
+| QuantStart 偏差教育 | 参数扫描、样本外、过拟合和回测偏差必须是主线课程，不得作为可选附录 |
+
+### 5.6 课程设计质量门槛
+
+一节课发布前必须通过以下检查：
+
+- 页面开头能用一句话说明本节核心问题。
+- 明确写出忽略该概念会造成的错误。
+- 至少有一个小型手算例子或可运行小输入。
+- 代码示例能映射到 Python 项目真实文件。
+- 图表说明“应该观察什么”和“不要误读什么”。
+- Quiz 检查一个初学者常见误区。
+- Codex Prompt 包含背景、目标、约束、验收和反思。
+- Checkpoint 明确本节留下的代码、笔记、报告或 Capstone 材料。
+
+### 5.7 Mini Project 和 Capstone
 
 课程必须包含 9 个 Mini Project 和 1 个 Capstone：
 
