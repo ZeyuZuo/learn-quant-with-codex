@@ -1,7 +1,8 @@
 "use client";
 
-import { CheckCircle2, Circle, ClipboardCheck } from "lucide-react";
+import { CheckCircle2, Circle, ClipboardCheck, NotebookPen } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { CopyButton } from "@/components/prompt/CopyButton";
 import type { Lesson } from "@/lib/types";
 import { useLessonProgress } from "@/lib/progress";
 import { getLessonActivity, onLessonActivity, setLessonActivity, type LessonActivityType } from "@/lib/lesson-activity";
@@ -15,21 +16,25 @@ const gates = [
     id: "quiz",
     title: "完成 Quiz",
     body: "至少回答一次本节小练习，并读完解释。",
+    evidence: "能解释正确选项为什么成立，以及一个错误选项为什么会误导。",
   },
   {
     id: "prompt",
     title: "复制 Codex Prompt",
     body: "把任务交给 Codex 前，确认目标、约束和验收标准。",
+    evidence: "能说出本节要运行的测试、示例脚本或文档验收方式。",
   },
   {
     id: "checkpoint",
     title: "确认 Checkpoint",
     body: "能用自己的话解释本节产物和最容易误用的地方。",
+    evidence: "能把本节产物写入学习笔记、Mini Project 或 Capstone 草稿。",
   },
 ] satisfies Array<{
   id: LessonActivityType;
   title: string;
   body: string;
+  evidence: string;
 }>;
 
 export function LessonCompletionPanel({ lesson }: LessonCompletionPanelProps) {
@@ -49,6 +54,25 @@ export function LessonCompletionPanel({ lesson }: LessonCompletionPanelProps) {
 
   const checkedCount = useMemo(() => gates.filter((gate) => checked[gate.id]).length, [checked]);
   const ready = checkedCount === gates.length;
+  const percent = Math.round((checkedCount / gates.length) * 100);
+  const reviewTemplate = [
+    `# ${lesson.id} ${lesson.title} 完成自查`,
+    "",
+    `课程：${lesson.title}`,
+    `Python 落点：${lesson.pythonModule}`,
+    "",
+    "完成状态：",
+    ...gates.map((gate) => `- ${checked[gate.id] ? "[x]" : "[ ]"} ${gate.title}：${gate.evidence}`),
+    "",
+    "我留下的证据：",
+    "- Quiz 复盘：",
+    "- Codex 命令 / 输出：",
+    "- Checkpoint 笔记：",
+    "",
+    "我需要避免的误用：",
+    lesson.mistakes.map((mistake) => `- ${mistake}`).join("\n"),
+    "",
+  ].join("\n");
 
   function toggleGate(id: LessonActivityType) {
     setChecked((current) => {
@@ -70,7 +94,20 @@ export function LessonCompletionPanel({ lesson }: LessonCompletionPanelProps) {
             Quiz 和 Prompt 会在实际操作后自动点亮；Checkpoint 需要你手动确认。自查状态会保存在本地浏览器。
           </p>
         </div>
-        <span className="rounded-md border border-line bg-slate-50 px-2 py-1 text-xs font-bold text-muted">{checkedCount}/3</span>
+        <div className="flex items-center gap-2">
+          <CopyButton value={reviewTemplate} label="复制完成复盘" className="px-2.5 py-1.5 text-xs" />
+          <span className="rounded-md border border-line bg-slate-50 px-2 py-1 text-xs font-bold text-muted">{checkedCount}/3</span>
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-md border border-line bg-slate-50 p-3">
+        <div className="flex items-center justify-between gap-3 text-xs font-bold text-muted">
+          <span>完成度</span>
+          <span>{percent}%</span>
+        </div>
+        <div className="mt-2 h-2 overflow-hidden rounded-full bg-white">
+          <div className="h-full rounded-full bg-accent transition-all duration-500 ease-out" style={{ width: `${percent}%` }} />
+        </div>
       </div>
 
       <div className="mt-4 grid gap-2">
@@ -89,6 +126,10 @@ export function LessonCompletionPanel({ lesson }: LessonCompletionPanelProps) {
               <span>
                 <span className="block text-sm font-black">{gate.title}</span>
                 <span className="mt-1 block text-sm leading-6 opacity-85">{gate.body}</span>
+                <span className="mt-2 flex items-start gap-2 rounded-md bg-white/65 px-2 py-1.5 text-xs font-semibold leading-5 opacity-90">
+                  <NotebookPen className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                  {gate.evidence}
+                </span>
               </span>
             </button>
           );

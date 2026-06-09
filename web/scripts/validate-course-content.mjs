@@ -14,6 +14,7 @@ const labPageDir = path.join(root, "src", "app", "labs");
 const lessonChartFile = path.join(root, "src", "components", "charts", "LessonChart.tsx");
 const lessonViewFile = path.join(root, "src", "components", "lesson", "LessonView.tsx");
 const lessonReviewTemplateFile = path.join(root, "src", "components", "lesson", "LessonReviewTemplate.tsx");
+const lessonCompletionPanelFile = path.join(root, "src", "components", "lesson", "LessonCompletionPanel.tsx");
 const lessonModuleGateFile = path.join(root, "src", "components", "lesson", "LessonModuleGate.tsx");
 const pythonProjectExplorerFile = path.join(root, "src", "components", "python", "PythonProjectExplorer.tsx");
 const capstonePageFile = path.join(root, "src", "app", "capstone", "page.tsx");
@@ -362,6 +363,7 @@ function validateLessonChartGuides(failures) {
 function validateLessonReviewTemplate(failures) {
   const lessonViewSource = fs.readFileSync(lessonViewFile, "utf-8");
   const templateSource = fs.readFileSync(lessonReviewTemplateFile, "utf-8");
+  const completionSource = fs.readFileSync(lessonCompletionPanelFile, "utf-8");
 
   assert(lessonViewSource.includes("<LessonReviewTemplate"), "lesson pages should render the review template before completion", failures);
   assert(templateSource.includes("buildReviewTemplate"), "LessonReviewTemplate should generate structured Markdown", failures);
@@ -373,6 +375,9 @@ function validateLessonReviewTemplate(failures) {
   assert(templateSource.includes("常见误区防线"), "LessonReviewTemplate should ask learners to name misuse risks", failures);
   assert(templateSource.includes("Capstone 关联"), "LessonReviewTemplate should connect lesson output to Capstone evidence", failures);
   assert(templateSource.includes('emitLessonActivity(lesson.slug, "checkpoint")'), "copying the review template should count as checkpoint activity", failures);
+  assert(completionSource.includes("复制完成复盘"), "LessonCompletionPanel should let learners copy a completion review", failures);
+  assert(completionSource.includes("evidence"), "LessonCompletionPanel should show evidence for each completion gate", failures);
+  assert(completionSource.includes("完成度"), "LessonCompletionPanel should show completion progress before marking done", failures);
 }
 
 function validateLessonModuleGate(failures) {
