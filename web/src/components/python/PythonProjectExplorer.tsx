@@ -28,6 +28,38 @@ export function PythonProjectExplorer() {
   const firstLesson = active.courseModule?.lessons[0];
   const commands = commandText(active.codeMap.exampleCommands);
   const skillLines = active.courseModule?.skillLines.map((skillLineId) => getSkillLine(skillLineId)).filter((skillLine) => skillLine !== undefined) ?? [];
+  const moduleReviewTemplate = [
+    `# ${active.codeMap.moduleId} ${active.courseModule?.title ?? "Python 模块"} 复盘证据`,
+    "",
+    `模块目标：${active.codeMap.focus}`,
+    `Mini Project：${active.project?.title ?? "本模块学习产物"}`,
+    "",
+    "## 课程证据",
+    ...(active.courseModule?.lessons.map((lesson) => `- ${lesson.id} ${lesson.title}: /courses/${lesson.slug}`) ?? []),
+    "",
+    "## 代码文件",
+    ...active.codeMap.codeFiles.map((file) => `- ${file}`),
+    "",
+    "## 测试文件",
+    ...active.codeMap.testFiles.map((file) => `- ${file}`),
+    "",
+    "## 运行命令",
+    "```bash",
+    commands,
+    "```",
+    "",
+    "## 报告产物",
+    `- ${active.project?.deliverablePath ?? "本模块以测试或学习笔记作为产物。"}`,
+    "",
+    "## Capstone 材料",
+    `- ${active.project?.capstoneMaterial ?? "记录学习边界和代码验收结果。"}`,
+    "",
+    "## 风险和误用提醒",
+    "- 教育用途，不构成投资建议。",
+    "- 历史回测结果不代表未来收益。",
+    "- 检查 signal、position、returns 和 equity curve 是否索引对齐。",
+    "",
+  ].join("\n");
   const gateItems = active.courseModule
     ? [
         {
@@ -95,6 +127,7 @@ export function PythonProjectExplorer() {
                 <span className="rounded-md border border-line bg-white px-3 py-2 text-sm font-bold text-muted">
                   {active.courseModule?.lessons.length ?? 0} 节课
                 </span>
+                <CopyButton value={moduleReviewTemplate} label="复制模块复盘" className="px-3 py-2 text-sm" />
                 <Link href={`/courses/${firstLesson.slug}`} className="inline-flex items-center gap-2 rounded-md bg-ink px-3 py-2 text-sm font-bold text-white transition hover:bg-slate-700">
                   进入课程
                   <ArrowRight className="h-4 w-4" />
@@ -142,6 +175,25 @@ export function PythonProjectExplorer() {
               </div>
             </section>
           ) : null}
+
+          <section className="mt-3 rounded-lg border border-teal-200 bg-teal-50 p-4 text-teal-950">
+            <h4 className="flex items-center gap-2 text-sm font-black">
+              <ClipboardList className="h-4 w-4" />
+              模块复盘模板
+            </h4>
+            <p className="mt-2 text-sm leading-7">
+              复制模板后，把实际命令输出、报告路径和本模块最容易误用的地方补进去。它可以直接进入 Mini Project 记录或 Capstone 草稿。
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              <CopyButton value={moduleReviewTemplate} label="复制复盘模板" className="px-2.5 py-1.5 text-xs" />
+              {active.project ? (
+                <Link href={`/projects#${active.project.moduleId}`} className="inline-flex items-center gap-2 rounded-md border border-teal-300 bg-white px-2.5 py-1.5 text-xs font-bold transition hover:border-teal-500">
+                  查看 Mini Project
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              ) : null}
+            </div>
+          </section>
 
           <div className="mt-5 grid gap-3 md:grid-cols-2">
             <section className="rounded-lg border border-line bg-white p-4">

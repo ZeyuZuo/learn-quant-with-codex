@@ -449,6 +449,11 @@ function validatePythonProjectExplorer(failures) {
   assert(source.includes("active.courseModule.gate.nextUse"), "PythonProjectExplorer should show module next-use gate", failures);
   assert(source.includes("能力线和 Capstone 证据"), "PythonProjectExplorer should show skill-line Capstone evidence", failures);
   assert(source.includes("getSkillLine"), "PythonProjectExplorer should resolve skill-line metadata", failures);
+  assert(source.includes("moduleReviewTemplate"), "PythonProjectExplorer should build a copyable module review template", failures);
+  assert(source.includes("复制模块复盘"), "PythonProjectExplorer should let learners copy a module review", failures);
+  assert(source.includes("教育用途，不构成投资建议"), "PythonProjectExplorer module review should preserve the learning boundary", failures);
+  assert(source.includes("历史回测结果不代表未来收益"), "PythonProjectExplorer module review should warn against future-return claims", failures);
+  assert(source.includes("检查 signal、position、returns 和 equity curve 是否索引对齐"), "PythonProjectExplorer module review should include alignment evidence", failures);
 }
 
 function validateCapstoneEvidenceMatrix(failures) {
