@@ -25,11 +25,8 @@ export function CourseCatalog() {
       .map((module) => ({
         ...module,
         lessons: module.lessons.filter((lesson) => {
-          if (!normalizedQuery) {
-            return true;
-          }
           const haystack = [lesson.id, lesson.title, lesson.subtitle, lesson.pythonModule, ...lesson.concepts].join(" ").toLowerCase();
-          const matchesQuery = haystack.includes(normalizedQuery);
+          const matchesQuery = !normalizedQuery || haystack.includes(normalizedQuery);
           const matchesDifficulty = difficulty === "all" || lesson.difficulty === difficulty;
           const completed = progress.completedSet.has(lesson.slug);
           const matchesStatus =
@@ -42,7 +39,14 @@ export function CourseCatalog() {
   }, [difficulty, moduleId, progress.completedSet, progress.ready, query, status]);
 
   const visibleLessons = filteredModules.reduce((sum, module) => sum + module.lessons.length, 0);
+  const visibleModules = filteredModules.length;
   const hasActiveFilters = query.trim().length > 0 || moduleId !== "all" || status !== "all" || difficulty !== "all";
+  const activeFilterLabels = [
+    query.trim() ? `关键词：${query.trim()}` : null,
+    moduleId !== "all" ? courseModules.find((module) => module.id === moduleId)?.title : null,
+    status !== "all" ? `状态：${status === "done" ? "已完成" : "未完成"}` : null,
+    difficulty !== "all" ? `难度：${difficulty}` : null,
+  ].filter((label): label is string => Boolean(label));
 
   function clearFilters() {
     setQuery("");
@@ -122,7 +126,7 @@ export function CourseCatalog() {
           <div className="rounded-md border border-line bg-slate-50 p-3">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <p className="text-sm text-muted">
-                当前显示 <span className="font-bold text-ink">{visibleLessons}</span> 节课。
+                当前显示 <span className="font-bold text-ink">{visibleModules}</span> 个模块、<span className="font-bold text-ink">{visibleLessons}</span> 节课。
                 {progress.ready ? ` 已完成 ${progress.completedCount} / ${progress.totalCount} 节。` : " 正在读取本地进度。"}
               </p>
               {hasActiveFilters ? (
@@ -136,6 +140,15 @@ export function CourseCatalog() {
                 </button>
               ) : null}
             </div>
+            {hasActiveFilters ? (
+              <div className="mt-3 flex flex-wrap gap-2">
+                {activeFilterLabels.map((label) => (
+                  <span key={label} className="rounded-md border border-teal-100 bg-white px-2 py-1 text-xs font-bold text-teal-950">
+                    {label}
+                  </span>
+                ))}
+              </div>
+            ) : null}
           </div>
 
           {progress.ready ? (
