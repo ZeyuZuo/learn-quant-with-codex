@@ -20,7 +20,13 @@ uv run pytest
 
 ## 示例
 
+这些脚本会从本地样例数据生成课程项目页需要的报告，输出目录是仓库根目录的 `reports/`。
+
 ```bash
+uv run python examples/run_data_quality_report.py
+uv run python examples/run_returns_summary.py
+uv run python examples/run_metrics_summary.py
+uv run python examples/run_position_cost_bias.py
 uv run python examples/run_buy_and_hold.py
 uv run python examples/run_moving_average.py
 uv run python examples/run_equal_weight_portfolio.py
@@ -57,6 +63,10 @@ uv run python examples/generate_capstone_template.py
 
 ## 示例脚本说明
 
+- `run_data_quality_report.py`：生成 `reports/sample_prices_quality_report.json`，适合 Module 1。
+- `run_returns_summary.py`：生成 `reports/returns_equity_summary.json`，适合 Module 2。
+- `run_metrics_summary.py`：生成 `reports/performance_metrics_summary.json`，适合 Module 3。
+- `run_position_cost_bias.py`：生成 `reports/position_cost_bias_comparison.json`，适合 Module 4。
 - `run_buy_and_hold.py`：运行最基础的 buy and hold 回测，适合 Module 5。
 - `run_moving_average.py`：运行双均线策略示例，适合 Module 6。
 - `run_equal_weight_portfolio.py`：运行等权组合示例，适合 Module 7。

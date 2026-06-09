@@ -2,10 +2,10 @@ import { courseModules } from "./courses";
 
 const projectCommands: Record<string, string[]> = {
   m0: ["cd python", "uv run pytest tests/test_metrics.py"],
-  m1: ["cd python", "uv run python examples/run_buy_and_hold.py"],
-  m2: ["cd python", "uv run pytest tests/test_metrics.py"],
-  m3: ["cd python", "uv run pytest tests/test_metrics.py"],
-  m4: ["cd python", "uv run pytest tests/test_positions.py tests/test_costs.py"],
+  m1: ["cd python", "uv run python examples/run_data_quality_report.py"],
+  m2: ["cd python", "uv run python examples/run_returns_summary.py"],
+  m3: ["cd python", "uv run python examples/run_metrics_summary.py"],
+  m4: ["cd python", "uv run python examples/run_position_cost_bias.py"],
   m5: ["cd python", "uv run python examples/run_buy_and_hold.py"],
   m6: ["cd python", "uv run python examples/run_moving_average.py"],
   m7: ["cd python", "uv run pytest tests/test_portfolio.py", "uv run python examples/run_equal_weight_portfolio.py"],

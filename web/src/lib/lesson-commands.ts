@@ -20,6 +20,23 @@ const moduleTestCommands: Record<string, string> = {
 };
 
 const lessonExamples: Record<string, string> = {
+  "us-market-and-ticker": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_data_quality_report.py",
+  "ohlcv": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_data_quality_report.py",
+  "close-vs-adjusted-close": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_data_quality_report.py",
+  "data-quality": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_data_quality_report.py",
+  "returns": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_returns_summary.py",
+  "compound-equity": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_returns_summary.py",
+  "annualized-return": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_returns_summary.py",
+  "returns-summary": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_returns_summary.py",
+  "volatility": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_metrics_summary.py",
+  "max-drawdown": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_metrics_summary.py",
+  "sharpe-ratio": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_metrics_summary.py",
+  "win-rate-profit-loss": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_metrics_summary.py",
+  "read-metrics-table": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_metrics_summary.py",
+  "signal-position": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_position_cost_bias.py",
+  "transaction-costs": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_position_cost_bias.py",
+  "position-sizing": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_position_cost_bias.py",
+  "wrong-backtest-demo": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_position_cost_bias.py",
   "buy-and-hold": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_buy_and_hold.py",
   "minimal-backtester": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_buy_and_hold.py",
   "backtest-result-object": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_buy_and_hold.py",
