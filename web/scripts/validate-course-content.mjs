@@ -8,6 +8,7 @@ const repoRoot = path.resolve(root, "..");
 const courseFile = path.join(root, "src", "lib", "courses.ts");
 const courseCodeMapFile = path.join(root, "src", "lib", "course-code-map.ts");
 const lessonCommandsFile = path.join(root, "src", "lib", "lesson-commands.ts");
+const lessonLabsFile = path.join(root, "src", "lib", "lesson-labs.ts");
 const glossaryFile = path.join(root, "src", "lib", "glossary.ts");
 
 function loadTypeScriptModule(filePath) {
@@ -236,6 +237,45 @@ function validateGlossarySource(allLessons, failures) {
   }
 }
 
+function validateLessonLabsSource(allLessons, failures) {
+  const source = fs.readFileSync(lessonLabsFile, "utf-8");
+  const lessonSlugs = new Set(allLessons.map((lesson) => lesson.slug));
+  const labHrefs = [...source.matchAll(/href: "(\/labs\/[^"]+)"/g)].map((match) => match[1]);
+  const lessonMapSection = source.match(/const lessonLabMap:[\s\S]*?const moduleLabMap:/)?.[0] ?? "";
+  const moduleMapSection = source.match(/const moduleLabMap:[\s\S]*?export function getRelatedLabs/)?.[0] ?? "";
+  const mappedLessonSlugs = [...lessonMapSection.matchAll(/^\s*"([^"]+)": \[/gm)].map((match) => match[1]);
+  const mappedModuleIds = [...moduleMapSection.matchAll(/^\s*(m\d+): \[/gm)].map((match) => match[1]);
+  const labModules = ["m2", "m3", "m4", "m5", "m6", "m7", "m8"];
+  const expectedLabs = ["/labs/metrics", "/labs/strategies", "/labs/parameter-scan"];
+
+  for (const href of labHrefs) {
+    assert(expectedLabs.includes(href), `lesson labs contains unknown href: ${href}`, failures);
+  }
+
+  assert(new Set(labHrefs).size >= expectedLabs.length, "lesson labs should reference every lab page", failures);
+
+  for (const href of expectedLabs) {
+    assert(labHrefs.includes(href), `lesson labs missing lab page: ${href}`, failures);
+  }
+
+  for (const slug of mappedLessonSlugs) {
+    assert(lessonSlugs.has(slug), `lesson lab map references unknown lesson slug: ${slug}`, failures);
+  }
+
+  for (const moduleId of labModules) {
+    assert(mappedModuleIds.includes(moduleId), `lesson lab module fallback missing ${moduleId}`, failures);
+  }
+
+  for (const lesson of allLessons.filter((item) => labModules.includes(item.moduleId))) {
+    const hasSpecificMap = mappedLessonSlugs.includes(lesson.slug);
+    const hasModuleFallback = mappedModuleIds.includes(lesson.moduleId);
+    assert(hasSpecificMap || hasModuleFallback, `${lesson.id}: lesson should have a related lab mapping or module fallback`, failures);
+  }
+
+  assert(source.includes("reason"), "lesson labs should explain why each lab is related", failures);
+  assert(source.includes("getRelatedLabs"), "lesson labs should export getRelatedLabs", failures);
+}
+
 const { allLessons, courseModules } = loadTypeScriptModule(courseFile);
 const { courseCodeMap } = loadTypeScriptModule(courseCodeMapFile);
 const failures = [];
@@ -258,6 +298,7 @@ if (Array.isArray(courseModules) && Array.isArray(allLessons)) {
   validateModules(courseModules, allLessons, failures);
   validateCourseCodeMap(courseCodeMap, courseModules, failures);
   validateLessonCommandsSource(failures);
+  validateLessonLabsSource(allLessons, failures);
   validateGlossarySource(allLessons, failures);
 }
 
