@@ -162,6 +162,24 @@ function validateLesson(lesson, failures) {
   assert(Boolean(lesson.codexTask) && lesson.codexTask.includes("请先说明实现思路"), `${prefix}: Codex task should require implementation reasoning`, failures);
   assert(Boolean(lesson.codexTask) && lesson.codexTask.includes("误用"), `${prefix}: Codex task should require misuse reflection`, failures);
   assert(Boolean(lesson.codexTask) && /pytest|无需测试/.test(lesson.codexTask), `${prefix}: Codex task should name a test expectation`, failures);
+
+  const targetFileMatch = lesson.codexTask?.match(/- 在 ([^\n]+) 中实现 /);
+  const testFileMatch = lesson.codexTask?.match(/- 新增或更新 ([^\n]+)。/);
+  if (targetFileMatch) {
+    const targetFile = targetFileMatch[1].trim();
+    assert(fs.existsSync(path.join(repoRoot, targetFile)), `${prefix}: Codex target file does not exist: ${targetFile}`, failures);
+  } else {
+    assert(false, `${prefix}: Codex task should expose a target file`, failures);
+  }
+
+  if (testFileMatch) {
+    const testFile = testFileMatch[1].trim();
+    if (testFile !== "无需测试") {
+      assert(fs.existsSync(path.join(repoRoot, testFile)), `${prefix}: Codex test file does not exist: ${testFile}`, failures);
+    }
+  } else {
+    assert(false, `${prefix}: Codex task should expose a test file or 无需测试`, failures);
+  }
 }
 
 function validateModules(courseModules, allLessons, failures) {

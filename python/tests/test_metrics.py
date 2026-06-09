@@ -8,12 +8,26 @@ from quant_learning.metrics import (
     annualized_volatility,
     calculate_returns,
     compound_returns,
+    daily_return,
     drawdown_series,
     max_drawdown,
     profit_loss_ratio,
     sharpe_ratio,
     win_rate,
 )
+
+
+def test_daily_return() -> None:
+    assert daily_return(100.0, 105.0) == pytest.approx(0.05)
+    assert daily_return(100.0, 95.0) == pytest.approx(-0.05)
+
+
+def test_daily_return_rejects_invalid_prices() -> None:
+    with pytest.raises(ValueError, match="previous_price"):
+        daily_return(0.0, 105.0)
+
+    with pytest.raises(ValueError, match="current_price"):
+        daily_return(100.0, -1.0)
 
 
 def test_calculate_returns() -> None:

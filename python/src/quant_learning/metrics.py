@@ -6,6 +6,14 @@ import numpy as np
 import pandas as pd
 
 
+def daily_return(previous_price: float, current_price: float) -> float:
+    if previous_price <= 0:
+        raise ValueError("previous_price must be positive")
+    if current_price < 0:
+        raise ValueError("current_price must be non-negative")
+    return current_price / previous_price - 1
+
+
 def calculate_returns(prices: pd.Series) -> pd.Series:
     clean = prices.dropna().astype(float)
     if clean.empty:
