@@ -1,7 +1,9 @@
-import { ClipboardCheck, FileCode2, PlayCircle } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ClipboardCheck, FileCode2, FlaskConical, PlayCircle } from "lucide-react";
 import type { Lesson } from "@/lib/types";
 import { CopyButton } from "@/components/prompt/CopyButton";
 import { getLessonCommandInfo } from "@/lib/lesson-commands";
+import { getRelatedLabs } from "@/lib/lesson-labs";
 
 type PracticePanelProps = {
   lesson: Lesson;
@@ -9,6 +11,7 @@ type PracticePanelProps = {
 
 export function PracticePanel({ lesson }: PracticePanelProps) {
   const commandInfo = getLessonCommandInfo(lesson);
+  const relatedLabs = getRelatedLabs(lesson);
   const steps = [
     {
       icon: FileCode2,
@@ -70,6 +73,29 @@ export function PracticePanel({ lesson }: PracticePanelProps) {
           </>
         ) : null}
       </div>
+      {relatedLabs.length > 0 ? (
+        <div className="mt-4 rounded-md border border-teal-200 bg-teal-50 p-3">
+          <div className="flex items-center gap-2 text-sm font-black text-teal-950">
+            <FlaskConical className="h-4 w-4" />
+            相关实验
+          </div>
+          <div className="mt-3 grid gap-2">
+            {relatedLabs.map((lab) => (
+              <Link
+                key={lab.href}
+                href={lab.href}
+                className="flex items-start justify-between gap-3 rounded-md border border-teal-100 bg-white px-3 py-2 text-sm text-teal-950 transition hover:border-teal-300"
+              >
+                <span>
+                  <span className="block font-black">{lab.title}</span>
+                  <span className="mt-1 block leading-6 opacity-85">{lab.reason}</span>
+                </span>
+                <ArrowRight className="mt-1 h-4 w-4 shrink-0" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }

@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { CheckCircle2, FileCode2, Milestone, Navigation, Terminal } from "lucide-react";
+import { CheckCircle2, FileCode2, FlaskConical, Milestone, Navigation, Terminal } from "lucide-react";
 import type { CourseModule, Lesson } from "@/lib/types";
 import { getCourseCodeMapItem } from "@/lib/course-code-map";
 import { getLessonCommandInfo } from "@/lib/lesson-commands";
+import { getRelatedLabs } from "@/lib/lesson-labs";
 
 type LessonAsideProps = {
   lesson: Lesson;
@@ -28,6 +29,7 @@ const anchors = [
 export function LessonAside({ lesson, courseModule, progress }: LessonAsideProps) {
   const codeMap = getCourseCodeMapItem(lesson.moduleId);
   const commandInfo = getLessonCommandInfo(lesson);
+  const relatedLabs = getRelatedLabs(lesson);
 
   return (
     <aside className="hidden w-72 shrink-0 xl:block">
@@ -93,6 +95,22 @@ export function LessonAside({ lesson, courseModule, progress }: LessonAsideProps
             </Link>
           ) : null}
         </section>
+
+        {relatedLabs.length > 0 ? (
+          <section className="mt-4 rounded-lg border border-teal-200 bg-teal-50 p-4">
+            <div className="flex items-center gap-2 text-sm font-black text-teal-950">
+              <FlaskConical className="h-4 w-4" />
+              相关实验
+            </div>
+            <div className="mt-3 grid gap-2">
+              {relatedLabs.map((lab) => (
+                <Link key={lab.href} href={lab.href} className="rounded-md bg-white px-3 py-2 text-xs font-bold leading-5 text-teal-950 transition hover:bg-teal-100">
+                  {lab.title}
+                </Link>
+              ))}
+            </div>
+          </section>
+        ) : null}
 
         <section className="mt-4 rounded-lg border border-teal-200 bg-teal-50 p-4">
           <div className="flex items-center gap-2 text-sm font-black text-teal-950">
