@@ -77,10 +77,10 @@ export const glossaryTerms: GlossaryTerm[] = [
     term: "Signal 和 Position",
     english: "Signal and Position",
     group: "回测",
-    summary: "signal 是策略想法，position 是实际持仓。日线回测里 position 通常要滞后 signal。",
+    summary: "signal 是策略想法，position 是实际持仓。课程把两者拆成两节，先理解想法，再理解持仓滞后。",
     whyItMatters: "混淆两者容易产生 look-ahead bias，让回测结果过度乐观。",
     commonMistake: "用当天收盘价生成 signal，又假设当天已经按这个收盘价建仓。",
-    relatedSlugs: ["signal-position", "wrong-backtest-demo"],
+    relatedSlugs: ["signal-position", "position-lag", "wrong-backtest-demo"],
   },
   {
     id: "transaction-costs",
@@ -160,7 +160,7 @@ export const glossaryTerms: GlossaryTerm[] = [
     summary: "回测使用了决策时点现实中还不知道的信息。",
     whyItMatters: "这是初学者最常见也最严重的回测错误之一，会让策略曲线虚假变好。",
     commonMistake: "代码能跑通就以为逻辑正确，没有逐行检查信号和仓位的时间对齐。",
-    relatedSlugs: ["signal-position", "wrong-backtest-demo", "backtest-biases"],
+    relatedSlugs: ["position-lag", "wrong-backtest-demo", "backtest-biases"],
   },
   {
     id: "paper-trading",

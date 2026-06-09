@@ -26,9 +26,9 @@ UV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_metrics_summary.py`}
           reportPath="reports/performance_metrics_summary.json"
           lessons={[
             { href: "/courses/returns", label: "2.1 收益率" },
-            { href: "/courses/compound-equity", label: "2.2 净值曲线" },
-            { href: "/courses/max-drawdown", label: "3.1 最大回撤" },
-            { href: "/courses/sharpe-ratio", label: "3.2 夏普比率" },
+            { href: "/courses/compound-equity", label: "2.3 净值曲线" },
+            { href: "/courses/max-drawdown", label: "3.2 最大回撤" },
+            { href: "/courses/sharpe-ratio", label: "3.3 夏普比率" },
           ]}
         />
         <section className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

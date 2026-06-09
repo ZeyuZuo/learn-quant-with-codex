@@ -34,6 +34,7 @@ const lessonExamples: Record<string, string> = {
   "win-rate-profit-loss": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_metrics_summary.py",
   "read-metrics-table": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_metrics_summary.py",
   "signal-position": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_position_cost_bias.py",
+  "position-lag": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_position_cost_bias.py",
   "transaction-costs": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_position_cost_bias.py",
   "position-sizing": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_position_cost_bias.py",
   "wrong-backtest-demo": "cd python\nUV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_position_cost_bias.py",

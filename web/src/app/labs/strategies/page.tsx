@@ -25,7 +25,8 @@ export default function StrategiesLabPage() {
 UV_CACHE_DIR=/tmp/uv-cache uv run python examples/run_moving_average.py`}
           reportPath="reports/strategy_comparison_report.md"
           lessons={[
-            { href: "/courses/signal-position", label: "4.1 Signal / Position" },
+            { href: "/courses/signal-position", label: "4.1 Signal" },
+            { href: "/courses/position-lag", label: "4.2 Position" },
             { href: "/courses/minimal-backtester", label: "5.2 回测器" },
             { href: "/courses/moving-average-crossover", label: "6.1 双均线" },
             { href: "/courses/strategy-comparison", label: "6.5 策略对比" },

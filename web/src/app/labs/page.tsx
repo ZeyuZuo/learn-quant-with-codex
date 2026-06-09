@@ -24,7 +24,8 @@ const labs = [
     body: "比较 buy and hold、双均线、动量、均值回归和组合路径，并检查成本与 lag。",
     python: "python/src/quant_learning/strategies.py",
     lessons: [
-      { href: "/courses/signal-position", label: "Signal / Position" },
+      { href: "/courses/signal-position", label: "Signal" },
+      { href: "/courses/position-lag", label: "Position" },
       { href: "/courses/moving-average-crossover", label: "双均线" },
       { href: "/courses/strategy-comparison", label: "策略对比" },
     ],

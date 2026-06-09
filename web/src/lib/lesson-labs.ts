@@ -74,7 +74,14 @@ const lessonLabMap: Record<string, RelatedLab[]> = {
     {
       href: "/labs/strategies",
       title: "策略实验室",
-      reason: "观察 signal、position 和收益路径的区别。",
+      reason: "先观察 signal 只是策略想法，还没有承担收益。",
+    },
+  ],
+  "position-lag": [
+    {
+      href: "/labs/strategies",
+      title: "策略实验室",
+      reason: "观察 signal 滞后一日变成 position 后，收益路径如何变化。",
     },
   ],
   "transaction-costs": [

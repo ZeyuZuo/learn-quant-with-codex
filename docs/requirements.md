@@ -143,15 +143,16 @@
 
 课程设计以 [course-design.md](./course-design.md) 为主文档，外部教程参考和课程优化依据见 [tutorial-reference-analysis.md](./tutorial-reference-analysis.md)，单节课写作和验收规则见 [course-authoring-guide.md](./course-authoring-guide.md)。
 
-需求文档只规定产品层面的课程约束；详细课表、模块产物、Mini Project、Capstone、Codex Task 模板和课程与代码同步契约，以 `docs/course-design.md` 的 v4.4 设计为准。课程内容的实际写作必须同时满足 `docs/course-authoring-guide.md` 的单节课结构、Lesson Brief、误区矩阵、纵向能力线、Lab 使用规则和作者自查清单。
+需求文档只规定产品层面的课程约束；详细课表、模块产物、Mini Project、Capstone、Codex Task 模板和课程与代码同步契约，以 `docs/course-design.md` 的 v4.4.1 设计为准。课程内容的实际写作必须同时满足 `docs/course-authoring-guide.md` 的单节课结构、Lesson Brief、误区矩阵、纵向能力线、Lab 使用规则和作者自查清单。
 
 ### 5.1 课程设计原则
 
-课程必须采用唯一的 10 模块主线，不能再维护一套旧版 8 模块大纲。v4.4 的设计参考了 QuantConnect Learning Center、Georgia Tech ML4T、Backtrader、Zipline、QuantStart 和 EDHEC / Coursera 投资管理 Python 课程的教学机制，落地为以下原则：
+课程必须采用唯一的 10 模块主线，不能再维护一套旧版 8 模块大纲。v4.4.1 的设计参考了 QuantConnect Learning Center、Georgia Tech ML4T、Backtrader、Zipline、QuantStart 和 EDHEC / Coursera 投资管理 Python 课程的教学机制，落地为以下原则：
 
 - 项目驱动：每个模块都有可运行、可测试、可解释的产物。
 - 评价前置：先学收益、净值、回撤、波动和夏普，再写策略。
 - 偏差前置：在回测系统前先讲 `signal`、`position`、`lag`、交易成本和 look-ahead bias。
+- 执行拆分：Module 4 必须把 `signal` 和 `position` 分成相邻两课，先讲策略想法，再讲滞后持仓和收益暴露。
 - 向量化先行：首版使用 pandas 向量化回测降低门槛，同时明确它不是完整交易系统。
 - 每节可验收：课程页必须包含 Quiz、Codex Task、Checkpoint 和至少一个可保留的学习产物。
 - 报告优先：最终交付是学习型研究报告，不是策略推荐或收益宣传页。
@@ -178,7 +179,7 @@
 | Module 1 | 美股数据入门 | 一行股票数据到底代表什么？ | 数据读取函数和质量报告 |
 | Module 2 | 收益和净值 | 如何从价格得到收益路径？ | 收益率、复利、年化和净值函数 |
 | Module 3 | 风险和绩效指标 | 如何评价一条收益曲线？ | 风险指标模块和绩效摘要表 |
-| Module 4 | 信号、仓位和成本 | 策略想法如何变成可回测的持仓？ | position、turnover、cost 和偏差演示 |
+| Module 4 | 信号、仓位和成本 | 策略想法如何变成可回测的持仓？ | signal、position、turnover、cost 和偏差演示 |
 | Module 5 | 第一套回测系统 | 如何把数据、仓位、成本和指标串起来？ | `BacktestResult` 和 buy and hold 报告 |
 | Module 6 | 入门策略模式 | 趋势、动量、均值回归如何编码？ | 策略函数库和公平对比实验 |
 | Module 7 | 多股票组合 | 多资产收益和权重如何工作？ | 等权组合和轮动组合实验 |
@@ -648,7 +649,8 @@ learn-quant-with-codex/
 | 最大回撤 | `metrics.py` | `drawdown_series`, `max_drawdown` |
 | 夏普、胜率、盈亏比 | `metrics.py` | `sharpe_ratio`, `win_rate`, `profit_loss_ratio` |
 | 手续费和滑点 | `costs.py` | `apply_transaction_costs` |
-| Signal 和 Position | `positions.py` | `signals_to_positions` |
+| Signal | `positions.py` | 0/1 signal 示例、索引对齐检查 |
+| Position 和 lag | `positions.py` | `signals_to_positions` |
 | 仓位管理 | `positions.py` | `normalize_weights`, `equal_weight_positions` |
 | Buy and Hold | `strategies.py` | `buy_and_hold_signal` |
 | 双均线策略 | `strategies.py` | `moving_average_crossover` |

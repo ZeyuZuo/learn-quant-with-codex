@@ -438,10 +438,13 @@ assert(Array.isArray(allLessons), "allLessons export must be an array", failures
 assert(Array.isArray(courseModules), "courseModules export must be an array", failures);
 
 if (Array.isArray(allLessons)) {
-  assert(allLessons.length === 47, `expected 47 lessons, found ${allLessons.length}`, failures);
+  assert(allLessons.length === 48, `expected 48 lessons, found ${allLessons.length}`, failures);
   assert(unique(allLessons.map((lesson) => lesson.slug)), "lesson slugs must be unique", failures);
   assert(unique(allLessons.map((lesson) => lesson.order)), "lesson orders must be unique", failures);
   assert(unique(allLessons.map((lesson) => lesson.id)), "lesson ids must be unique", failures);
+  assert(allLessons.some((lesson) => lesson.slug === "signal-position" && lesson.id === "4.1"), "Module 4 should keep Signal as the first execution lesson", failures);
+  assert(allLessons.some((lesson) => lesson.slug === "position-lag" && lesson.id === "4.2"), "Module 4 should split Position/lag into its own lesson", failures);
+  assert(allLessons.some((lesson) => lesson.slug === "wrong-backtest-demo" && lesson.id === "4.5"), "Module 4 should keep a dedicated look-ahead diagnostic lesson", failures);
   for (const lesson of allLessons) {
     validateLesson(lesson, failures);
   }
