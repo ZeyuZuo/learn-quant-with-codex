@@ -14,7 +14,7 @@ export function SiteHeader() {
             <BookOpen className="h-4 w-4" />
             课程
           </Link>
-          <Link href="/labs/metrics" className="inline-flex items-center gap-2 rounded-md px-3 py-2 transition hover:bg-slate-100">
+          <Link href="/labs" className="inline-flex items-center gap-2 rounded-md px-3 py-2 transition hover:bg-slate-100">
             <FlaskConical className="h-4 w-4" />
             实验
           </Link>

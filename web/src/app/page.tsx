@@ -55,6 +55,13 @@ export default function HomePage() {
                   项目实践
                   <SquareKanban className="h-4 w-4" />
                 </Link>
+                <Link
+                  href="/labs"
+                  className="inline-flex items-center gap-2 rounded-md border border-line bg-white px-4 py-3 text-sm font-bold text-ink transition hover:border-accent hover:text-accent"
+                >
+                  交互实验
+                  <FlaskConical className="h-4 w-4" />
+                </Link>
               </div>
             </div>
             <div className="min-w-0">
@@ -80,6 +87,9 @@ export default function HomePage() {
                 <p className="mt-2 text-sm leading-7 text-muted">
                   图表用于解释收益、回撤、成本、策略对比和参数扫描，不为了展示复杂交易功能。
                 </p>
+                <Link href="/labs" className="mt-3 inline-flex text-sm font-bold text-accent hover:underline">
+                  进入实验室
+                </Link>
               </div>
               <div className="rounded-lg border border-line bg-white p-5 shadow-soft">
                 <ShieldCheck className="h-5 w-5 text-accent" />
