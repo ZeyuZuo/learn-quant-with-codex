@@ -12,6 +12,8 @@ const lessonLabsFile = path.join(root, "src", "lib", "lesson-labs.ts");
 const glossaryFile = path.join(root, "src", "lib", "glossary.ts");
 const labPageDir = path.join(root, "src", "app", "labs");
 const lessonChartFile = path.join(root, "src", "components", "charts", "LessonChart.tsx");
+const lessonViewFile = path.join(root, "src", "components", "lesson", "LessonView.tsx");
+const lessonReviewTemplateFile = path.join(root, "src", "components", "lesson", "LessonReviewTemplate.tsx");
 
 function loadTypeScriptModule(filePath) {
   const source = fs.readFileSync(filePath, "utf-8");
@@ -343,6 +345,20 @@ function validateLessonChartGuides(failures) {
   }
 }
 
+function validateLessonReviewTemplate(failures) {
+  const lessonViewSource = fs.readFileSync(lessonViewFile, "utf-8");
+  const templateSource = fs.readFileSync(lessonReviewTemplateFile, "utf-8");
+
+  assert(lessonViewSource.includes("<LessonReviewTemplate"), "lesson pages should render the review template before completion", failures);
+  assert(templateSource.includes("buildReviewTemplate"), "LessonReviewTemplate should generate structured Markdown", failures);
+  assert(templateSource.includes("不构成投资建议"), "LessonReviewTemplate should include the project boundary", failures);
+  assert(templateSource.includes("代码和测试证据"), "LessonReviewTemplate should ask for code and test evidence", failures);
+  assert(templateSource.includes("图表观察"), "LessonReviewTemplate should ask for chart observations", failures);
+  assert(templateSource.includes("常见误区防线"), "LessonReviewTemplate should ask learners to name misuse risks", failures);
+  assert(templateSource.includes("Capstone 关联"), "LessonReviewTemplate should connect lesson output to Capstone evidence", failures);
+  assert(templateSource.includes('emitLessonActivity(lesson.slug, "checkpoint")'), "copying the review template should count as checkpoint activity", failures);
+}
+
 const { allLessons, courseModules } = loadTypeScriptModule(courseFile);
 const { courseCodeMap } = loadTypeScriptModule(courseCodeMapFile);
 const failures = [];
@@ -368,6 +384,7 @@ if (Array.isArray(courseModules) && Array.isArray(allLessons)) {
   validateLessonLabsSource(allLessons, failures);
   validateLabPages(failures);
   validateLessonChartGuides(failures);
+  validateLessonReviewTemplate(failures);
   validateGlossarySource(allLessons, failures);
 }
 

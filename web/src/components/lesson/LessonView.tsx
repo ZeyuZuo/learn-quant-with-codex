@@ -16,6 +16,7 @@ import { MistakeClinic } from "./MistakeClinic";
 import { LessonAside } from "./LessonAside";
 import { LessonFocusPanel } from "./LessonFocusPanel";
 import { LessonCompletionPanel } from "./LessonCompletionPanel";
+import { LessonReviewTemplate } from "./LessonReviewTemplate";
 
 type LessonViewProps = {
   lesson: Lesson;
@@ -131,6 +132,7 @@ export function LessonView({ lesson }: LessonViewProps) {
           <div id="codex-task" className="scroll-mt-24">
             <PromptBox prompt={lesson.codexTask} lessonSlug={lesson.slug} />
           </div>
+          <LessonReviewTemplate lesson={lesson} />
           <div id="checkpoint" className="scroll-mt-24">
             <Checkpoint items={lesson.checkpoint} />
           </div>
