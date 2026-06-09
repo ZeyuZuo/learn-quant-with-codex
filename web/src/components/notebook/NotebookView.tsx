@@ -2,12 +2,68 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { BookOpenText, Filter, Flag, NotebookPen, RotateCcw, Search } from "lucide-react";
+import { BookOpenText, Download, Filter, Flag, NotebookPen, RotateCcw, Search } from "lucide-react";
+import { CopyButton } from "@/components/prompt/CopyButton";
 import { allLessons, courseModules, getSkillLine, skillLines } from "@/lib/courses";
 import { useLessonNotes } from "@/lib/notes";
 import type { SkillLineId } from "@/lib/types";
 
 type SkillLineFilter = "all" | SkillLineId;
+
+type EnrichedNote = {
+  note: {
+    slug: string;
+    text: string;
+    updatedAt: string;
+  };
+  lesson: (typeof allLessons)[number] | undefined;
+  courseModule: (typeof courseModules)[number] | undefined;
+  skillLine: (typeof skillLines)[number] | undefined;
+};
+
+function markdownEscape(value: string) {
+  return value.replaceAll("\r\n", "\n").trim();
+}
+
+function buildNotebookMarkdown(items: EnrichedNote[], context: string) {
+  const lines = [
+    "# Learn Quant With Codex 学习笔记",
+    "",
+    `导出时间：${new Date().toLocaleString()}`,
+    `复盘范围：${context}`,
+    `笔记数量：${items.length}`,
+    "",
+    "说明：这些内容来自浏览器本地笔记，用于课程复盘和 Capstone 草稿整理；不构成投资建议。",
+    "",
+  ];
+
+  for (const { note, lesson, courseModule, skillLine } of items) {
+    lines.push(`## ${lesson ? `${lesson.id} ${lesson.title}` : note.slug}`);
+    lines.push("");
+    if (lesson) {
+      lines.push(`- 课程：${lesson.title}`);
+      lines.push(`- Python 模块：${lesson.pythonModule}`);
+    }
+    if (courseModule) {
+      lines.push(`- 模块：${courseModule.title}`);
+    }
+    if (skillLine) {
+      lines.push(`- 能力线：${skillLine.title}`);
+      lines.push(`- Capstone 证据：${skillLine.capstoneEvidence}`);
+    }
+    lines.push(`- 更新时间：${new Date(note.updatedAt).toLocaleString()}`);
+    if (lesson?.checkpoint[0]) {
+      lines.push(`- 复盘提示：${lesson.checkpoint[0]}`);
+    }
+    lines.push("");
+    lines.push("### 我的笔记");
+    lines.push("");
+    lines.push(markdownEscape(note.text));
+    lines.push("");
+  }
+
+  return lines.join("\n");
+}
 
 export function NotebookView() {
   const [query, setQuery] = useState("");
@@ -19,7 +75,7 @@ export function NotebookView() {
     return allLessons.find((lesson) => lesson.slug === slug);
   }
 
-  const enrichedNotes = useMemo(
+  const enrichedNotes = useMemo<EnrichedNote[]>(
     () =>
       notes.noteList.map((note) => {
         const lesson = findLesson(note.slug);
@@ -47,11 +103,31 @@ export function NotebookView() {
   const notedModuleCount = courseModules.filter((module) => module.lessons.some((lesson) => notedLessonSlugs.has(lesson.slug))).length;
   const notedSkillLineCount = skillLines.filter((skillLine) => enrichedNotes.some(({ lesson }) => lesson?.skillLine === skillLine.id)).length;
   const hasActiveFilters = query.trim().length > 0 || moduleId !== "all" || skillLineId !== "all";
+  const exportContext = [
+    query.trim() ? `关键词「${query.trim()}」` : null,
+    moduleId !== "all" ? courseModules.find((courseModule) => courseModule.id === moduleId)?.title : null,
+    skillLineId !== "all" ? getSkillLine(skillLineId)?.title : null,
+  ]
+    .filter((item) => item)
+    .join(" / ");
+  const notebookMarkdown = useMemo(() => buildNotebookMarkdown(filteredNotes, exportContext || "全部笔记"), [exportContext, filteredNotes]);
 
   function clearFilters() {
     setQuery("");
     setModuleId("all");
     setSkillLineId("all");
+  }
+
+  function downloadMarkdown() {
+    const blob = new Blob([notebookMarkdown], { type: "text/markdown;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "learn-quant-with-codex-notes.md";
+    document.body.append(anchor);
+    anchor.click();
+    anchor.remove();
+    URL.revokeObjectURL(url);
   }
 
   return (
@@ -150,16 +226,34 @@ export function NotebookView() {
               <p className="text-sm text-muted">
                 当前显示 <span className="font-bold text-ink">{filteredNotes.length}</span> 条笔记。
               </p>
-              {hasActiveFilters ? (
-                <button
-                  type="button"
-                  onClick={clearFilters}
-                  className="inline-flex items-center gap-2 rounded-md border border-line bg-white px-3 py-2 text-sm font-semibold text-muted transition hover:border-accent hover:text-accent"
-                >
-                  <RotateCcw className="h-4 w-4" />
-                  清除筛选
-                </button>
-              ) : null}
+              <div className="flex flex-wrap items-center gap-2">
+                {filteredNotes.length > 0 ? (
+                  <>
+                    <CopyButton value={notebookMarkdown} label="复制 Markdown" className="bg-white text-sm font-semibold text-muted" />
+                    <button
+                      type="button"
+                      onClick={downloadMarkdown}
+                      className="inline-flex items-center gap-2 rounded-md border border-line bg-white px-3 py-2 text-sm font-semibold text-muted transition hover:border-accent hover:text-accent"
+                    >
+                      <Download className="h-4 w-4" />
+                      下载笔记
+                    </button>
+                  </>
+                ) : null}
+                {hasActiveFilters ? (
+                  <button
+                    type="button"
+                    onClick={clearFilters}
+                    className="inline-flex items-center gap-2 rounded-md border border-line bg-white px-3 py-2 text-sm font-semibold text-muted transition hover:border-accent hover:text-accent"
+                  >
+                    <RotateCcw className="h-4 w-4" />
+                    清除筛选
+                  </button>
+                ) : null}
+              </div>
+            </div>
+            <div className="mt-3 rounded-md border border-line bg-white px-3 py-2 text-xs leading-5 text-muted">
+              当前筛选结果可导出为 Markdown，用于整理课程复盘、Checkpoint 回答和 Capstone 报告草稿。
             </div>
           </div>
         </>
