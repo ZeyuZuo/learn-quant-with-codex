@@ -141,13 +141,13 @@
 
 ## 5. 课程体系
 
-课程设计以 [course-design.md](./course-design.md) 为主文档，外部教程参考和课程优化依据见 [tutorial-reference-analysis.md](./tutorial-reference-analysis.md)。
+课程设计以 [course-design.md](./course-design.md) 为主文档，外部教程参考和课程优化依据见 [tutorial-reference-analysis.md](./tutorial-reference-analysis.md)，单节课写作和验收规则见 [course-authoring-guide.md](./course-authoring-guide.md)。
 
-需求文档只规定产品层面的课程约束；详细课表、模块产物、Mini Project、Capstone、Codex Task 模板和课程与代码同步契约，以 `docs/course-design.md` 的 v4.2 设计为准。
+需求文档只规定产品层面的课程约束；详细课表、模块产物、Mini Project、Capstone、Codex Task 模板和课程与代码同步契约，以 `docs/course-design.md` 的 v4.3 设计为准。课程内容的实际写作必须同时满足 `docs/course-authoring-guide.md` 的单节课结构、误区矩阵、Lab 使用规则和作者自查清单。
 
 ### 5.1 课程设计原则
 
-课程必须采用唯一的 10 模块主线，不能再维护一套旧版 8 模块大纲。v4.2 的设计参考了 QuantConnect Learning Center、Georgia Tech ML4T、Backtrader、Zipline、QuantStart 和 EDHEC / Coursera 投资管理 Python 课程的教学机制，落地为以下原则：
+课程必须采用唯一的 10 模块主线，不能再维护一套旧版 8 模块大纲。v4.3 的设计参考了 QuantConnect Learning Center、Georgia Tech ML4T、Backtrader、Zipline、QuantStart 和 EDHEC / Coursera 投资管理 Python 课程的教学机制，落地为以下原则：
 
 - 项目驱动：每个模块都有可运行、可测试、可解释的产物。
 - 评价前置：先学收益、净值、回撤、波动和夏普，再写策略。
@@ -413,7 +413,9 @@ learn-quant-with-codex/
   README.md
   docs/
     requirements.md
-    course-outline.md
+    course-design.md
+    course-authoring-guide.md
+    tutorial-reference-analysis.md
     architecture.md
   web/
     package.json

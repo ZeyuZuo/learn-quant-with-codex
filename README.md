@@ -8,7 +8,7 @@
 
 - `web/`：Next.js + TypeScript + MDX 风格内容数据的交互式课程站。
 - `python/`：使用 uv 管理的 Python 量化学习项目，包含数据处理、指标、策略、回测、实验和测试。
-- `docs/`：需求文档和课程设计文档。
+- `docs/`：需求文档、课程设计、课程作者指南和参考教程分析。
 
 ## 本地运行
 
@@ -86,7 +86,7 @@ UV_CACHE_DIR=/tmp/uv-cache uv run pytest
 6. 做参数扫描、样本内 / 样本外验证和回测偏差检查。
 7. 完成一份带代码、图表、测试和风险声明的学习型研究报告。
 
-详细课程蓝图见 [docs/course-design.md](docs/course-design.md)。
+详细课程蓝图见 [docs/course-design.md](docs/course-design.md)。单节课写作规范见 [docs/course-authoring-guide.md](docs/course-authoring-guide.md)。
 
 最终报告要求见前端 `/capstone` 页面和第 9.4 课。
 
@@ -132,7 +132,7 @@ UV_CACHE_DIR=/tmp/uv-cache uv run pytest
 
 ```text
 learn-quant-with-codex/
-  docs/                      需求文档、课程设计和参考教程分析
+  docs/                      需求文档、课程设计、作者指南和参考教程分析
   web/                       Next.js 课程站
     src/app/                 页面入口
     src/components/          课程、图表、Quiz、Prompt、项目实践组件
