@@ -1,4 +1,4 @@
-import { courseHref } from "../lib/course-paths.mjs";
+import { courseHref, lessonHref } from "../lib/course-paths.mjs";
 import { escapeHtml } from "../lib/html.mjs";
 
 const detailLabels = {
@@ -53,7 +53,7 @@ export function CourseDetail({ data, currentLocale, currentIndex }) {
         <section class="detail-lesson" id="${escapeHtml(lesson.id)}">
           <span class="detail-lesson-number">${lessonNumber}</span>
           <div>
-            <h3>${escapeHtml(lesson.title)}</h3>
+            <h3><a href="${lessonHref(currentLocale, currentIndex, index)}">${escapeHtml(lesson.title)}</a></h3>
             <p><strong>${escapeHtml(labels.lessonGoal)}：</strong>${escapeHtml(lesson.goal)}</p>
           </div>
         </section>

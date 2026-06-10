@@ -1,4 +1,4 @@
-import { courseHref, getCourseGroups, localeHomePath } from "../lib/course-paths.mjs";
+import { courseHref, getCourseGroups, lessonHref, localeHomePath } from "../lib/course-paths.mjs";
 import { escapeHtml } from "../lib/html.mjs";
 
 const sidebarLabels = {
@@ -12,7 +12,7 @@ const sidebarLabels = {
   }
 };
 
-export function CourseSidebar({ data, currentLocale, currentIndex }) {
+export function CourseSidebar({ data, currentLocale, currentIndex, currentLessonIndex = null }) {
   const labels = sidebarLabels[currentLocale] || sidebarLabels.en;
   const groups = getCourseGroups(currentLocale, data.courses);
 
@@ -22,6 +22,32 @@ export function CourseSidebar({ data, currentLocale, currentIndex }) {
         .map(({ course, index }) => {
           const isActive = index === currentIndex;
           const number = `s${String(index + 1).padStart(2, "0")}`;
+          const lessonItems =
+            isActive
+              ? `
+                <ol class="sidebar-lessons">
+                  ${course.lessons
+                    .map((lesson, lessonIndex) => {
+                      const isLessonActive = lessonIndex === currentLessonIndex;
+                      const lessonNumber = String(lessonIndex + 1).padStart(2, "0");
+
+                      return `
+                        <li>
+                          <a class="sidebar-lesson-link${isLessonActive ? " is-active" : ""}" href="${lessonHref(
+                            currentLocale,
+                            index,
+                            lessonIndex
+                          )}">
+                            <span>${lessonNumber}</span>
+                            <span>${escapeHtml(lesson.title)}</span>
+                          </a>
+                        </li>
+                      `;
+                    })
+                    .join("")}
+                </ol>
+              `
+              : "";
 
           return `
             <li>
@@ -29,6 +55,7 @@ export function CourseSidebar({ data, currentLocale, currentIndex }) {
                 <span class="sidebar-code">${number}</span>
                 <span>${escapeHtml(course.title)}</span>
               </a>
+              ${lessonItems}
             </li>
           `;
         })

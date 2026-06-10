@@ -347,6 +347,42 @@ h1 {
   font-weight: 700;
 }
 
+.sidebar-lessons {
+  display: grid;
+  gap: 2px;
+  margin: 6px 0 8px 34px;
+  padding: 0;
+  list-style: none;
+}
+
+.sidebar-lesson-link {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr);
+  gap: 7px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.35;
+}
+
+.sidebar-lesson-link span:first-child {
+  color: var(--warm);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.sidebar-lesson-link:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.sidebar-lesson-link.is-active {
+  color: var(--accent-strong);
+  background: rgba(229, 241, 237, 0.72);
+  font-weight: 700;
+}
+
 .course-detail {
   max-width: 760px;
   min-width: 0;
@@ -455,6 +491,10 @@ h1 {
   line-height: 1.35;
 }
 
+.detail-lesson h3 a:hover {
+  color: var(--accent-strong);
+}
+
 .detail-lesson p {
   margin-bottom: 0;
   color: var(--muted);
@@ -464,6 +504,21 @@ h1 {
 
 .detail-lesson strong {
   color: var(--text);
+}
+
+.lesson-goal,
+.lesson-pending {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.lesson-pending {
+  padding: 18px 20px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.68);
 }
 
 .course-page-nav {
@@ -581,6 +636,15 @@ h1 {
     width: 210px;
     min-height: 42px;
     background: rgba(255, 255, 255, 0.62);
+  }
+
+  .sidebar-lessons {
+    margin-left: 0;
+  }
+
+  .sidebar-lesson-link {
+    width: 210px;
+    background: rgba(255, 255, 255, 0.5);
   }
 
   .course-detail-header h1 {

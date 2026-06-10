@@ -3,7 +3,8 @@ import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { CourseDetailPageBuilder } from "../src/builders/course-detail-page-builder.mjs";
 import { CourseHomePageBuilder } from "../src/builders/course-home-page-builder.mjs";
-import { courseHref, courseOutputPath } from "../src/lib/course-paths.mjs";
+import { LessonDetailPageBuilder } from "../src/builders/lesson-detail-page-builder.mjs";
+import { courseHref, courseOutputPath, lessonHref, lessonOutputPath } from "../src/lib/course-paths.mjs";
 
 const rootDir = path.resolve(fileURLToPath(import.meta.url), "../..");
 const distDir = path.join(rootDir, "dist");
@@ -19,9 +20,16 @@ const languages = [
   { locale: "en", label: "English", href: "/en/" }
 ];
 
-function getLanguages(currentIndex = null) {
+function getLanguages(currentIndex = null, currentLessonIndex = null) {
   if (currentIndex === null) {
     return languages;
+  }
+
+  if (currentLessonIndex !== null) {
+    return [
+      { locale: "zh", label: "中文", href: lessonHref("zh", currentIndex, currentLessonIndex) },
+      { locale: "en", label: "English", href: lessonHref("en", currentIndex, currentLessonIndex) }
+    ];
   }
 
   return [
@@ -67,6 +75,19 @@ export async function build({ log = true } = {}) {
       const detailOutputPath = path.join(distDir, courseOutputPath(page.locale, index));
       await mkdir(path.dirname(detailOutputPath), { recursive: true });
       await writeFile(detailOutputPath, detailHtml);
+
+      for (const [lessonIndex] of data.courses[index].lessons.entries()) {
+        const lessonHtml = new LessonDetailPageBuilder({
+          data,
+          currentLocale: page.locale,
+          languages: getLanguages(index, lessonIndex),
+          currentIndex: index,
+          currentLessonIndex: lessonIndex
+        }).build();
+        const lessonOutputPathValue = path.join(distDir, lessonOutputPath(page.locale, index, lessonIndex));
+        await mkdir(path.dirname(lessonOutputPathValue), { recursive: true });
+        await writeFile(lessonOutputPathValue, lessonHtml);
+      }
     }
   }
   if (log) {
