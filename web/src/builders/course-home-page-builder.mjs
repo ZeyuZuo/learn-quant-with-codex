@@ -16,7 +16,7 @@ export class CourseHomePageBuilder {
   }
 
   withCourseList() {
-    this.sections.push(CourseList({ data: this.data }));
+    this.sections.push(CourseList({ data: this.data, currentLocale: this.currentLocale }));
     return this;
   }
 

@@ -1,7 +1,9 @@
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { CourseDetailPageBuilder } from "../src/builders/course-detail-page-builder.mjs";
 import { CourseHomePageBuilder } from "../src/builders/course-home-page-builder.mjs";
+import { courseHref, courseOutputPath } from "../src/lib/course-paths.mjs";
 
 const rootDir = path.resolve(fileURLToPath(import.meta.url), "../..");
 const distDir = path.join(rootDir, "dist");
@@ -16,6 +18,17 @@ const languages = [
   { locale: "zh", label: "中文", href: "/" },
   { locale: "en", label: "English", href: "/en/" }
 ];
+
+function getLanguages(currentIndex = null) {
+  if (currentIndex === null) {
+    return languages;
+  }
+
+  return [
+    { locale: "zh", label: "中文", href: courseHref("zh", currentIndex) },
+    { locale: "en", label: "English", href: courseHref("en", currentIndex) }
+  ];
+}
 
 async function readJson(filePath) {
   const content = await readFile(filePath, "utf8");
@@ -34,7 +47,7 @@ export async function build({ log = true } = {}) {
     const html = new CourseHomePageBuilder({
       data,
       currentLocale: page.locale,
-      languages
+      languages: getLanguages()
     })
       .withHero()
       .withCourseList()
@@ -43,6 +56,18 @@ export async function build({ log = true } = {}) {
     const outputPath = path.join(distDir, page.output);
     await mkdir(path.dirname(outputPath), { recursive: true });
     await writeFile(outputPath, html);
+
+    for (const [index] of data.courses.entries()) {
+      const detailHtml = new CourseDetailPageBuilder({
+        data,
+        currentLocale: page.locale,
+        languages: getLanguages(index),
+        currentIndex: index
+      }).build();
+      const detailOutputPath = path.join(distDir, courseOutputPath(page.locale, index));
+      await mkdir(path.dirname(detailOutputPath), { recursive: true });
+      await writeFile(detailOutputPath, detailHtml);
+    }
   }
   if (log) {
     console.log("Built static site in web/dist");

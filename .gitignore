@@ -17,3 +17,4 @@ __pycache__/
 reports/
 .playwright-mcp/
 homepage-*.png
+course-page-*.png
