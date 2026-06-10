@@ -20,7 +20,7 @@ uv run pytest
 
 ## 示例
 
-这些脚本会从本地样例数据生成课程项目页需要的报告，输出目录是仓库根目录的 `reports/`。
+这些脚本会从本地样例数据生成课程练习和最终报告需要的材料，输出目录是仓库根目录的 `reports/`。
 
 ```bash
 uv run python examples/run_data_quality_report.py

@@ -13,7 +13,7 @@
   -> 运行一个 Python 产物
   -> 观察一张图
   -> 完成一个 Quiz 或练习
-  -> 复制一条可验收的 Codex Prompt
+  -> 复制一条可验收的编程任务
   -> 留下一个 Checkpoint 材料
 ```
 
@@ -25,7 +25,7 @@
 
 | 参考教程 | 观察到的机制 | 本项目转换规则 |
 | --- | --- | --- |
-| [QuantConnect Learning Center Course Structure](https://www.quantconnect.com/docs/v2/cloud-platform/learning-center/course-structure) | lesson 被拆成 readings、coding exercises、tasks、results、hints/solutions | 每节课必须有 Codex Task、运行命令、Checkpoint 和失败后可复查的提示 |
+| [QuantConnect Learning Center Course Structure](https://www.quantconnect.com/docs/v2/cloud-platform/learning-center/course-structure) | lesson 被拆成 readings、coding exercises、tasks、results、hints/solutions | 每节课必须有编程任务、运行命令、Checkpoint 和失败后可复查的提示 |
 | [Georgia Tech CS 7646 ML4T](https://omscs.gatech.edu/cs-7646-machine-learning-trading) | 从金融数据处理到交易决策，课程由项目作业驱动 | 课程按项目产物推进，每个模块产物都能进入 Capstone |
 | [Backtrader Quickstart](https://www.backtrader.com/docu/quickstart/quickstart/) | 从空框架逐步加入数据、策略、参数、图表和优化 | 回测系统先做最小可用版本，再逐步加入结果对象、报告、参数实验 |
 | [Zipline Beginner Tutorial](https://zipline-trader.readthedocs.io/en/latest/my-beginner-tutorial.html) | 强调 stream-based、slippage、transaction costs、order delays 和避免 look-ahead | 在回测前先讲 signal、position、lag、成本和执行简化 |
@@ -41,7 +41,7 @@
 
 | 阶段 | 初学者真实问题 | 课程必须先回答 | 不应该提前做 |
 | --- | --- | --- | --- |
-| 边界 | 这是投资建议吗？Codex 会不会帮我赚钱？ | 教育用途、非投资建议、回测和未来的区别 | 宣传策略收益 |
+| 边界 | 这是投资建议吗？课程会不会告诉我买什么？ | 教育用途、非投资建议、回测和未来的区别 | 宣传策略收益 |
 | 数据 | 一行股票数据是什么？为什么周末没有数据？ | OHLCV、ticker、交易日、复权价格和质量检查 | 直接跑策略 |
 | 收益 | 价格上涨和收益率有什么区别？ | 百分比收益、复利、净值曲线 | 先讲夏普或策略排名 |
 | 风险 | 曲线最后涨了是不是就好？ | 波动、回撤、夏普、胜率和指标盲点 | 用单一指标评判策略 |
@@ -83,7 +83,7 @@ Mistake Clinic
 Quiz / Exercise
   让用户暴露一个误区，而不是背定义。
 
-Codex Task
+编程任务
   背景、目标、输入输出、约束、验收、反思。
 
 Checkpoint
@@ -128,7 +128,7 @@ Python artifact:
 Chart observation:
   图上看什么？不要误读什么？
 
-Codex acceptance:
+Task acceptance:
   运行哪个命令？看哪个文件？用哪个手算值核对？
 
 Checkpoint material:
@@ -159,7 +159,7 @@ Checkpoint material:
 
 课程内容必须按“模板 + 单课内容文件”维护，避免把所有课程堆进一个长文件。
 
-- 课程模板入口是 `web/src/content/course/define-lesson.ts`。它负责补齐默认难度、时长、Quiz 结构、Codex Task 和能力线默认值。
+- 课程模板入口是 `web/src/content/course/define-lesson.ts`。它负责补齐默认难度、时长、Quiz 结构、编程任务和能力线默认值。
 - 每节课是一个独立文件，放在 `web/src/content/lessons/{slug}.ts`，并且只调用 `defineLesson({...})` 填写本节内容。
 - 课程聚合文件是 `web/src/content/lessons/index.ts`。新增课程时只在这里追加 import 和数组项，不在聚合文件里写正文。
 - 模块元数据放在 `web/src/content/course/modules.ts`，能力线和模块能力线映射放在 `web/src/content/course/skill-lines.ts`。
@@ -188,14 +188,14 @@ npx tsc --noEmit
 | 风险解释 | 3.1-3.5、5.4、7.5 | 指标盲点、风险表、报告解释 |
 | 执行假设 | 4.1-4.5、5.2、6.1-6.4、7.3 | signal、position、lag、成本、换手 |
 | 验证能力 | 4.5、8.1-8.5、9.1、9.2 | 偏差诊断、参数稳定性、样本外、随机赢家 |
-| 研究表达 | 0.1、0.2、5.4、8.3、9.2-9.5 | Codex 工单、风险声明、报告语言和下一步路线 |
+| 研究表达 | 0.1、0.2、5.4、8.3、9.2-9.5 | 编程任务、风险声明、报告语言和下一步路线 |
 
 ### Module 0: 学习方式和边界
 
 | 课号 | 标题 | 必须暴露的误区 | 必须留下的产物 | 推荐反馈 |
 | --- | --- | --- | --- | --- |
 | 0.1 | 这门课学什么，不学什么 | 把课程策略当投资建议 | 项目边界说明 | 边界判断 Quiz |
-| 0.2 | 用 Codex 学量化的工作流 | 只让 Codex 写代码，不给约束和验收 | 第一条结构化 Prompt | Prompt 拆解练习 |
+| 0.2 | 可验收编程练习的工作流 | 只要求写代码，不给约束和验收 | 第一条结构化任务说明 | 任务拆解练习 |
 | 0.3 | 第一个测试驱动的小函数 | 不测试公式边界 | `daily_return` 和测试 | 单步手算 + pytest |
 
 ### Module 1: 美股数据入门
@@ -300,7 +300,7 @@ npx tsc --noEmit
 4. 给 Python：`calculate_returns(prices)`。
 5. 给图表：左边价格，右边收益率柱状图。
 6. 给误区：不能用绝对涨跌比较不同价格水平的股票。
-7. 给 Codex Task：实现函数、测试首日 NaN、解释索引对齐。
+7. 给 编程任务：实现函数、测试首日 NaN、解释索引对齐。
 8. Checkpoint：用户能用自己的话解释价格、收益和百分比变化。
 
 ### 6.2 诊断课示例：4.2 Position 才是持仓
@@ -349,9 +349,9 @@ Lab 是课程的观察工具，不是独立炫技页面。
 
 课程页链接 Lab 时，必须告诉用户“去实验页观察什么”，而不是只放入口。
 
-## 8. Codex Task 写作规则
+## 8. 编程任务写作规则
 
-每条 Codex Prompt 必须像工程工单，不像一句聊天请求。
+每条编程任务必须像工程工单，不像一句聊天请求。
 
 必须包含：
 
@@ -368,7 +368,7 @@ Lab 是课程的观察工具，不是独立炫技页面。
 请先说明实现思路，再修改代码，最后总结这个函数可能被误用的地方。
 ```
 
-这能迫使 Codex 把学习目标、代码目标和风险边界放在同一条任务里。
+这能让任务说明同时覆盖学习目标、代码目标和风险边界。
 
 ## 9. 课程质量门槛
 
@@ -381,7 +381,7 @@ Lab 是课程的观察工具，不是独立炫技页面。
 | 可运行 | 指向真实 Python 函数、测试、脚本或报告 |
 | 可观察 | 图表有观察问题和误读提醒 |
 | 可诊断 | 至少一个常见错误模式 |
-| 可验收 | Codex Task 有命令或文件产物 |
+| 可验收 | 编程任务有命令或文件产物 |
 | 可反思 | Checkpoint 要求写边界、限制或 Capstone 片段 |
 | 安全边界 | 策略和回测不写成投资建议或未来收益保证 |
 
@@ -417,6 +417,6 @@ Lab 是课程的观察工具，不是独立炫技页面。
 - 我是否把概念落到 Python 项目的真实文件？
 - 我是否说明图表应该观察什么？
 - 我是否暴露了至少一个初学者会犯的错误？
-- 我是否给出可复制、可验收的 Codex Prompt？
+- 我是否给出可复制、可验收的编程任务？
 - 我是否让 Checkpoint 进入 Mini Project 或 Capstone？
 - 我是否避免任何投资建议、个股推荐和未来收益承诺？

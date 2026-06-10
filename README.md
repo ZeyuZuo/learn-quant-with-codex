@@ -1,6 +1,8 @@
 # learn-quant-with-codex
 
-一个课程型 Web 项目：用 Codex 学习美股量化交易基础。
+一个课程型 Web 项目：学习美股量化交易基础。
+
+`Learn Quant via Codex` 表示这个项目由 Codex 辅助制作和维护；课程本身讲的是基础金融、量化研究方法和 Python 回测练习，而不是一门“如何使用 Codex”的课程。
 
 这个项目不是实盘交易系统，不连接券商 API，不提供投资建议，也不承诺任何收益。所有策略、回测和图表都用于教学、编程练习和研究方法入门。
 
@@ -60,7 +62,7 @@ uv run python examples/run_capstone_check.py
 uv run python examples/generate_capstone_template.py
 ```
 
-示例脚本会把课程项目页需要的报告写到仓库根目录 `reports/`。该目录默认不提交到 git，方便你反复生成自己的学习报告。
+示例脚本会把课程练习和最终报告需要的材料写到仓库根目录 `reports/`。该目录默认不提交到 git，方便你反复生成自己的学习报告。
 
 如果只想确认整个项目是否健康，可以运行：
 
@@ -95,13 +97,13 @@ UV_CACHE_DIR=/tmp/uv-cache uv run pytest
 6. 做参数扫描、样本内 / 样本外验证和回测偏差检查。
 7. 完成一份带代码、图表、测试和风险声明的学习型研究报告。
 
-每个模块都有进入 / 退出 / 下一步复用的 module gate。课程页、课程目录、项目页和 Python 项目页都会显示这些 gate，帮助你理解当前模块为什么存在、学完应该交付什么。
+每个模块都有进入 / 退出 / 下一步复用的 module gate。课程页和课程目录会显示这些 gate，帮助你理解当前模块为什么存在、学完应该交付什么。
 
 详细课程蓝图见 [docs/course-design.md](docs/course-design.md)。单节课写作规范见 [docs/course-authoring-guide.md](docs/course-authoring-guide.md)。
 
-最终报告要求见前端 `/capstone` 页面和第 9.4 课。
+最终报告要求见第 9.4 课和 Python 报告生成脚本。
 
-项目实践入口见前端 `/projects` 页面。每个模块都有一个 Mini Project，包含交付物、验收项、建议命令和相关课程入口。
+每个模块都有一个 Mini Project，相关交付物、验收项、建议命令和课程入口会融合在课程内容里。
 
 ## 课程产物
 
@@ -137,7 +139,7 @@ UV_CACHE_DIR=/tmp/uv-cache uv run pytest
 | Module 8 验证 | 参数扫描和样本外如何暴露过拟合？ | `experiments.py` |
 | Module 9 报告 | 如何正确陈述回测边界？ | `reports.py`、Capstone 模板 |
 
-前端 `/python-project` 页面提供更完整的课程到代码同步表，包括代码文件、测试文件和建议命令。
+课程内容会在对应模块里说明代码文件、测试文件和建议命令。
 
 ## 目录结构
 
@@ -146,8 +148,8 @@ learn-quant-with-codex/
   docs/                      需求文档、课程设计、作者指南和参考教程分析
   web/                       Next.js 课程站
     src/app/                 页面入口
-    src/components/          课程、图表、Quiz、Prompt、项目实践组件
-    src/lib/                 课程数据、图表数据、术语表、进度和命令映射
+    src/components/          课程、图表、Quiz、Prompt 和实验组件
+    src/lib/                 课程数据、图表数据、进度和命令映射
   python/                    uv 管理的量化学习代码项目
     data/sample_prices.csv   本地样例 OHLCV 数据
     src/quant_learning/      数据、指标、仓位、成本、策略、回测、实验、报告模块
@@ -165,7 +167,7 @@ learn-quant-with-codex/
 3. 看概念解释、公式和手算例子，不急着跑策略。
 4. 观察图表的读图提示，确认图表在解释什么、不能证明什么。
 5. 完成 Quiz 和动手练习。
-6. 复制 Codex Prompt，让 Codex 实现或审查对应 Python 代码。
+6. 复制编程任务，自己实现或交给工具辅助审查对应 Python 代码。
 7. 运行对应测试或示例脚本。
 8. 复制“本课复盘模板”，把概念、代码证据、图表观察、误区和 Checkpoint 写成 Markdown。
 9. 勾选课程页底部的完成前自查，再标记本课完成。
@@ -179,26 +181,21 @@ learn-quant-with-codex/
 - 进度只保存在浏览器 `localStorage`，不需要账户，不上传到服务器。
 - 进度只代表课程学习状态，不涉及交易账户、投资记录或任何实盘数据。
 
-课程站也支持本地学习笔记：
+课程站的复盘材料会融合在每节课里：
 
-- 每节课都有“我的笔记”区域。
-- `/notebook` 页面汇总所有课程笔记，并可按关键词、模块和能力线筛选。
-- `/notebook` 可以复制或下载当前筛选结果的 Markdown，适合整理课程复盘和 Capstone 草稿。
-- 笔记只保存在浏览器 `localStorage`，适合记录理解、疑问和下一条 Codex Prompt。
+- 每节课包含可复制的复盘模板。
+- 复盘模板适合记录概念理解、代码证据、图表观察、误区和后续问题。
+- 复盘内容由学习者保存在本地文件或自己的笔记工具中，课程站不需要账户，也不保存交易账户或实盘数据。
 
 ## 交互学习
 
-- 每节课包含 Quiz、动手练习、可复制 Python 示例、可复制 Codex Prompt 和 Checkpoint。
+- 每节课包含 Quiz、动手练习、可复制 Python 示例、可复制编程任务和 Checkpoint。
 - 每节课包含可复制的复盘模板，帮助把学习内容整理成可复查 Markdown。
 - 指标、策略和参数实验页提供滑块、分段控件或勾选项，帮助观察概念变化。
 - 实验页提供可复制的实验观察模板，要求记录参数变化、图表观察、误读风险和 Python 复现证据。
 - 课程目录支持搜索课程、概念和 Python 模块，并可按模块过滤。
-- 课程目录和首页会展示 6 条能力线进度，帮助你发现自己只完成了章节还是也覆盖了能力。
-- 术语表 `/glossary` 用通俗语言解释高频量化术语，课程页概念标签会链接到对应术语；术语页也显示相关模块、能力线和 Capstone 证据。
-- 学习笔记 `/notebook` 汇总个人反思，帮助把课程内容转化为可继续追问的 Codex 任务。
-- 项目实践 `/projects` 把模块 Mini Project 汇总成可执行清单。
-- Python 项目页 `/python-project` 把模块 gate、能力线、代码文件、测试文件、示例命令和报告产物放在同一视图。
-- Capstone 页 `/capstone` 包含最终报告自查清单、6 条能力线验收和 Mini Project 到最终报告的证据矩阵。
+- 首页用简单课程列表展示 48 节课，让学习路径保持清楚安静。
+- Mini Project、复盘模板和最终报告材料融合在课程里，不再拆成独立入口。
 - 所有交互都服务学习目标，不提供交易信号，也不连接任何实盘环境。
 
 ## 验证
