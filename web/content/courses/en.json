@@ -1,0 +1,436 @@
+{
+  "locale": "en",
+  "site": {
+    "projectName": "Learn Quant With Codex",
+    "githubUrl": "https://github.com/ZeyuZuo/learn-quant-with-codex"
+  },
+  "home": {
+    "languageLabel": "Language",
+    "githubLabel": "GitHub",
+    "title": "Learn U.S. Stock Quant From Zero",
+    "description": "A bilingual course for beginners, building investing, finance, and U.S. stock foundations before moving into data, quant strategies, backtesting, portfolio construction, and risk control.",
+    "courseListTitle": "Course Outline",
+    "courseListDescription": "The course starts with investing literacy and gradually moves toward a complete quant research workflow."
+  },
+  "courses": [
+    {
+      "id": "investing-finance-basics",
+      "title": "Investing and Finance Basics",
+      "summary": "Understand saving, investing, compounding, return, risk, asset classes, and investment goals.",
+      "lessons": [
+        {
+          "id": "why-invest",
+          "title": "Why Investing Matters",
+          "goal": "Distinguish saving, investing, and speculation, and understand what investing is meant to solve."
+        },
+        {
+          "id": "time-value-inflation",
+          "title": "Time Value of Money and Inflation",
+          "goal": "Understand why money today and money in the future are not equivalent."
+        },
+        {
+          "id": "return-compounding-annualization",
+          "title": "Return, Compounding, and Annualization",
+          "goal": "Learn how investment returns are described and why compounding matters."
+        },
+        {
+          "id": "risk-volatility-loss",
+          "title": "Risk, Volatility, and Loss",
+          "goal": "Build the habit of looking at return and risk together."
+        },
+        {
+          "id": "interest-cash-risk-free",
+          "title": "Interest Rates, Cash, and Risk-Free Return",
+          "goal": "Understand why cash, short-term Treasuries, and risk-free return affect investment comparisons."
+        },
+        {
+          "id": "goals-horizon-assets",
+          "title": "Goals, Time Horizon, and Asset Classes",
+          "goal": "Connect investment choices with goals, time horizon, and asset classes."
+        }
+      ]
+    },
+    {
+      "id": "us-market-mechanics",
+      "title": "How the U.S. Stock Market Works",
+      "summary": "Learn exchanges, brokers, orders, market hours, liquidity, fees, and regulation.",
+      "lessons": [
+        {
+          "id": "market-participants",
+          "title": "Who Participates in the Market",
+          "goal": "Recognize companies, investors, exchanges, brokers, market makers, and regulators."
+        },
+        {
+          "id": "exchanges-brokers-accounts",
+          "title": "Exchanges, Brokers, and Accounts",
+          "goal": "Understand how individual investors access the U.S. stock market."
+        },
+        {
+          "id": "quotes-orders-fills",
+          "title": "Quotes, Orders, and Fills",
+          "goal": "Understand bid, ask, market orders, limit orders, and trade execution basics."
+        },
+        {
+          "id": "hours-liquidity-costs",
+          "title": "Market Hours, Liquidity, and Costs",
+          "goal": "Know that trading is not free and execution quality depends on liquidity."
+        },
+        {
+          "id": "regulation-disclosures",
+          "title": "Regulation, Filings, and Disclosure",
+          "goal": "Understand why public information, company announcements, and regulation matter."
+        }
+      ]
+    },
+    {
+      "id": "stock-basics",
+      "title": "Stock Basics",
+      "summary": "Understand ownership, dividends, market cap, sectors, indexes, ETFs, financial statements, and valuation basics.",
+      "lessons": [
+        {
+          "id": "stock-ownership",
+          "title": "What a Stock Represents",
+          "goal": "Understand that a stock is a share of company ownership."
+        },
+        {
+          "id": "shares-dividends-rights",
+          "title": "Common Stock, Preferred Stock, and Dividends",
+          "goal": "Recognize common stock types, dividends, and shareholder rights."
+        },
+        {
+          "id": "market-cap-sectors-styles",
+          "title": "Market Cap, Sectors, and Stock Styles",
+          "goal": "Understand basic labels such as large cap, small cap, growth, and value."
+        },
+        {
+          "id": "indexes-etfs-benchmarks",
+          "title": "Indexes, ETFs, and Benchmarks",
+          "goal": "Understand how indexes and ETFs work, and prepare for later benchmark comparisons."
+        },
+        {
+          "id": "corporate-actions-reports",
+          "title": "Splits, Reports, and Corporate Events",
+          "goal": "Know that company events can affect price data and investment analysis."
+        }
+      ]
+    },
+    {
+      "id": "risk-return-portfolio",
+      "title": "Risk, Return, and Portfolios",
+      "summary": "Learn returns, volatility, drawdown, correlation, diversification, benchmarks, and rebalancing.",
+      "lessons": [
+        {
+          "id": "simple-log-returns",
+          "title": "Simple Returns and Log Returns",
+          "goal": "Understand common ways to express returns in quant work."
+        },
+        {
+          "id": "volatility-drawdown",
+          "title": "Volatility, Drawdown, and Maximum Drawdown",
+          "goal": "Describe risk and loss experience with more concrete metrics."
+        },
+        {
+          "id": "correlation-diversification",
+          "title": "Correlation and Diversification",
+          "goal": "Understand why combining assets can reduce risk."
+        },
+        {
+          "id": "benchmark-excess-return",
+          "title": "Benchmark Return and Excess Return",
+          "goal": "Learn to compare strategy performance against a relevant reference."
+        },
+        {
+          "id": "risk-adjusted-return",
+          "title": "Risk-Adjusted Return",
+          "goal": "Understand why lower volatility and drawdown can make the same return more valuable."
+        },
+        {
+          "id": "allocation-rebalancing",
+          "title": "Allocation and Rebalancing",
+          "goal": "Understand that portfolios are not one-time decisions."
+        }
+      ]
+    },
+    {
+      "id": "fundamentals-valuation",
+      "title": "Companies, Valuation, and Fundamentals",
+      "summary": "Understand reports, earnings, growth, valuation, and how fundamental data supports stock research.",
+      "lessons": [
+        {
+          "id": "statement-map",
+          "title": "The Minimal Map of Financial Statements",
+          "goal": "Recognize what the income statement, balance sheet, and cash flow statement each answer."
+        },
+        {
+          "id": "revenue-earnings-margins",
+          "title": "Revenue, Earnings, and Margins",
+          "goal": "Understand basic measures of a company's ability to make money."
+        },
+        {
+          "id": "valuation-ratios",
+          "title": "P/E, P/B, and Dividend Yield",
+          "goal": "Recognize common valuation metrics and their limitations."
+        },
+        {
+          "id": "growth-quality-debt",
+          "title": "Growth, Quality, and Debt",
+          "goal": "Understand why fundamentals can become value, quality, and growth signals."
+        },
+        {
+          "id": "expectations-data-limits",
+          "title": "Expectations, Announcements, and Data Limits",
+          "goal": "Know that prices reflect expectations and fundamental data can lag or be revised."
+        }
+      ]
+    },
+    {
+      "id": "quant-thinking",
+      "title": "Quantitative Investing Mindset",
+      "summary": "Turn investing ideas into testable hypotheses, rules, signals, parameters, and benchmarks.",
+      "lessons": [
+        {
+          "id": "hypothesis-to-rule",
+          "title": "From Investing Idea to Research Hypothesis",
+          "goal": "Turn a vague idea into a question that can be tested."
+        },
+        {
+          "id": "rules-signals-parameters",
+          "title": "Rules, Signals, and Parameters",
+          "goal": "Understand that quant strategies are made of repeatable rules."
+        },
+        {
+          "id": "alpha-beta-benchmark",
+          "title": "Alpha, Beta, and Benchmarks",
+          "goal": "Know that strategy returns need to be separated from market exposure."
+        },
+        {
+          "id": "factor-thinking",
+          "title": "Introduction to Factor Thinking",
+          "goal": "Understand why momentum, value, and quality factors are common."
+        },
+        {
+          "id": "research-log-reproducibility",
+          "title": "Research Logs and Reproducibility",
+          "goal": "Build the habit of recording hypotheses, parameters, and results."
+        }
+      ]
+    },
+    {
+      "id": "python-data-basics",
+      "title": "Python and Data Basics",
+      "summary": "Use minimal Python and pandas skills to read, prepare, and inspect financial data.",
+      "lessons": [
+        {
+          "id": "research-environment",
+          "title": "Research Environment and Notebook",
+          "goal": "Set up the smallest usable environment for quant learning."
+        },
+        {
+          "id": "python-minimum-syntax",
+          "title": "Minimum Python Syntax",
+          "goal": "Learn variables, lists, dictionaries, loops, and functions needed later."
+        },
+        {
+          "id": "pandas-dataframe-basics",
+          "title": "pandas and DataFrame Basics",
+          "goal": "Understand filtering, sorting, column calculations, and missing value handling."
+        },
+        {
+          "id": "load-market-data",
+          "title": "Loading CSV and Market Data",
+          "goal": "Read simple price data into the research environment and inspect its fields."
+        },
+        {
+          "id": "tables-time-series",
+          "title": "Tables and Time Series",
+          "goal": "Understand why market data is usually organized by date."
+        },
+        {
+          "id": "price-volume-adjustment",
+          "title": "Price, Volume, and Adjusted Prices",
+          "goal": "Know the difference between raw prices and adjusted prices."
+        },
+        {
+          "id": "calendar-missing-corporate-actions",
+          "title": "Trading Calendars, Missing Values, and Corporate Actions",
+          "goal": "Understand why financial data is not a normal continuous calendar series."
+        },
+        {
+          "id": "charting-data-checks",
+          "title": "Charting and Data Checks",
+          "goal": "Use simple charts and summary statistics to find data problems."
+        }
+      ]
+    },
+    {
+      "id": "signal-basics",
+      "title": "Strategy Signal Basics",
+      "summary": "Build interpretable signals from momentum, mean reversion, trend, volume, and volatility.",
+      "lessons": [
+        {
+          "id": "trend-moving-average",
+          "title": "Trend and Moving Averages",
+          "goal": "Build a basic trend signal from a price series."
+        },
+        {
+          "id": "momentum-ranking",
+          "title": "Momentum and Ranking",
+          "goal": "Understand how to rank stocks by past performance."
+        },
+        {
+          "id": "mean-reversion",
+          "title": "Mean Reversion",
+          "goal": "Understand price deviation and reversion assumptions."
+        },
+        {
+          "id": "fundamental-signals",
+          "title": "Fundamental Signals",
+          "goal": "Turn valuation, quality, and growth data into simple signals."
+        },
+        {
+          "id": "signal-checks",
+          "title": "Signal Checks and Interpretability",
+          "goal": "Inspect signal distribution, outliers, and economic meaning instead of only looking at results."
+        },
+        {
+          "id": "signal-to-strategy",
+          "title": "From Signal to Strategy Rules",
+          "goal": "Define buy, sell, holding period, and rebalancing frequency."
+        }
+      ]
+    },
+    {
+      "id": "backtesting-evaluation",
+      "title": "Backtesting and Performance Evaluation",
+      "summary": "Learn the backtesting workflow, costs, slippage, Sharpe Ratio, maximum drawdown, and common biases.",
+      "lessons": [
+        {
+          "id": "what-backtest-simulates",
+          "title": "What a Backtest Simulates",
+          "goal": "Understand a backtest as a rule check that moves through historical time."
+        },
+        {
+          "id": "positions-cash-rebalance",
+          "title": "Positions, Cash, and Rebalancing",
+          "goal": "Know how signals become position changes."
+        },
+        {
+          "id": "costs-slippage-liquidity",
+          "title": "Costs, Slippage, and Liquidity",
+          "goal": "Understand how real trading constraints change backtest results."
+        },
+        {
+          "id": "benchmark-buy-hold",
+          "title": "Benchmarks and Buy-and-Hold Comparison",
+          "goal": "Compare a strategy against simple investable alternatives."
+        },
+        {
+          "id": "performance-metrics",
+          "title": "Return, Volatility, Sharpe, and Max Drawdown",
+          "goal": "Learn the most basic strategy evaluation metrics."
+        },
+        {
+          "id": "in-sample-out-of-sample",
+          "title": "In-Sample, Out-of-Sample, and Time Splits",
+          "goal": "Understand why tuning and evaluation should not rely on the same history."
+        },
+        {
+          "id": "bias-overfitting-validation",
+          "title": "Look-Ahead Bias, Overfitting, and Parameter Sensitivity",
+          "goal": "Recognize common backtesting mistakes and check whether parameters drive results too strongly."
+        }
+      ]
+    },
+    {
+      "id": "portfolio-risk-control",
+      "title": "Portfolio Construction and Risk Control",
+      "summary": "Turn signals into positions while managing universes, position sizing, turnover, and portfolio risk.",
+      "lessons": [
+        {
+          "id": "universe-selection",
+          "title": "How to Choose a Universe",
+          "goal": "Understand that the stock universe affects strategy results."
+        },
+        {
+          "id": "position-sizing",
+          "title": "Position Sizing and Weights",
+          "goal": "Recognize equal weight, signal weight, and simple risk weight."
+        },
+        {
+          "id": "portfolio-constraints",
+          "title": "Portfolio Constraints",
+          "goal": "Understand limits such as single-stock caps, sector exposure, and cash ratio."
+        },
+        {
+          "id": "turnover-rebalancing",
+          "title": "Turnover and Rebalancing",
+          "goal": "Know how rebalancing frequency affects cost and risk."
+        },
+        {
+          "id": "risk-rules-monitoring",
+          "title": "Risk Rules and Monitoring",
+          "goal": "Build portfolio-level risk control awareness."
+        }
+      ]
+    },
+    {
+      "id": "execution-paper-trading",
+      "title": "Execution, Paper Trading, and Engineering",
+      "summary": "Understand order execution, live-vs-backtest gaps, logging, versioning, reproducibility, and paper trading.",
+      "lessons": [
+        {
+          "id": "order-lifecycle",
+          "title": "Order Lifecycle",
+          "goal": "Understand what happens between placing an order and getting a fill."
+        },
+        {
+          "id": "backtest-paper-live-gap",
+          "title": "Backtest, Paper Trading, and Live Trading Gaps",
+          "goal": "Know why backtest performance cannot be treated as live performance."
+        },
+        {
+          "id": "parameters-logs-config",
+          "title": "Parameters, Logs, and Configuration",
+          "goal": "Make research results reviewable and reproducible."
+        },
+        {
+          "id": "pre-live-checklist",
+          "title": "Pre-Live Checklist",
+          "goal": "Clarify that the first version stops at paper trading and risk checks, not direct live trading."
+        }
+      ]
+    },
+    {
+      "id": "capstone-project",
+      "title": "Capstone Project",
+      "summary": "Complete a full research project from hypothesis, data, signals, portfolio, and backtest to a risk report.",
+      "lessons": [
+        {
+          "id": "choose-hypothesis",
+          "title": "Choose a Clear Hypothesis",
+          "goal": "Propose a strategy idea that can be tested with data."
+        },
+        {
+          "id": "prepare-dataset",
+          "title": "Prepare the Dataset",
+          "goal": "Read, clean, and inspect the data."
+        },
+        {
+          "id": "build-signal-portfolio",
+          "title": "Build Signals and a Portfolio",
+          "goal": "Turn the research hypothesis into a runnable strategy."
+        },
+        {
+          "id": "run-backtest-evaluate",
+          "title": "Backtest, Evaluate, and Revise",
+          "goal": "Use metrics and charts to judge strategy performance."
+        },
+        {
+          "id": "write-research-report",
+          "title": "Write the Research Report",
+          "goal": "Explain the hypothesis, method, result, risk, and next step."
+        }
+      ]
+    }
+  ]
+}
