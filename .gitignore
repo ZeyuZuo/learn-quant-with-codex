@@ -5,6 +5,7 @@
 node_modules/
 *.tsbuildinfo
 dist/
+out/
 build/
 coverage/
 __pycache__/
